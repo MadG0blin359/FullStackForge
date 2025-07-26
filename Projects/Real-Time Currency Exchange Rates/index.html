@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Currency Exchange Rates</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <form autocomplete="on">
+        <div class="container">
+            <h2>Currency Converter</h2>
+            <div class="amount">
+                <label for="amount">Enter amount</label><br>
+                <input type="number" id="amount" placeholder="100" min="1"><br><br>
+            </div>
+
+            <div class="dropdown">
+                <div class="from">    
+                    <p>From</p>
+                    <div class="select_container">
+                        <img width="30px">
+                        <!-- Currency options are added dynamically -->
+                        <select name="from" id="from"></select>
+                    </div>
+                </div>
+                
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                
+                <div class="to">
+                    <p>To</p>
+                    <div class="select_container">
+                        <img  width="30px">
+                        <!-- Currency options are added dynamically -->
+                        <select name="to" id="to"></select>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="msg">
+                <!-- Final amount after conversion -->
+                <p></p>
+            </div><br>
+
+            <div class="submit">
+                <input type="submit" value="Get Exchange Rate">
+            </div>
+        </div>
+    </form>
+    <script src="codes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
