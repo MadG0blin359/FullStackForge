@@ -31,8 +31,8 @@ let turnX = true;
 const displayWinner = (winner) => {
     container.classList.toggle('hide');
     resultPage.classList.toggle('hide');
-    const message = resultPage.children[1];
-    message.innerText = `Player \'${winner}\' Wins.`;
+    resultPage.children[0].innerText = 'Congratulations!';
+    resultPage.children[1].innerText = `Player \'${winner}\' Wins.`;
 }
 
 const displayDraw = () => {
@@ -81,6 +81,7 @@ const upateValue = (button) => {
 }
 
 const resetGame = () => {
+    countDisabledBtn = 0;
     const buttonsArray = Array.from(buttons);
     buttonsArray.forEach(element => {
         element.innerText = '';
