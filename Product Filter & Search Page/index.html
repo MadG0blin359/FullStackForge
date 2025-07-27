@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Product Filter & Search Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main>
+        <header>
+            <h1>Our Products</h1>
+        </header>
+        <div class="search_container">
+            <div class="search_bar">
+                <input type="search" id="search-bar" placeholder="Search by product name...">
+                <button id="search">Search</button>
+            </div>
+            <div class="filters">
+                <button value="All" class="filter-button">All</button>
+                <button value="Topwear" class="filter-button">Topwear</button>
+                <button value="Bottomwear" class="filter-button">Bottomwear</button>
+                <button value="Watch" class="filter-button">Watch</button>
+                <button value="Sneakers" class="filter-button">Sneakers</button>
+            </div>
+        </div>
+        <div class="products_container"></div>
+        <div class="noResults hide">
+            <h1>No Results!</h1>
+        </div>
+    </main>
+
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
