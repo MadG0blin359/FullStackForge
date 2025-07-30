@@ -30,6 +30,7 @@ main {
 
 body, header, .search_container, .search_bar {
     display: flex;
+    flex: 1 1;
     justify-content: center;
     align-items: center;
 }
@@ -40,6 +41,7 @@ body, header, .search_container, .search_bar {
 }
 
 .search_bar {
+    min-width: 300px;
     width: 60%;
 }
 
@@ -81,8 +83,7 @@ body, header, .search_container, .search_bar {
 
 .products_container {
     display: grid;
-    /* transition: display 3s ease-in; */
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     column-gap: 1.5em;
     padding: 2em 0;
 }
