@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container disable">
+        <h2>Image Editor</h2>
+        <div class="wrapper">
+            <div class="editor-panel">
+                <div class="filters">
+                    <label class="title">Filters</label>
+                    <div class="options">
+                        <button value="brightness" class="active">Brightness</button>
+                        <button value="saturation">Saturation</button>
+                        <button value="inversion">Inversion</button>
+                        <button value="grayscale">Grayscale</button>
+                    </div>
+                    <div class="slider">
+                        <div class="filter-range">
+                            <p class="filter-name">Brightness</p>
+                            <p class="value">100%</p>
+                        </div>
+                        <input type="range" value="100" min="0" max="200">
+                    </div>
+                </div>
+                <div class="rotate-flip">
+                    <label class="title">Rotate & Flip</label>
+                    <div class="options">
+                        <button value="rotate-left"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button value="rotate-right"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button value="reflect-vertical"><img src="./assets/reflect_vertical.png"></button>
+                        <button value="reflect-horizontal"><img src="./assets/reflect_horizontal.png"></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preview-image">
+                <img src="./assets/image-placeholder.svg" alt="Image Not Found">
+            </div>
+        </div>
+        <div class="controls">
+            <button class="reset-filters">reset filters</button>
+            <div class="combine-right">
+                <input type="file" class="imageUpload" accept="image/*" hidden>
+                <button class="choose-image">choose image</button>
+                <button class="save-image">save image</button>
+            </div>
+        </div>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

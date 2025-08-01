@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    font-family: 'poppins', Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
+
+:root {
+    --bg-color: #f0f2f5;
+    --bg-button-color: #3498db;
+    --bg-hover-color: #2980b9;
+    --muted-text: #464646;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: #E3F2FD;
+}
+
+.container {
+    width: clamp(50%, 50%, 900px);
+    height: clamp(50%, 50%, auto);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 1.75rem;
+}
+
+.container h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.wrapper, .options, .filter-range, .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+:where(.options, .controls) button {
+    height: 2.5rem;
+    cursor: pointer;
+    color: #6C757D;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.wrapper {
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.editor-panel {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1rem;
+    width: clamp(200px, 40%, 320px);
+}
+
+.title {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.options {
+    flex-wrap: wrap;
+}
+
+.options button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:where(.options, .controls) button:hover {
+    transform: translateY(-2px);
+}
+
+.options i {
+    font-size: 0.9rem;
+}
+
+.filters .options button {
+    margin-bottom: 0.5rem;
+}
+
+.filters .options {
+    margin-bottom: 1rem;
+}
+
+.filters button {
+    width: calc(100% / 2 - 4px);
+}
+
+.rotate-flip {
+    margin-top: 1rem;
+}
+
+.rotate-flip button {
+    width: calc(100% / 4 - 4px);
+}
+
+.rotate-flip button img {
+    width: clamp(0.8rem, 1rem, 1rem);
+}
+
+.options .active {
+    color: white;
+    background-color: var(--bg-button-color);
+    border-color: var(--bg-button-color);
+}
+
+.filter-range {
+    color: var(--muted-text);
+    font-size: clamp(0.8rem, 0.8rem, 0.8rem);
+}
+
+.slider input {
+    width: 100%;
+    height: 5px;
+    accent-color: var(--bg-button-color);
+} 
+
+.preview-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-left: clamp(1rem, 1rem, 20px);
+    width: clamp(280px, 60%, 60%);
+    max-height: 390px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+.preview-image img {
+    max-height: 310px;
+    object-fit: contain;
+}
+
+.controls button {
+    text-transform: uppercase;
+    padding: 0 15px;
+    color: white;
+}
+
+.controls .reset-filters {
+    color: #6C757D;
+    border-color: #6C757D;
+}
+
+.controls .choose-image {
+    background-color: #6C757D;
+    border-color: #464646;
+}
+
+.controls .save-image {
+    background-color: #fff;
+    background-color: var(--bg-button-color);
+    border-color: var(--bg-button-color);
+    margin-left: 5px;
+}
+
+.disable :where(.editor-panel, .reset-filters, .save-image) {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+@media (max-width: 450px) {
+    .wrapper {
+        flex-wrap: wrap-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        width: clamp(95%, 95%, 95%);
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .editor-panel {
+        width: 95%;
+    }
+
+    .preview-image {
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+        width: 95%;
+    }
+
+    .controls {
+        display: block;
+    }
+    
+    .controls button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .controls .save-image {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 450px) and (max-width: 700px) {
+    .wrapper {
+        flex-wrap: wrap-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        width: clamp(95%, 95%, 95%);
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .editor-panel {
+        width: 95%;
+    }
+
+    :where(.options, .controls) button {
+        height: 3rem;
+    }
+
+    .preview-image {
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+        width: 95%;
+    }
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+    .container {
+        width: clamp(95%, 95%, 95%);
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .editor-panel {
+        width: 95%;
+    }
+
+    .preview-image {
+        width: 60%;
+    }
+}
+
+@media (min-width: 1100px) and (max-width: 1250px) {
+    .container {
+        width: clamp(85%, 85%, 85%);
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .editor-panel {
+        width: 95%;
+    }
+
+    .preview-image {
+        width: 60%;
+    }
+}
+
+@media (min-width: 1250px) and (max-width: 1600px) {
+    .container {
+        width: clamp(65%, 65%, 65%);
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .editor-panel {
+        width: 95%;
+    }
+
+    .preview-image {
+        width: 60%;
+    }
+}
