@@ -13,6 +13,7 @@ Below is a list of the projects hosted from this repository, along with links to
 | Project Name         | Description                                        | Live Demo URL                                            |
 | :------------------- | :------------------------------------------------- | :------------------------------------------------------- |
 | **Currency Exchange Rates** | A simple currency converter service. Made with HTML, CSS, and JavaScript. | [https://livecurrencyrates.netlify.app](https://livecurrencyrates.netlify.app/)
+| **My Image Editor App** | A simple image editor app. Made with HTML, CSS, and JavaScript. | [https://my-image-tweaker.netlify.app](https://my-image-tweaker.netlify.app/)
 | **Product Filter & Search Page** | A simple product search page. Made with HTML, CSS, and JavaScript. | [https://productfilters.netlify.app](https://productfilters.netlify.app/)
 | **Tic-Tac-Toe Game** | A classic Tic-Tac-Toe game with a clean UI. Made with HTML, CSS, and JavaScript. | [https://my-classic-tictactoe.netlify.app](https://my-classic-tictactoe.netlify.app/)
 
