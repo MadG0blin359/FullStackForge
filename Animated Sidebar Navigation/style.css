@@ -1,0 +1,361 @@
+/* Importing Google Fonts - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Poppins:ital,wght@0,400;0,600;0,700;1,500&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  /* Light theme colors */
+  --color-text-primary: #1f2936;
+  --color-text-placeholder: #798eae;
+  --color-bg-primary: #f9fafb;
+  --color-bg-secondary: #ececfd;
+  --color-bg-sidebar: #ffffff;
+  --color-border-hr: #e2e8f0;
+  /* --color-hover-primary: #695cfe; */
+  --color-hover-primary: #3c97ff;
+  --color-hover-secondary: #e2e2fb;
+  --color-shadow: rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme {
+  /* Dark theme colors */
+  --color-text-primary: #f1f5f9;
+  --color-text-placeholder: #a6b7d2;
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #3d4859;
+  --color-bg-sidebar: #1f2937;
+  --color-border-hr: #3b475c;
+  --color-hover-secondary: #48566a;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+}
+
+body {
+  background: var(--color-bg-primary);
+  transition: background-color 0.4s ease;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  width: clamp(16.875rem, 16.875rem, 16.875rem); /* 270px */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  background: var(--color-bg-sidebar);
+  border-right: 1px solid var(--color-border-hr);
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  box-shadow: 0 3px 9px var(--color-shadow);
+  transition: width 0.4s ease, all 0.4s ease;
+}
+
+.sidebar.collapsed {
+  width: 5.625rem;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 6rem;
+  padding: 20px 18px;
+  border-bottom: 1px solid var(--color-border-hr);
+  transition: all 0.4s ease;
+}
+
+.logo-container,
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-container {
+  flex-shrink: 0;
+  width: clamp(3rem, 3rem, 3rem);
+  height: clamp(3rem, 3rem, 3rem);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.logo-icon {
+  cursor: pointer;
+  font-size: 4.2rem;
+  color: var(--color-hover-primary);
+  background-color: white;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+  transition: max-height 0.5s ease-out, max-width 0.5s ease-out;
+}
+
+.sidebar.collapsed .sidebar-header .logo-container {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sidebar-toggle {
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  transition: all 0.4s ease;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+  height: 3rem;
+  width: 3.125rem;
+  transform: translateX(-2px);
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-hover-secondary);
+}
+
+.sidebar-toggle span {
+  font-size: 1.75rem;
+  transition: transform 0.4s ease;
+}
+
+.sidebar.collapsed .sidebar-toggle span {
+  transform: rotate(180deg);
+}
+
+.sidebar-content {
+  flex: 1;
+  padding: 20px 18px;
+  overflow: hidden auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-placeholder) transparent;
+}
+
+.sidebar.collapsed .sidebar-content {
+  scrollbar-width: none;
+}
+
+.search-form {
+  min-height: 3rem;
+  border-radius: 0.5rem;
+  margin: 5px 0px 20px;
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  background: var(--color-bg-secondary);
+  transition: 0.4s ease;
+}
+
+.sidebar.collapsed .search-form:hover {
+  cursor: pointer;
+}
+
+.search-form:hover,
+.search-form:focus-within {
+  background: var(--color-hover-secondary);
+}
+
+.search-form input {
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1rem;
+  width: 100%;
+  margin-left: 0.8rem;
+  color: var(--color-text-primary);
+}
+
+.search-form span,
+input::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.menu-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.menu-link {
+  gap: 0.75rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--color-text-primary);
+  transition: 0.4s ease;
+}
+
+.menu-link .menu-label {
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .menu-label {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-link.active {
+  color: white;
+  background: var(--color-hover-primary);
+}
+
+.menu-link:not(.active):hover {
+  background-color: var(--color-hover-secondary);
+}
+
+.sidebar-footer {
+  padding: 1.25rem 1.2rem;
+  white-space: nowrap;
+  border-top: 1px solid var(--color-border-hr);
+  transition: all 0.4s ease;
+}
+
+.theme-toggle {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  padding: 0px 15px;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  transition: 0.4s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-hover-secondary);
+}
+
+.theme-toggle,
+.theme-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-text {
+  font-size: 1rem;
+  transition: opacity 0.4s ease;
+}
+
+/* Find any element with the class theme-text OR any element with the class theme-toggle-track, but ONLY if they are inside an element with the class theme-toggle AND that theme-toggle element is itself inside a collapsed sidebar (.sidebar.collapsed). */
+.sidebar.collapsed .theme-toggle :where(.theme-text, .theme-toggle-track) {
+  width: 0;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle-track {
+  height: 1.5rem;
+  width: 3rem;
+  position: relative;
+  border-radius: 999px;
+  margin-left: auto;
+  background-color: #c3d1ec;
+  transition: opacity 0.4s ease, background-color 0.4s ease;
+}
+
+body.dark-theme .theme-toggle-track {
+  background-color: var(--color-hover-primary);
+}
+
+.theme-toggle-indicator {
+  position: absolute;
+  /* 3px */
+  top: 0.1875rem;
+  left: 0.1875rem;
+  /* 18px */
+  height: 1.125rem;
+  width: 1.125rem;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease;
+}
+
+body.dark-theme .theme-toggle-indicator {
+  transform: translateX(1.5rem);
+}
+
+.site-nav {
+  display: none;
+  position: sticky;
+  top: 0;
+  padding: 1rem 1.25rem;
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border-hr);
+  transition: background-color 0.4s ease, border-bottom 0.4s ease;
+}
+
+.site-nav .sidebar-toggle {
+  position: unset;
+}
+
+.container {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  color: var(--color-text-primary);
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.card {
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  background-color: var(--color-bg-sidebar);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.4s ease;
+}
+
+@media (max-width: 768px) {
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.6);
+    transition: 0.4s ease;
+  }
+
+  body:has(.sidebar:not(.collapsed))::before {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .site-nav {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    z-index: 20;
+    transition: left 0.4s ease;
+  }
+
+  .sidebar.collapsed {
+    left: -16.875rem;
+  }
+}
