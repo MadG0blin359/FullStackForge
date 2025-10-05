@@ -12,6 +12,8 @@ Below is a list of the projects hosted from this repository, along with links to
 
 | Project Name         | Description                                        | Live Demo URL                                            |
 | :------------------- | :------------------------------------------------- | :------------------------------------------------------- |
+| **Animated Contact Form** | A modern animated contact form. Made with HTML, CSS, and JavaScript. | [https://animatedcontactform.netlify.app](https://animatedcontactform.netlify.app/)
+| **Animated Sidebar** | A modern animated sidebar. Made with HTML, CSS, and JavaScript. | [https://animatedsidebar.netlify.app](https://animatedsidebar.netlify.app/)
 | **Currency Exchange Rates** | A simple currency converter service. Made with HTML, CSS, and JavaScript. | [https://livecurrencyrates.netlify.app](https://livecurrencyrates.netlify.app/)
 | **My Image Editor App** | A simple image editor app. Made with HTML, CSS, and JavaScript. | [https://my-image-tweaker.netlify.app](https://my-image-tweaker.netlify.app/)
 | **Product Filter & Search Page** | A simple product search page. Made with HTML, CSS, and JavaScript. | [https://productfilters.netlify.app](https://productfilters.netlify.app/)
