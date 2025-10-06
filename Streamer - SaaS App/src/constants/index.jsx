@@ -23,7 +23,7 @@ import {
   RiTwitchLine,
   RiYoutubeLine,
   RiCalendarLine,
-} from "@remixicon/react";
+} from "react-icons/ri";
 
 export const HERO_CONTENT = {
   badgeText: "🚀 New Feature: Stream Analytics 2.0 Now Live!",

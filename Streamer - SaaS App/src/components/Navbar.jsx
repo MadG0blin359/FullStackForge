@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { RiCloseFill, RiMenu3Line } from "react-icons/ri";
 import logo from "../assets/logo.png";
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1 } },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.6 } },
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +20,12 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <nav className="fixed top-4 left-0 right-0 z-50 m-2">
+    <motion.nav
+      variants={fadeInUp}
+      initial="hidden"
+      animate="visible"
+      className="fixed top-4 left-0 right-0 z-50 m-2"
+    >
       <div className="text-neutral-500 bg-black/60 backdrop-blur-md max-w-7xl mx-auto px-4 py-3 flex justify-between items-center rounded-xl border border-neutral-800">
         <img src={logo} alt="logo" width={120} height={24}></img>
 
@@ -63,21 +79,31 @@ const Navbar = () => {
             className="text-white focus:outline-none"
             aria-label={isOpen ? "Close Menu" : "Open Menu"}
           >
-            {isOpen ? <RiCloseFill /> : <RiMenu3Line />}
+            <RiMenu3Line
+              className={`w-6 h-6 transition-all duration-300 ${
+                isOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
+              }`}
+            />
+            <RiCloseFill
+              className={`w-6 h-6 absolute bottom-3.5 transition-all duration-300 ${
+                isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
+              }`}
+            />
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div
+        <motion.div
+          variants={fadeIn}
           className={`md:hidden 
         bg-neutral-900/60 backdrop-blur-md border border-neutral-800 p-4 rounded-xl mt-2 
-        transition-all ease-in-out duration-500 
+        transition-all ease-in duration-200 
         ${
           isOpen
             ? "max-h-screen opacity-100" // When OPEN: Full height, fully visible
-            : "max-h-0 opacity-0 overflow-hidden" // When CLOSED: Zero height, invisible, clip contents
+            : "max-h-0 opacity-0 overflow-hidden pointer-events-none" // When CLOSED: Zero height, invisible, clip contents
         }
     `}
         >
@@ -108,9 +134,9 @@ const Navbar = () => {
               Start Free Trial
             </a>
           </div>
-        </div>
+        </motion.div>
       )}
-    </nav>
+    </motion.nav>
   );
 };
 
