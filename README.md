@@ -8,31 +8,26 @@ Each project within this repository is a self-contained web application, deploye
 
 ## ✨ Live Demos & Projects
 
-Below is a list of the projects hosted from this repository, along with links to their live deployments on Netlify.
+Below is a list of the projects hosted from this repository, along with links to their live deployments.
 
-| Project Name         | Description                                        | Live Demo URL                                            |
+### 🥅 Live on Netlify
+
+| Project Name         | Technologies Used                                        | Live Demo URL                                            |
 | :------------------- | :------------------------------------------------- | :------------------------------------------------------- |
-| **Animated Contact Form** | A modern animated contact form. Made with HTML, CSS, and JavaScript. | [https://animatedcontactform.netlify.app](https://animatedcontactform.netlify.app/)
-| **Animated Sidebar** | A modern animated sidebar. Made with HTML, CSS, and JavaScript. | [https://animatedsidebar.netlify.app](https://animatedsidebar.netlify.app/)
-| **Currency Exchange Rates** | A simple currency converter service. Made with HTML, CSS, and JavaScript. | [https://livecurrencyrates.netlify.app](https://livecurrencyrates.netlify.app/)
-| **My Image Editor App** | A simple image editor app. Made with HTML, CSS, and JavaScript. | [https://my-image-tweaker.netlify.app](https://my-image-tweaker.netlify.app/)
-| **Product Filter & Search Page** | A simple product search page. Made with HTML, CSS, and JavaScript. | [https://productfilters.netlify.app](https://productfilters.netlify.app/)
-| **Tic-Tac-Toe Game** | A classic Tic-Tac-Toe game with a clean UI. Made with HTML, CSS, and JavaScript. | [https://my-classic-tictactoe.netlify.app](https://my-classic-tictactoe.netlify.app/)
+| **Animated Contact Form** | ![HTML](https://img.shields.io/badge/HTML-orange) ![Tailwind](https://img.shields.io/badge/Tailwind-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://animatedcontactform.netlify.app](https://animatedcontactform.netlify.app/)
+| **Animated Sidebar** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://animatedsidebar.netlify.app](https://animatedsidebar.netlify.app/)
+| **Currency Exchange Rates** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://livecurrencyrates.netlify.app](https://livecurrencyrates.netlify.app/)
+| **My Image Editor App** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://my-image-tweaker.netlify.app](https://my-image-tweaker.netlify.app/)
+| **Product Filter & Search Page** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://productfilters.netlify.app](https://productfilters.netlify.app/)
+| **Tic-Tac-Toe Game** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://my-classic-tictactoe.netlify.app](https://my-classic-tictactoe.netlify.app/)
 
+<br/>
 
----
+### 🚦 Live on Vercel
 
-## 🚀 Deployment Status
-
-This repository is continuously deployed to Netlify. The badge below indicates the status of the latest deployment.
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/5e739a66-d4fe-40ca-be93-79be3e242cc6/deploy-status)](https://app.netlify.com/projects/my-classic-tictactoe/deploys)
-
----
-
-## ☁️ Deployment on Netlify
-
-Each project in this repository is configured as a separate site on Netlify. This is achieved by setting the "Base directory" for each Netlify site to the respective project's folder (e.g., `Currency Exchange Rates/`, `Tic-Tac-Toe Game/`). Netlify automatically handles the continuous deployment from the `main` branch.
+| Project Name         | Technologies Used                                        | Live Demo URL                                            |
+| :------------------- | :------------------------------------------------- | :------------------------------------------------------- |
+| **Streamer SaaS App** | ![HTML](https://img.shields.io/badge/HTML-orange) ![Tailwind](https://img.shields.io/badge/Tailwind-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![React](https://img.shields.io/badge/React-0072A0) | [https://streamer-saas.vercel.app](https://streamer-saas.vercel.app/)
 
 ---
 
