@@ -14,9 +14,9 @@ Below is a list of the projects hosted from this repository, along with links to
 
 | Project Name         | Technologies Used                                        | Live Demo URL                                            |
 | :------------------- | :------------------------------------------------- | :------------------------------------------------------- |
-| **Animated Contact Form** | ![HTML](https://img.shields.io/badge/HTML-orange) ![Tailwind](https://img.shields.io/badge/Tailwind-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://animatedcontactform.netlify.app](https://animatedcontactform.netlify.app/)
-| **Animated Sidebar** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://animatedsidebar.netlify.app](https://animatedsidebar.netlify.app/)
-| **Currency Exchange Rates** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://livecurrencyrates.netlify.app](https://livecurrencyrates.netlify.app/)
+| **Animated Contact Form** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![GoogleIcons](https://img.shields.io/badge/Google%20Icons-ea4335) | [https://animatedcontactform.netlify.app](https://animatedcontactform.netlify.app/)
+| **Animated Sidebar** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![GoogleIcons](https://img.shields.io/badge/Google%20Icons-ea4335) | [https://animatedsidebar.netlify.app](https://animatedsidebar.netlify.app/)
+| **Currency Exchange Rates** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![CurrentAPI](https://img.shields.io/badge/Currency%20API-34a853) | [https://livecurrencyrates.netlify.app](https://livecurrencyrates.netlify.app/)
 | **My Image Editor App** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://my-image-tweaker.netlify.app](https://my-image-tweaker.netlify.app/)
 | **Product Filter & Search Page** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://productfilters.netlify.app](https://productfilters.netlify.app/)
 | **Tic-Tac-Toe Game** | ![HTML](https://img.shields.io/badge/HTML-orange) ![CSS](https://img.shields.io/badge/CSS-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | [https://my-classic-tictactoe.netlify.app](https://my-classic-tictactoe.netlify.app/)
@@ -27,7 +27,7 @@ Below is a list of the projects hosted from this repository, along with links to
 
 | Project Name         | Technologies Used                                        | Live Demo URL                                            |
 | :------------------- | :------------------------------------------------- | :------------------------------------------------------- |
-| **Streamer SaaS App** | ![HTML](https://img.shields.io/badge/HTML-orange) ![Tailwind](https://img.shields.io/badge/Tailwind-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![React](https://img.shields.io/badge/React-0072A0) | [https://streamer-saas.vercel.app](https://streamer-saas.vercel.app/)
+| **Streamer SaaS App** | ![HTML](https://img.shields.io/badge/HTML-orange) ![Tailwind](https://img.shields.io/badge/Tailwind-00bcff) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![React](https://img.shields.io/badge/React-0072A0) ![FramerMotion](https://img.shields.io/badge/Framer%20Motion-purple) ![ReactIcons](https://img.shields.io/badge/React%20Icons-e91e63) | [https://streamer-saas.vercel.app](https://streamer-saas.vercel.app/)
 
 ---
 
