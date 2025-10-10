@@ -7,23 +7,22 @@ const PricingPlans = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2, // Use a small stagger on the parent (0.15s)
-        when: "beforeChildren", // Ensure parent waits for the section heading to finish
+        staggerChildren: 0.2, // Parent sets the 0.2s gap between children
+        when: "beforeChildren", // Parent finishes its fade before children start
       },
     },
   };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: (i) => ({
+    visible: {
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.15,
         duration: 0.8, // Slightly longer duration for a smoother feel
         ease: "easeOut",
       },
-    }),
+    },
   };
 
   return (
@@ -32,10 +31,13 @@ const PricingPlans = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }} // Only animate once, when 50% visible
           variants={{
             hidden: { opacity: 0, y: -50 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.6, ease: "easeOut" },
+            },
           }}
           className="text-center mb-12 border-t border-neutral-800"
         >
@@ -49,7 +51,6 @@ const PricingPlans = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }} // Animate once when 10% visible
           variants={containerVariants}
           // Use 'lg:flex' and 'items-stretch' to ensure all cards have the same height
           className="grid grid-cols-1 lg:grid-cols-3 place-items-center justify-items-center gap-8 lg:items-stretch"
