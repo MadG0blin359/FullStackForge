@@ -38,13 +38,13 @@ const KeyFeatures = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          className="flex flex-wrap justify-between"
+          className="flex flex-wrap justify-between max-md:justify-center"
         >
           {KEY_FEATURES_CONTENT.features.map((feature) => (
             <motion.div
               key={feature.id}
               variants={featureVariants}
-              className="flex flex-col items-center text-center w-full md:w-1/2 lg:w-1/3 p-6"
+              className="max-md:max-w-md flex flex-col items-center justify-center text-center w-full md:w-1/2 lg:w-1/3 p-6"
             >
               <div className="flex justify-center items-center mb-4">
                 {feature.icon}

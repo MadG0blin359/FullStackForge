@@ -42,14 +42,14 @@ const HowItWorks = () => {
               },
             },
           }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center justify-items-center md:items-stretch gap-6"
         >
           {HOW_IT_WORKS_CONTENT.steps.map((step, index) => (
             <motion.div
               custom={index}
               variants={stepVariants}
               key={index}
-              className="bg-neutral-900 p-6 rounded-xl shadow-lg flex flex-col justify-between"
+              className="max-lg:max-w-lg bg-neutral-900 p-6 rounded-xl shadow-lg flex flex-col justify-between"
             >
               <div>
                 <h3 className="text-xl font-semibold mb-4">{step.title}</h3>

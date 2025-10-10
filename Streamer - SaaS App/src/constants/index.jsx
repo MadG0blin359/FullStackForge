@@ -148,7 +148,7 @@ export const KEY_FEATURES_CONTENT = {
 export const PLANS_CONTENT = {
   sectionTitle: "Choose Your Plan",
   sectionDescription:
-    "Streamerzz offers flexible pricing plans to fit every streamer’s needs, from beginner to pro.",
+    "Streamer offers flexible pricing plans to fit every streamer’s needs, from beginner to pro.",
   popularBadge: "Most Popular",
   ctaText: "Get Started",
   plans: [
@@ -197,48 +197,48 @@ export const PLANS_CONTENT = {
 export const TESTIMONIALS_CONTENT = {
   sectionTitle: "What Our Streamers Say",
   sectionDescription:
-    "Hear from some of the top streamers who use Streamerzz to engage with their audience and grow their channels.",
+    "Hear from some of the top streamers who use Streamer to engage with their audience and grow their channels.",
   reviews: [
     {
       name: "Alice Johnson",
       title: "Content Creator",
       review:
-        "Streamerzz has revolutionized the way we manage our content subscriptions. The intuitive dashboard and real-time analytics have made it easier to track our progress and optimize our offerings. Highly recommended!",
+        "Streamer has revolutionized the way we manage our content subscriptions. The intuitive dashboard and real-time analytics have made it easier to track our progress and optimize our offerings. Highly recommended!",
       image: user1,
     },
     {
       name: "Bob Smith",
       title: "Marketing Specialist",
       review:
-        "The team at Streamerzz has been fantastic! Their support is responsive and knowledgeable. The platform itself is versatile and has helped us streamline our subscription management, saving us time and increasing efficiency.",
+        "The team at Streamer has been fantastic! Their support is responsive and knowledgeable. The platform itself is versatile and has helped us streamline our subscription management, saving us time and increasing efficiency.",
       image: user2,
     },
     {
       name: "Carla Mendes",
       title: "Product Manager",
       review:
-        "Streamerzz's automated billing and comprehensive analytics have been game-changers for our product team. We can now easily track user engagement and make data-driven decisions to enhance our service offerings.",
+        "Streamer's automated billing and comprehensive analytics have been game-changers for our product team. We can now easily track user engagement and make data-driven decisions to enhance our service offerings.",
       image: user3,
     },
     {
       name: "David Lee",
       title: "Customer Success Manager",
       review:
-        "Using Streamerzz, we’ve been able to increase our customer retention rates. The platform's user-friendly interface and powerful features have provided our customers with a seamless experience, leading to higher satisfaction.",
+        "Using Streamer, we’ve been able to increase our customer retention rates. The platform's user-friendly interface and powerful features have provided our customers with a seamless experience, leading to higher satisfaction.",
       image: user4,
     },
     {
       name: "Ella Fernandez",
       title: "UX Designer",
       review:
-        "Streamerzz's flexibility and ease of use have made it a key tool in our design process. We can quickly adjust our subscription plans and monitor the impact on user engagement, allowing for a more responsive approach.",
+        "Streamer's flexibility and ease of use have made it a key tool in our design process. We can quickly adjust our subscription plans and monitor the impact on user engagement, allowing for a more responsive approach.",
       image: user5,
     },
     {
       name: "Frank Wilson",
       title: "Data Analyst",
       review:
-        "Streamerzz provides us with detailed insights into our subscription metrics. The advanced reporting tools have enabled us to identify trends and make informed decisions to optimize our growth strategy.",
+        "Streamer provides us with detailed insights into our subscription metrics. The advanced reporting tools have enabled us to identify trends and make informed decisions to optimize our growth strategy.",
       image: user6,
     },
   ],
@@ -299,5 +299,5 @@ export const FOOTER_CONTENT = {
   ],
   platformsText:
     "Streaming Platforms | Twitch | YouTube | Discord | Facebook Gaming",
-  copyrightText: "© 2024 Streamerzz, Inc. All rights reserved.",
+  copyrightText: "© 2024 Streamer, Inc. All rights reserved.",
 };
