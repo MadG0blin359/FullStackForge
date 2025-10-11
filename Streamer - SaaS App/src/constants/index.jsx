@@ -299,5 +299,5 @@ export const FOOTER_CONTENT = {
   ],
   platformsText:
     "Streaming Platforms | Twitch | YouTube | Discord | Facebook Gaming",
-  copyrightText: "© 2024 Streamer, Inc. All rights reserved.",
+  copyrightText: "© 2025 Streamer, Inc. All rights reserved.",
 };

@@ -40,13 +40,13 @@ const Testimonials = () => {
               },
             },
           }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 place-items-center items-stretch"
         >
           {TESTIMONIALS_CONTENT.reviews.map((review, index) => (
             <motion.div
               custom={index}
               variants={testimonialsVariants}
-              className="mt-10 flex flex-col items-center justify-center overflow-hidden rounded-2xl bg-neutral-900/50 border border-neutral-900 p-10"
+              className="mt-5 max-sm:max-w-sm lg:mt-10 flex flex-col items-center justify-center overflow-hidden rounded-2xl bg-neutral-900/50 border border-neutral-900 p-10"
             >
               <p className="mb-4 text-neutral-200">{review.review}</p>
               <div className="flex items-center mt-4">
