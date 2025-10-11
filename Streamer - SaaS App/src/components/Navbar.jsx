@@ -22,11 +22,11 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "home", onDesktop: true },
+    { name: "Home", href: "home", onDesktop: false },
     { name: "How it works", href: "works", onDesktop: true },
     { name: "Key Features", href: "features", onDesktop: false },
     { name: "Pricing", href: "pricing", onDesktop: true },
-    { name: "Testimonials", href: "testimonials", onDesktop: false },
+    { name: "Testimonials", href: "testimonials", onDesktop: true },
     { name: "Contact", href: "contact", onDesktop: true },
   ];
 
@@ -38,13 +38,14 @@ const Navbar = () => {
       className="fixed top-4 left-0 right-0 z-50 m-2"
     >
       <div className="text-neutral-500 bg-black/60 backdrop-blur-md max-w-7xl mx-auto px-4 py-3 flex items-center rounded-xl border border-neutral-800">
-        <img
-          src={logo}
-          alt="logo"
-          width={120}
-          height={24}
-          className="mr-auto"
-        ></img>
+        <Link
+          to="home"
+          smooth={true}
+          duration={500}
+          className="mr-auto cursor-pointer"
+        >
+          <img src={logo} alt="logo" width={120} height={24}></img>
+        </Link>
 
         {/* Center: Links (hidden on mobile) */}
         <ul className="hidden md:flex md:space-x-6 ml-auto">
