@@ -2,7 +2,7 @@ import { FOOTER_CONTENT } from "../constants/index";
 
 const Footer = () => {
   return (
-    <footer className="mt-20 text-neutral-400">
+    <footer id="contact" className="mt-20 text-neutral-400">
       <div className="max-w-7xl mx-auto px-4 border-t border-neutral-800">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
           {FOOTER_CONTENT.sections.map((section, index) => (

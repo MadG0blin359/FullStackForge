@@ -20,6 +20,7 @@ const fadeIn = {
 const Hero = () => {
   return (
     <motion.section
+      id="home"
       variants={containerVariable}
       initial="hidden"
       animate="visible"

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RiCloseFill, RiMenu3Line } from "react-icons/ri";
 import logo from "../assets/logo.png";
 import { motion } from "framer-motion";
+import { Link } from "react-scroll";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -19,6 +20,16 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const navLinks = [
+    { name: "Home", href: "home", onDesktop: true },
+    { name: "How it works", href: "works", onDesktop: true },
+    { name: "Key Features", href: "features", onDesktop: false },
+    { name: "Pricing", href: "pricing", onDesktop: true },
+    { name: "Testimonials", href: "testimonials", onDesktop: false },
+    { name: "Contact", href: "contact", onDesktop: true },
+  ];
+
   return (
     <motion.nav
       variants={fadeInUp}
@@ -26,33 +37,30 @@ const Navbar = () => {
       animate="visible"
       className="fixed top-4 left-0 right-0 z-50 m-2"
     >
-      <div className="text-neutral-500 bg-black/60 backdrop-blur-md max-w-7xl mx-auto px-4 py-3 flex justify-between items-center rounded-xl border border-neutral-800">
-        <img src={logo} alt="logo" width={120} height={24}></img>
+      <div className="text-neutral-500 bg-black/60 backdrop-blur-md max-w-7xl mx-auto px-4 py-3 flex items-center rounded-xl border border-neutral-800">
+        <img
+          src={logo}
+          alt="logo"
+          width={120}
+          height={24}
+          className="mr-auto"
+        ></img>
 
         {/* Center: Links (hidden on mobile) */}
-        <div className="hidden md:flex space-x-6">
-          <a
-            href="#works"
-            className="hover:text-neutral-200 transition-all ease-in-out duration-300"
-          >
-            How it works
-          </a>
-          <a
-            href="#pricing"
-            className="hover:text-neutral-200 transition-all ease-in-out duration-300"
-          >
-            Pricing
-          </a>
-          <a
-            href="#testimonials"
-            className="hover:text-neutral-200 transition-all ease-in-out duration-300"
-          >
-            Testimonials
-          </a>
-        </div>
+        <ul className="hidden md:flex md:space-x-6 ml-auto">
+          {navLinks.map((link) =>
+            link.onDesktop ? (
+              <Link key={link.name} to={link.href} smooth={true} duration={500}>
+                <li className="cursor-pointer hover:text-neutral-200 transition-all ease-in-out duration-300">
+                  {link.name}
+                </li>
+              </Link>
+            ) : null
+          )}
+        </ul>
 
         {/* Right: Buttons (hidden on mobile) */}
-        <div className="hidden md:flex space-x-4 items-center">
+        <div className="hidden md:flex space-x-4 items-center ml-auto">
           <a
             href="#"
             className="hover:text-neutral-200 text-center transition-all ease-in-out duration-300"
@@ -97,7 +105,7 @@ const Navbar = () => {
       {isOpen && (
         <motion.div
           variants={fadeIn}
-          className={`md:hidden 
+          className={`md:hidden max-w-lg mx-auto text-sm
         bg-neutral-900/60 backdrop-blur-md border border-neutral-800 p-4 rounded-xl mt-2 
         transition-all ease-in duration-200 
         ${
@@ -107,19 +115,14 @@ const Navbar = () => {
         }
     `}
         >
-          <div className="flex flex-col space-y-4">
-            <a href="#" className="hover:text-neutral-200">
-              Product
-            </a>
-            <a href="#" className="hover:text-neutral-200">
-              Pricing
-            </a>
-            <a href="#" className="hover:text-neutral-200">
-              Resources
-            </a>
-            <a href="#" className="hover:text-white">
-              Login
-            </a>
+          <ul className="flex flex-col space-y-4">
+            {navLinks.map((link) => (
+              <Link key={link.name} to={link.href} smooth={true} duration={500}>
+                <li className="cursor-pointer hover:text-neutral-200">
+                  {link.name}
+                </li>
+              </Link>
+            ))}
 
             <a
               href="#"
@@ -133,7 +136,7 @@ const Navbar = () => {
             >
               Start Free Trial
             </a>
-          </div>
+          </ul>
         </motion.div>
       )}
     </motion.nav>
