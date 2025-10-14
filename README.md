@@ -27,6 +27,7 @@ Below is a list of the projects hosted from this repository, along with links to
 
 | Project Name         | Technologies Used                                        | Live Demo URL                                            |
 | :------------------- | :------------------------------------------------- | :------------------------------------------------------- |
+| **Project Management Dashboard** | ![HTML](https://img.shields.io/badge/HTML-orange) ![Tailwind](https://img.shields.io/badge/Tailwind-00bcff) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![React](https://img.shields.io/badge/React-0072A0) ![ReactRouter](https://img.shields.io/badge/React%20Router-b1212c) ![LucideIcons](https://img.shields.io/badge/Lucide%20Icons-f56565) ![ChartJS](https://img.shields.io/badge/Chart%20JS-ff6384) | [https://panelflow.vercel.app](https://panelflow.vercel.app/)
 | **Streamer SaaS App** | ![HTML](https://img.shields.io/badge/HTML-orange) ![Tailwind](https://img.shields.io/badge/Tailwind-00bcff) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![React](https://img.shields.io/badge/React-0072A0) ![FramerMotion](https://img.shields.io/badge/Framer%20Motion-purple) ![ReactIcons](https://img.shields.io/badge/React%20Icons-e91e63) ![ReactScroll](https://img.shields.io/badge/React%20Scroll-c90000) | [https://streamer-saas.vercel.app](https://streamer-saas.vercel.app/)
 
 ---
