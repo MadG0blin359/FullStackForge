@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* 
+  🌗 Multi-Theme Design System (Light & Dark)
+  Compatible with Tailwind CSS v4 and React (Vite)
+*/
+
+/* ===========================
+     Light Theme (Default)
+  =========================== */
+:root {
+  /* Backgrounds */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+
+  /* Sidebar */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --sidebar-item: #64748b;
+  --sidebar-item-hover: #f1f5f9;
+  --sidebar-item-active: #3b82f6;
+  --sidebar-item-active-bg: #eff6ff;
+
+  /* Cards */
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-shadow: rgba(0, 0, 0, 0.04);
+
+  /* Accents */
+  --accent-primary: #3b82f6; /* Blue-500 */
+  --accent-secondary: #8b5cf6; /* Violet-500 */
+  --accent-success: #10b981; /* Green-500 */
+  --accent-warning: #f59e0b; /* Amber-500 */
+  --accent-danger: #ef4444; /* Red-500 */
+
+  /* Borders */
+  --border-primary: #e2e8f0;
+  --border-secondary: #cbd5e1;
+
+  /* Inputs */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-focus: #3b82f6;
+
+  /* Header */
+  --header-bg: #ffffff;
+  --header-border: #e2e8f0;
+}
+
+/* ===========================
+     Dark Theme
+  =========================== */
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #64748b;
+
+  /* Sidebar */
+  --sidebar-bg: #1e293b;
+  --sidebar-border: #334155;
+  --sidebar-item: #94a3b8;
+  --sidebar-item-hover: #334155;
+  --sidebar-item-active: #60a5fa;
+  --sidebar-item-active-bg: #1e3a5f;
+
+  /* Cards */
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --card-shadow: rgba(0, 0, 0, 0.35);
+
+  /* Accents */
+  --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
+
+  /* Borders */
+  --border-primary: #334155;
+  --border-secondary: #475569;
+
+  /* Inputs */
+  --input-bg: #1e293b;
+  --input-border: #475569;
+  --input-focus: #3b82f6;
+
+  /* Header */
+  --header-bg: #1e293b;
+  --header-border: #334155;
+}
+
+@layer base {
+  /* ===========================
+     Global Resets & Base
+  =========================== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Smooth transitions for major elements */
+  body,
+  button,
+  input,
+  textarea,
+  select,
+  .card {
+    transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-secondary);
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--border-primary);
+  }
+}
