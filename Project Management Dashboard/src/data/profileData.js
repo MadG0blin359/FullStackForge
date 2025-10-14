@@ -112,3 +112,102 @@ export const activityLog = [
     type: "update",
   },
 ];
+
+export const skillProgressData = {
+  labels: [
+    "Project Management",
+    "Agile/Scrum",
+    "React",
+    "Node.js",
+    "Python",
+    "Data Analysis",
+    "UI/UX Design",
+  ],
+  datasets: [
+    {
+      label: "Current Proficiency",
+      data: [85, 90, 75, 70, 65, 60, 55],
+      backgroundColor: "rgba(59, 130, 246, 0.8)",
+    },
+    {
+      label: "Target Proficiency",
+      data: [95, 95, 85, 80, 75, 70, 65],
+      backgroundColor: "rgba(156, 163, 175, 0.8)",
+    },
+  ],
+};
+
+export const timeTrackingData = {
+  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  datasets: [
+    {
+      label: "Hours Worked",
+      data: [8, 7.5, 9, 8.5, 7, 4, 2],
+      borderColor: "rgb(59, 130, 246)",
+      backgroundColor: "rgba(59, 130, 246, 0.1)",
+      tension: 0.4,
+    },
+  ],
+};
+
+export const projectContributionData = {
+  labels: [
+    "Website Redesign",
+    "Mobile App",
+    "E-commerce",
+    "Analytics",
+    "API Dev",
+  ],
+  datasets: [
+    {
+      label: "Tasks Completed",
+      data: [15, 8, 12, 10, 3],
+      backgroundColor: "rgba(16, 185, 129, 0.8)",
+    },
+    {
+      label: "Hours Spent",
+      data: [45, 25, 38, 32, 8],
+      backgroundColor: "rgba(59, 130, 246, 0.8)",
+    },
+  ],
+};
+
+export const performanceMetricsData = {
+  labels: ["Q1", "Q2", "Q3", "Q4"],
+  datasets: [
+    {
+      label: "Productivity Score",
+      data: [85, 88, 92, 90],
+      borderColor: "rgb(34, 197, 94)",
+      backgroundColor: "rgba(34, 197, 94, 0.1)",
+      tension: 0.4,
+    },
+    {
+      label: "Quality Score",
+      data: [82, 85, 88, 87],
+      borderColor: "rgb(59, 130, 246)",
+      backgroundColor: "rgba(59, 130, 246, 0.1)",
+      tension: 0.4,
+    },
+  ],
+};
+
+export const learningProgressData = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  datasets: [
+    {
+      label: "Courses Completed",
+      data: [2, 1, 3, 2, 1, 2],
+      borderColor: "rgb(139, 92, 246)",
+      backgroundColor: "rgba(139, 92, 246, 0.1)",
+      tension: 0.4,
+    },
+    {
+      label: "Certifications Earned",
+      data: [0, 1, 0, 1, 0, 1],
+      borderColor: "rgb(245, 158, 11)",
+      backgroundColor: "rgba(245, 158, 11, 0.1)",
+      tension: 0.4,
+    },
+  ],
+};

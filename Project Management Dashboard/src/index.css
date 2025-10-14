@@ -51,6 +51,7 @@
   /* Header */
   --header-bg: #ffffff;
   --header-border: #e2e8f0;
+  --header-button-hover: #f1f5f9;
 }
 
 /* ===========================
@@ -98,6 +99,7 @@
   /* Header */
   --header-bg: #1e293b;
   --header-border: #334155;
+  --header-button-hover: #334155;
 }
 
 @layer base {

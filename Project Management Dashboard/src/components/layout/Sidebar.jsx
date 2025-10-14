@@ -88,7 +88,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
               className="text-2xl font-bold whitespace-nowrap tracking-tight"
               style={{ color: "var(--text-primary)" }}
             >
-              Admin<span style={{ color: "var(--accent-primary)" }}>Hub</span>
+              Panel<span style={{ color: "var(--accent-primary)" }}>Flow</span>
             </h1>
             <p
               className="text-xs mt-1 font-medium"

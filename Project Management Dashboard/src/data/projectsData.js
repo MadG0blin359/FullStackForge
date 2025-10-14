@@ -139,3 +139,120 @@ export const budgetUtilizationData = {
     },
   ],
 };
+
+export const projectPriorityData = {
+  labels: ["High", "Medium", "Low"],
+  datasets: [
+    {
+      data: [2, 2, 1],
+      backgroundColor: [
+        "rgb(239, 68, 68)",
+        "rgb(245, 158, 11)",
+        "rgb(16, 185, 129)",
+      ],
+      borderWidth: 0,
+    },
+  ],
+};
+
+export const projectComplexityData = {
+  labels: ["Simple", "Medium", "Complex"],
+  datasets: [
+    {
+      label: "Projects by Complexity",
+      data: [1, 3, 1],
+      backgroundColor: [
+        "rgb(16, 185, 129)",
+        "rgb(245, 158, 11)",
+        "rgb(239, 68, 68)",
+      ],
+    },
+  ],
+};
+
+export const teamWorkloadData = {
+  labels: [
+    "John Doe",
+    "Jane Smith",
+    "Bob Johnson",
+    "Alice Brown",
+    "Charlie Wilson",
+    "David Lee",
+    "Emma Davis",
+    "Frank Miller",
+    "Grace Taylor",
+    "Henry Wilson",
+    "Ivy Chen",
+    "Jack Thompson",
+  ],
+  datasets: [
+    {
+      label: "Active Tasks",
+      data: [5, 4, 6, 3, 4, 2, 3, 2, 4, 3, 2, 3],
+      backgroundColor: "rgba(59, 130, 246, 0.8)",
+    },
+    {
+      label: "Completed Tasks",
+      data: [12, 10, 15, 8, 11, 6, 9, 7, 13, 9, 5, 8],
+      backgroundColor: "rgba(16, 185, 129, 0.8)",
+    },
+  ],
+};
+
+export const projectTimelineGanttData = [
+  {
+    id: 1,
+    name: "Website Redesign",
+    start: "2024-01-01",
+    end: "2024-02-15",
+    progress: 75,
+    dependencies: [],
+  },
+  {
+    id: 2,
+    name: "Mobile App Development",
+    start: "2024-01-15",
+    end: "2024-03-01",
+    progress: 25,
+    dependencies: [],
+  },
+  {
+    id: 3,
+    name: "E-commerce Platform",
+    start: "2023-12-01",
+    end: "2024-01-30",
+    progress: 100,
+    dependencies: [],
+  },
+  {
+    id: 4,
+    name: "Data Analytics Dashboard",
+    start: "2024-01-10",
+    end: "2024-02-28",
+    progress: 60,
+    dependencies: [1],
+  },
+  {
+    id: 5,
+    name: "API Development",
+    start: "2024-02-01",
+    end: "2024-03-15",
+    progress: 10,
+    dependencies: [4],
+  },
+];
+
+export const riskAssessmentData = {
+  labels: ["Low Risk", "Medium Risk", "High Risk"],
+  datasets: [
+    {
+      data: [2, 2, 1],
+      backgroundColor: [
+        "rgb(16, 185, 129)",
+        "rgb(245, 158, 11)",
+        "rgb(239, 68, 68)",
+      ],
+      borderWidth: 0,
+    },
+  ],
+};
