@@ -23,12 +23,14 @@ ChartJS.register(
 const TeamPerformanceChart = () => {
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
         labels: {
           usePointStyle: true,
-          padding: 20,
+          padding: 10,
+          font: { size: 10 },
         },
       },
       title: {
@@ -39,7 +41,7 @@ const TeamPerformanceChart = () => {
           weight: "bold",
         },
         padding: {
-          bottom: 20,
+          bottom: 10,
         },
       },
     },
@@ -50,6 +52,12 @@ const TeamPerformanceChart = () => {
           callback: function (value) {
             return value + "%";
           },
+          font: { size: 10 },
+        },
+      },
+      x: {
+        ticks: {
+          font: { size: 10 },
         },
       },
     },
@@ -57,7 +65,7 @@ const TeamPerformanceChart = () => {
 
   return (
     <div
-      className="bg-white p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
+      className="bg-white p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out h-64 lg:h-96"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",

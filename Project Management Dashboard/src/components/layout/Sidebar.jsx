@@ -55,7 +55,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-screen z-40 flex flex-col
+          fixed top-0 left-0 min-h-dvh z-40 flex flex-col
           transition-all duration-500 ease-in-out
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0

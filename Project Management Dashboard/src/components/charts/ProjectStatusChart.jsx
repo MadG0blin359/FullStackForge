@@ -25,12 +25,14 @@ ChartJS.register(
 const ProjectStatusChart = () => {
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
         labels: {
           usePointStyle: true,
-          padding: 20,
+          padding: 10,
+          font: { size: 10 },
         },
       },
       title: {
@@ -41,7 +43,7 @@ const ProjectStatusChart = () => {
           weight: "bold",
         },
         padding: {
-          bottom: 20,
+          bottom: 10,
         },
       },
     },
@@ -50,6 +52,12 @@ const ProjectStatusChart = () => {
         beginAtZero: true,
         ticks: {
           stepSize: 1,
+          font: { size: 10 },
+        },
+      },
+      x: {
+        ticks: {
+          font: { size: 10 },
         },
       },
     },
@@ -59,15 +67,15 @@ const ProjectStatusChart = () => {
     },
     elements: {
       point: {
-        radius: 4,
-        hoverRadius: 6,
+        radius: 2,
+        hoverRadius: 4,
       },
     },
   };
 
   return (
     <div
-      className="bg-white p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
+      className="bg-white p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out h-64 lg:h-96"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",

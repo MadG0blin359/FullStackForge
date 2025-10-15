@@ -4,7 +4,7 @@ import Header from "./Header";
 
 const Layout = ({ children, pageTitle, activeItem, setActiveItem }) => {
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-dvh flex">
       <Sidebar activeItem={activeItem} setActiveItem={setActiveItem} />
       <div className="flex-1 flex flex-col">
         <Header pageTitle={pageTitle} />

@@ -5,7 +5,7 @@ const App = () => {
   const [activeItem, setActiveItem] = useState("overview");
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
+    <div className="min-h-dvh bg-gray-50 text-gray-800">
       <DashboardRoutes activeItem={activeItem} setActiveItem={setActiveItem} />
     </div>
   );

@@ -1,20 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../components/layout/Layout";
-import { projects } from "../data/projectsData";
+import ProjectTimelineChart from "../components/charts/ProjectTimelineChart";
+import BudgetUtilizationChart from "../components/charts/BudgetUtilizationChart";
+import ProjectPriorityChart from "../components/charts/ProjectPriorityChart";
+import ProjectComplexityChart from "../components/charts/ProjectComplexityChart";
+import RiskAssessmentChart from "../components/charts/RiskAssessmentChart";
+import { projects, projectStatusCounts } from "../data/projectsData";
+import {
+  Plus,
+  Search,
+  Filter,
+  Calendar,
+  Users,
+  DollarSign,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Target,
+} from "lucide-react";
 
 const Projects = ({ activeItem, setActiveItem }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [selectedProject, setSelectedProject] = useState(null);
+
   const getStatusColor = (status) => {
     switch (status) {
       case "Completed":
-        return "bg-green-100 text-green-800";
+        return "bg-green-100 text-green-800 border-green-200";
       case "In Progress":
-        return "bg-blue-100 text-blue-800";
+        return "bg-blue-100 text-blue-800 border-blue-200";
       case "Planning":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "Completed":
+        return <CheckCircle size={16} className="text-green-600" />;
+      case "In Progress":
+        return <Clock size={16} className="text-blue-600" />;
+      case "Planning":
+        return <Target size={16} className="text-yellow-600" />;
+      default:
+        return <AlertTriangle size={16} className="text-gray-600" />;
+    }
+  };
+
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch =
+      project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.client.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "All" || project.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <Layout
@@ -22,72 +66,444 @@ const Projects = ({ activeItem, setActiveItem }) => {
       activeItem={activeItem}
       setActiveItem={setActiveItem}
     >
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-900">Projects</h2>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+      <div className="space-y-8">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2
+              className="text-3xl font-bold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Projects Overview
+            </h2>
+            <p
+              className="text-sm mt-1"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              Manage and track all your projects in one place
+            </p>
+          </div>
+          <button
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
+            style={{
+              background:
+                "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
+              boxShadow: "0 4px 20px var(--card-shadow)",
+            }}
+          >
+            <Plus size={20} />
             Add New Project
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out hover:scale-105"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  Total Projects
+                </p>
+                <p
+                  className="text-3xl font-bold mt-1"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {projects.length}
+                </p>
+              </div>
+              <div
+                className="p-3 rounded-full"
+                style={{ backgroundColor: "var(--bg-tertiary)" }}
+              >
+                <Target size={24} style={{ color: "var(--accent-primary)" }} />
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out hover:scale-105"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  In Progress
+                </p>
+                <p
+                  className="text-3xl font-bold mt-1"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {projectStatusCounts.inProgress}
+                </p>
+              </div>
+              <div
+                className="p-3 rounded-full"
+                style={{ backgroundColor: "var(--bg-tertiary)" }}
+              >
+                <Clock size={24} style={{ color: "var(--accent-warning)" }} />
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out hover:scale-105"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  Completed
+                </p>
+                <p
+                  className="text-3xl font-bold mt-1"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {projectStatusCounts.completed}
+                </p>
+              </div>
+              <div
+                className="p-3 rounded-full"
+                style={{ backgroundColor: "var(--bg-tertiary)" }}
+              >
+                <CheckCircle
+                  size={24}
+                  style={{ color: "var(--accent-success)" }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out hover:scale-105"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  Total Budget
+                </p>
+                <p
+                  className="text-3xl font-bold mt-1"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  $
+                  {projects
+                    .reduce((sum, p) => sum + p.budget, 0)
+                    .toLocaleString()}
+                </p>
+              </div>
+              <div
+                className="p-3 rounded-full"
+                style={{ backgroundColor: "var(--bg-tertiary)" }}
+              >
+                <DollarSign
+                  size={24}
+                  style={{ color: "var(--accent-primary)" }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <ProjectTimelineChart />
+          </div>
+
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <BudgetUtilizationChart />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <ProjectPriorityChart />
+          </div>
+
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <ProjectComplexityChart />
+          </div>
+
+          <div
+            className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              boxShadow: "0 8px 32px var(--card-shadow)",
+            }}
+          >
+            <RiskAssessmentChart />
+          </div>
+        </div>
+
+        {/* Projects Table */}
+        <div
+          className="rounded-xl shadow-lg border transition-all duration-500 ease-in-out overflow-hidden"
+          style={{
+            backgroundColor: "var(--card-bg)",
+            borderColor: "var(--card-border)",
+            boxShadow: "0 8px 32px var(--card-shadow)",
+          }}
+        >
+          <div
+            className="p-6 border-b"
+            style={{ borderColor: "var(--card-border)" }}
+          >
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h3
+                className="text-xl font-bold"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Project List
+              </h3>
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <div className="relative">
+                  <Search
+                    size={18}
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                    style={{ color: "var(--text-tertiary)" }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Search projects..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 py-2 rounded-lg border w-full sm:w-64 transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    style={{
+                      backgroundColor: "var(--bg-secondary)",
+                      borderColor: "var(--border-primary)",
+                      color: "var(--text-primary)",
+                    }}
+                  />
+                </div>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="px-4 py-2 rounded-lg border transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  style={{
+                    backgroundColor: "var(--bg-secondary)",
+                    borderColor: "var(--border-primary)",
+                    color: "var(--text-primary)",
+                  }}
+                >
+                  <option value="All">All Status</option>
+                  <option value="Planning">Planning</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead style={{ backgroundColor: "var(--bg-secondary)" }}>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Project Name
+                  <th
+                    className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    Project Details
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th
+                    className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
                     Client
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th
+                    className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th
+                    className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
                     Deadline
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th
+                    className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
                     Progress
+                  </th>
+                  <th
+                    className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    Budget
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {projects.map((project) => (
-                  <tr key={project.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        {project.name}
+              <tbody
+                className="divide-y"
+                style={{ borderColor: "var(--border-primary)" }}
+              >
+                {filteredProjects.map((project) => (
+                  <tr
+                    key={project.id}
+                    className="hover:opacity-80 transition-opacity cursor-pointer"
+                    style={{ backgroundColor: "var(--card-bg)" }}
+                    onClick={() =>
+                      setSelectedProject(
+                        selectedProject?.id === project.id ? null : project
+                      )
+                    }
+                  >
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-semibold"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
+                          }}
+                        >
+                          {project.name.charAt(0)}
+                        </div>
+                        <div>
+                          <div
+                            className="font-semibold"
+                            style={{ color: "var(--text-primary)" }}
+                          >
+                            {project.name}
+                          </div>
+                          <div
+                            className="text-sm"
+                            style={{ color: "var(--text-tertiary)" }}
+                          >
+                            {project.team.length} team members
+                          </div>
+                        </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
+                    <td className="px-6 py-4">
+                      <div
+                        className="font-medium"
+                        style={{ color: "var(--text-primary)" }}
+                      >
                         {project.client}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
-                          project.status
-                        )}`}
-                      >
-                        {project.status}
-                      </span>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        {getStatusIcon(project.status)}
+                        <span
+                          className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(
+                            project.status
+                          )}`}
+                        >
+                          {project.status}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {project.deadline}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <Calendar
+                          size={16}
+                          style={{ color: "var(--text-tertiary)" }}
+                        />
+                        <span style={{ color: "var(--text-primary)" }}>
+                          {new Date(project.deadline).toLocaleDateString()}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="w-full bg-gray-200 rounded-full h-2 mr-2">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
                           <div
-                            className="bg-blue-600 h-2 rounded-full"
-                            style={{ width: `${project.progress}%` }}
+                            className="h-2 rounded-full transition-all duration-500"
+                            style={{
+                              width: `${project.progress}%`,
+                              background:
+                                "linear-gradient(90deg, var(--accent-primary), var(--accent-secondary))",
+                            }}
                           ></div>
                         </div>
-                        <span className="text-sm text-gray-500">
+                        <span
+                          className="text-sm font-medium"
+                          style={{ color: "var(--text-primary)" }}
+                        >
                           {project.progress}%
                         </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div>
+                        <div
+                          className="font-semibold"
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          ${project.spent.toLocaleString()}
+                        </div>
+                        <div
+                          className="text-sm"
+                          style={{ color: "var(--text-tertiary)" }}
+                        >
+                          of ${project.budget.toLocaleString()}
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -96,6 +512,204 @@ const Projects = ({ activeItem, setActiveItem }) => {
             </table>
           </div>
         </div>
+
+        {/* Project Details Modal */}
+        {selectedProject && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div
+              className="max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl"
+              style={{
+                backgroundColor: "var(--card-bg)",
+                borderColor: "var(--card-border)",
+                border: "1px solid var(--card-border)",
+              }}
+            >
+              <div
+                className="p-6 border-b"
+                style={{ borderColor: "var(--card-border)" }}
+              >
+                <div className="flex items-center justify-between">
+                  <h3
+                    className="text-2xl font-bold"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {selectedProject.name}
+                  </h3>
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    className="p-2 rounded-lg hover:opacity-80 transition-opacity"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <p
+                  className="text-sm mt-2"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  {selectedProject.description}
+                </p>
+              </div>
+
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4
+                      className="font-semibold mb-3"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      Project Details
+                    </h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span style={{ color: "var(--text-tertiary)" }}>
+                          Client:
+                        </span>
+                        <span style={{ color: "var(--text-primary)" }}>
+                          {selectedProject.client}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span style={{ color: "var(--text-tertiary)" }}>
+                          Status:
+                        </span>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
+                            selectedProject.status
+                          )}`}
+                        >
+                          {selectedProject.status}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span style={{ color: "var(--text-tertiary)" }}>
+                          Deadline:
+                        </span>
+                        <span style={{ color: "var(--text-primary)" }}>
+                          {new Date(
+                            selectedProject.deadline
+                          ).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span style={{ color: "var(--text-tertiary)" }}>
+                          Progress:
+                        </span>
+                        <span style={{ color: "var(--text-primary)" }}>
+                          {selectedProject.progress}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4
+                      className="font-semibold mb-3"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      Budget Overview
+                    </h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span style={{ color: "var(--text-tertiary)" }}>
+                          Total Budget:
+                        </span>
+                        <span style={{ color: "var(--text-primary)" }}>
+                          ${selectedProject.budget.toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span style={{ color: "var(--text-tertiary)" }}>
+                          Spent:
+                        </span>
+                        <span style={{ color: "var(--text-primary)" }}>
+                          ${selectedProject.spent.toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span style={{ color: "var(--text-tertiary)" }}>
+                          Remaining:
+                        </span>
+                        <span style={{ color: "var(--text-primary)" }}>
+                          $
+                          {(
+                            selectedProject.budget - selectedProject.spent
+                          ).toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4
+                    className="font-semibold mb-3"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    Team Members
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.team.map((member, index) => (
+                      <div
+                        key={index}
+                        className="px-3 py-1 rounded-full text-sm border"
+                        style={{
+                          backgroundColor: "var(--bg-secondary)",
+                          borderColor: "var(--border-primary)",
+                          color: "var(--text-primary)",
+                        }}
+                      >
+                        {member}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4
+                    className="font-semibold mb-3"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    Tasks
+                  </h4>
+                  <div className="space-y-2">
+                    {selectedProject.tasks.map((task) => (
+                      <div
+                        key={task.id}
+                        className="flex items-center gap-3 p-3 rounded-lg border"
+                        style={{
+                          backgroundColor: "var(--bg-secondary)",
+                          borderColor: "var(--border-primary)",
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={task.completed}
+                          readOnly
+                          className="rounded"
+                        />
+                        <span
+                          className={`flex-1 ${
+                            task.completed ? "line-through" : ""
+                          }`}
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          {task.name}
+                        </span>
+                        {task.completed && (
+                          <CheckCircle
+                            size={16}
+                            style={{ color: "var(--accent-success)" }}
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
