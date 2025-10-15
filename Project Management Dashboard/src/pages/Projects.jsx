@@ -84,7 +84,7 @@ const Projects = ({ activeItem, setActiveItem }) => {
             </p>
           </div>
           <button
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
             style={{
               background:
                 "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
@@ -404,7 +404,7 @@ const Projects = ({ activeItem, setActiveItem }) => {
                 {filteredProjects.map((project) => (
                   <tr
                     key={project.id}
-                    className="hover:opacity-80 transition-opacity cursor-pointer"
+                    className="hover:opacity-60 transition-opacity cursor-pointer"
                     style={{ backgroundColor: "var(--card-bg)" }}
                     onClick={() =>
                       setSelectedProject(
@@ -515,7 +515,7 @@ const Projects = ({ activeItem, setActiveItem }) => {
 
         {/* Project Details Modal */}
         {selectedProject && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div
               className="max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl"
               style={{
@@ -537,7 +537,7 @@ const Projects = ({ activeItem, setActiveItem }) => {
                   </h3>
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="p-2 rounded-lg hover:opacity-80 transition-opacity"
+                    className="p-2 rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                     style={{ color: "var(--text-secondary)" }}
                   >
                     ✕
