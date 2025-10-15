@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import Layout from "../components/layout/Layout";
+import TimeTrackingChart from "../components/charts/TimeTrackingChart";
+import PerformanceMetricsChart from "../components/charts/PerformanceMetricsChart";
+import LearningProgressChart from "../components/charts/LearningProgressChart";
+import ProjectContributionsChart from "../components/charts/ProjectContributionsChart";
 import {
   userProfile,
   accountSettings,
@@ -7,10 +11,6 @@ import {
   recentProjects,
   activityLog,
   skillProgressData,
-  timeTrackingData,
-  projectContributionData,
-  performanceMetricsData,
-  learningProgressData,
 } from "../data/profileData";
 import {
   User,
@@ -29,31 +29,6 @@ import {
   Shield,
   Globe,
 } from "lucide-react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from "chart.js";
-import { Bar, Line, Doughnut } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
 
 const Profile = ({ activeItem, setActiveItem }) => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -209,87 +184,18 @@ const Profile = ({ activeItem, setActiveItem }) => {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Time Tracking */}
-        <div
-          className="rounded-xl shadow-lg border p-6"
-          style={{
-            backgroundColor: "var(--card-bg)",
-            borderColor: "var(--card-border)",
-          }}
-        >
-          <h3
-            className="text-lg font-semibold mb-4"
-            style={{ color: "var(--text-primary)" }}
-          >
-            Weekly Time Tracking
-          </h3>
-          <div className="h-64">
-            <Line
-              data={timeTrackingData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: { display: false },
-                },
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    ticks: {
-                      callback: (value) => `${value}h`,
-                      font: { size: 10 },
-                    },
-                  },
-                  x: { ticks: { font: { size: 10 } } },
-                },
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Performance Metrics */}
-        <div
-          className="rounded-xl shadow-lg border p-6"
-          style={{
-            backgroundColor: "var(--card-bg)",
-            borderColor: "var(--card-border)",
-          }}
-        >
-          <h3
-            className="text-lg font-semibold mb-4"
-            style={{ color: "var(--text-primary)" }}
-          >
-            Performance Metrics
-          </h3>
-          <div className="h-64">
-            <Line
-              data={performanceMetricsData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    position: "top",
-                    labels: { font: { size: 10 }, padding: 10 },
-                  },
-                },
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    ticks: { font: { size: 10 } },
-                  },
-                  x: { ticks: { font: { size: 10 } } },
-                },
-              }}
-            />
-          </div>
-        </div>
+        <TimeTrackingChart />
+        <PerformanceMetricsChart />
       </div>
     </div>
   );
 
   return (
-    <Layout activeItem={activeItem} setActiveItem={setActiveItem}>
+    <Layout
+      pageTitle="Profile Settings"
+      activeItem={activeItem}
+      setActiveItem={setActiveItem}
+    >
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
           {/* Tab Navigation */}
@@ -365,7 +271,7 @@ const renderActivityTab = () => (
         {activityLog.map((activity) => (
           <div
             key={activity.id}
-            className="p-6 hover:bg-gray-50 transition-colors"
+            className="p-6 hover:bg-gray-500/20 cursor-pointer transition-colors"
           >
             <div className="flex items-start gap-4">
               <div
@@ -459,40 +365,7 @@ const renderSkillsTab = () => (
       </div>
     </div>
 
-    {/* Learning Progress */}
-    <div
-      className="rounded-xl shadow-lg border p-6"
-      style={{
-        backgroundColor: "var(--card-bg)",
-        borderColor: "var(--card-border)",
-      }}
-    >
-      <h3
-        className="text-lg font-semibold mb-4"
-        style={{ color: "var(--text-primary)" }}
-      >
-        Learning Progress
-      </h3>
-      <div className="h-64">
-        <Line
-          data={learningProgressData}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: "top",
-                labels: { font: { size: 10 }, padding: 10 },
-              },
-            },
-            scales: {
-              y: { beginAtZero: true, ticks: { font: { size: 10 } } },
-              x: { ticks: { font: { size: 10 } } },
-            },
-          }}
-        />
-      </div>
-    </div>
+    <LearningProgressChart />
   </div>
 );
 
@@ -748,39 +621,6 @@ const renderProjectsTab = () => (
       </div>
     </div>
 
-    {/* Project Contributions Chart */}
-    <div
-      className="rounded-xl shadow-lg border p-6"
-      style={{
-        backgroundColor: "var(--card-bg)",
-        borderColor: "var(--card-border)",
-      }}
-    >
-      <h3
-        className="text-lg font-semibold mb-4"
-        style={{ color: "var(--text-primary)" }}
-      >
-        Project Contributions
-      </h3>
-      <div className="h-64">
-        <Bar
-          data={projectContributionData}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: "top",
-                labels: { font: { size: 10 }, padding: 10 },
-              },
-            },
-            scales: {
-              y: { beginAtZero: true, ticks: { font: { size: 10 } } },
-              x: { ticks: { font: { size: 10 } } },
-            },
-          }}
-        />
-      </div>
-    </div>
+    <ProjectContributionsChart />
   </div>
 );
