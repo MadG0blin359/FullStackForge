@@ -26,6 +26,10 @@ const ProjectTimelineChart = () => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: "index",
+      intersect: false,
+    },
     plugins: {
       legend: {
         position: "top",
@@ -55,15 +59,11 @@ const ProjectTimelineChart = () => {
         cornerRadius: 8,
         padding: 12,
       },
-      interaction: {
-        mode: "index",
-        intersect: false,
-      },
-      elements: {
-        point: {
-          radius: 4,
-          hoverRadius: 6,
-        },
+    },
+    elements: {
+      point: {
+        radius: 2,
+        hoverRadius: 4,
       },
     },
   };
