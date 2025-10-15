@@ -18,16 +18,16 @@ const OverviewTab = () => (
   <div className="space-y-6">
     {/* Profile Header */}
     <div
-      className="rounded-xl shadow-lg border p-6"
+      className="rounded-xl shadow-lg border p-4 md:p-6"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
       }}
     >
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-        <div className="relative">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 md:gap-6">
+        <div className="relative mx-auto lg:mx-0">
           <div
-            className="w-24 h-24 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg"
+            className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center text-white text-2xl md:text-3xl font-bold shadow-lg"
             style={{
               background:
                 "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
@@ -45,15 +45,15 @@ const OverviewTab = () => (
             <Camera size={16} style={{ color: "var(--text-secondary)" }} />
           </button>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 text-center lg:text-left">
           <h2
-            className="text-2xl font-bold mb-2"
+            className="text-xl md:text-2xl font-bold mb-2"
             style={{ color: "var(--text-primary)" }}
           >
             {userProfile.name}
           </h2>
           <p
-            className="text-lg mb-1"
+            className="text-base md:text-lg mb-1"
             style={{ color: "var(--text-secondary)" }}
           >
             {userProfile.role}
@@ -61,7 +61,7 @@ const OverviewTab = () => (
           <p className="text-sm mb-4" style={{ color: "var(--text-tertiary)" }}>
             {userProfile.bio}
           </p>
-          <div className="flex flex-wrap gap-4 text-sm">
+          <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
             <div className="flex items-center gap-2">
               <Mail size={16} style={{ color: "var(--text-tertiary)" }} />
               <span style={{ color: "var(--text-secondary)" }}>
@@ -83,7 +83,7 @@ const OverviewTab = () => (
           </div>
         </div>
         <button
-          className="px-4 py-2 rounded-lg font-medium transition-all hover:scale-105 flex items-center gap-2"
+          className="px-4 py-2 rounded-lg font-medium cursor-pointer transition-all hover:scale-105 flex items-center gap-2 mx-auto lg:mx-0 mt-4 lg:mt-0"
           style={{
             backgroundColor: "var(--accent-primary)",
             color: "white",

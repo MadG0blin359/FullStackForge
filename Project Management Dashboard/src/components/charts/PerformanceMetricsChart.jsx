@@ -36,6 +36,16 @@ const PerformanceMetricsChart = () => {
               },
               x: { ticks: { font: { size: 10 } } },
             },
+            interaction: {
+              mode: "index",
+              intersect: false,
+            },
+            elements: {
+              point: {
+                radius: 2,
+                hoverRadius: 4,
+              },
+            },
           }}
         />
       </div>

@@ -6,19 +6,19 @@ const SkillsTab = () => (
   <div className="space-y-6">
     {/* Skills Overview */}
     <div
-      className="rounded-xl shadow-lg border p-6"
+      className="rounded-xl shadow-lg border p-4 md:p-6"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
       }}
     >
       <h3
-        className="text-lg font-semibold mb-6"
+        className="text-lg font-semibold mb-4 md:mb-6"
         style={{ color: "var(--text-primary)" }}
       >
         Skills & Expertise
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {userProfile.skills.map((skill, index) => (
           <div key={index} className="space-y-2">
             <div className="flex justify-between text-sm">

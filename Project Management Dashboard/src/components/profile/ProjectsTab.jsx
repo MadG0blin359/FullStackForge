@@ -13,7 +13,7 @@ const ProjectsTab = () => (
       }}
     >
       <div
-        className="p-6 border-b"
+        className="p-4 md:p-6 border-b"
         style={{ borderColor: "var(--card-border)" }}
       >
         <h3
@@ -23,11 +23,11 @@ const ProjectsTab = () => (
           Recent Projects
         </h3>
       </div>
-      <div className="p-6 space-y-4">
+      <div className="p-4 md:p-6 space-y-4">
         {recentProjects.map((project) => (
           <div
             key={project.id}
-            className="flex items-center justify-between p-4 rounded-lg border transition-all hover:scale-102"
+            className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border transition-all hover:scale-102 max-sm:gap-0 gap-4"
             style={{
               backgroundColor: "var(--bg-secondary)",
               borderColor: "var(--border-primary)",
@@ -46,7 +46,7 @@ const ProjectsTab = () => (
               >
                 {project.role}
               </p>
-              <div className="flex items-center gap-4 text-sm">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm">
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-medium ${
                     project.status === "Completed"
@@ -63,10 +63,12 @@ const ProjectsTab = () => (
                 </span>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold mb-1">{project.progress}%</div>
+            <div className="flex flex-col items-start sm:items-end sm:gap-2">
+              <div className="text-xl sm:text-2xl font-bold w-full text-left sm:text-right">
+                {project.progress}%
+              </div>
               <div
-                className="w-20 h-2 rounded-full"
+                className="w-full h-2 rounded-full"
                 style={{ backgroundColor: "var(--bg-tertiary)" }}
               >
                 <div

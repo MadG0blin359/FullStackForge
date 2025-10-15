@@ -24,19 +24,19 @@ const Profile = ({ activeItem, setActiveItem }) => {
       activeItem={activeItem}
       setActiveItem={setActiveItem}
     >
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <div className="max-w-7xl mx-auto">
           {/* Tab Navigation */}
-          <div className="mb-8">
+          <div className="mb-6 md:mb-8">
             <div
-              className="flex space-x-1 p-1 rounded-lg w-fit"
+              className="flex flex-wrap gap-1 p-1 rounded-lg w-full md:w-fit overflow-x-auto"
               style={{ backgroundColor: "var(--bg-secondary)" }}
             >
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all ${
+                  className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all whitespace-nowrap flex-shrink-0 ${
                     activeTab === tab.id ? "shadow-sm" : "hover:scale-105"
                   }`}
                   style={{
@@ -49,7 +49,8 @@ const Profile = ({ activeItem, setActiveItem }) => {
                   }}
                 >
                   <tab.icon size={16} />
-                  {tab.label}
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
                 </button>
               ))}
             </div>
