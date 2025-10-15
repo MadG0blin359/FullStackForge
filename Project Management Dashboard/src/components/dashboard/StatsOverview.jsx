@@ -49,7 +49,7 @@ const StatsOverview = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 transition-all duration-500 ease-in-out">
       {stats.map((stat, index) => (
         <div
           key={index}

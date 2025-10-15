@@ -19,7 +19,7 @@ const RecentActivity = () => {
 
   return (
     <div
-      className="bg-white rounded-xl shadow-lg border p-6"
+      className="bg-white rounded-xl shadow-lg border p-6 transition-all duration-500 ease-in-out"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",

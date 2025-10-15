@@ -33,7 +33,7 @@ const ProjectTable = () => {
 
   return (
     <div
-      className="bg-white rounded-xl shadow-lg border overflow-hidden"
+      className="bg-white rounded-xl shadow-lg border overflow-hidden transition-all duration-500 ease-in-out"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",

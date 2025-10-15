@@ -57,7 +57,7 @@ const TeamPerformanceChart = () => {
 
   return (
     <div
-      className="bg-white p-6 rounded-xl shadow-lg border"
+      className="bg-white p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",

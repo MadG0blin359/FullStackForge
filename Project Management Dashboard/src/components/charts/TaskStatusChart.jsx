@@ -33,13 +33,15 @@ const TaskStatusChart = () => {
 
   return (
     <div
-      className="bg-white p-6 rounded-xl shadow-lg border"
+      className="bg-white p-2 rounded-xl shadow-lg border h-110 flex flex-col transition-all duration-500 ease-in-out"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
       }}
     >
-      <Doughnut options={options} data={taskStatusData} />
+      <div className="flex-1 flex items-center justify-center">
+        <Doughnut options={options} data={taskStatusData} />
+      </div>
     </div>
   );
 };

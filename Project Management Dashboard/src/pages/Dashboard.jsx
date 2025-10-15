@@ -9,6 +9,7 @@ import TeamPerformanceChart from "../components/charts/TeamPerformanceChart";
 import ProjectStatusChart from "../components/charts/ProjectStatusChart";
 import ClientRevenueChart from "../components/charts/ClientRevenueChart";
 import ProjectTable from "../components/dashboard/ProjectTable";
+import Calendar from "../components/dashboard/Calendar";
 
 const Dashboard = ({ activeItem, setActiveItem }) => {
   return (
@@ -31,9 +32,10 @@ const Dashboard = ({ activeItem, setActiveItem }) => {
         </div>
 
         {/* Additional Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           <TaskStatusChart />
           <ClientRevenueChart />
+          <Calendar />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -42,7 +44,7 @@ const Dashboard = ({ activeItem, setActiveItem }) => {
         </div>
 
         {/* Bottom Section */}
-        <div className="grid grid-cols-1 gap-8 p-4">
+        <div className="grid grid-cols-1 gap-8">
           <ProjectTable />
         </div>
       </div>

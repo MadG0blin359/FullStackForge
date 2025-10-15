@@ -25,7 +25,7 @@ const Header = ({ pageTitle }) => {
 
   return (
     <header
-      className="sticky top-0 z-20 shadow-lg backdrop-blur-sm"
+      className="sticky top-0 z-20 shadow-lg backdrop-blur-sm transition-all duration-500 ease-in-out"
       style={{
         backgroundColor: "var(--header-bg)",
         borderBottom: "1px solid var(--header-border)",
@@ -56,7 +56,7 @@ const Header = ({ pageTitle }) => {
         <div className="flex items-center gap-3">
           {/* Search Bar */}
           <div
-            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 focus-within:ring-2"
+            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 focus-within:ring-2"
             style={{
               backgroundColor: "var(--bg-secondary)",
               border: "1px solid var(--border-primary)",
@@ -66,14 +66,14 @@ const Header = ({ pageTitle }) => {
             <input
               type="text"
               placeholder="Search projects, tasks..."
-              className="bg-transparent outline-none text-sm w-48 placeholder:opacity-60"
+              className="bg-transparent outline-none text-sm w-48"
               style={{ color: "var(--text-primary)" }}
             />
           </div>
 
           {/* Mobile Search Button */}
           <button
-            className="md:hidden p-2 rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-200"
+            className="md:hidden p-2 rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-300"
             style={{
               backgroundColor: "var(--bg-secondary)",
               border: "1px solid var(--border-primary)",
@@ -86,7 +86,7 @@ const Header = ({ pageTitle }) => {
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2 rounded-xl cursor-pointer hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-200"
+              className="relative p-2 rounded-xl cursor-pointer hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-300"
               style={{
                 backgroundColor: "var(--bg-secondary)",
                 border: "1px solid var(--border-primary)",
@@ -176,7 +176,7 @@ const Header = ({ pageTitle }) => {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 cursor-pointer rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-200"
+            className="p-2 cursor-pointer rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-300"
             style={{
               backgroundColor: "var(--bg-secondary)",
               border: "1px solid var(--border-primary)",
@@ -194,7 +194,7 @@ const Header = ({ pageTitle }) => {
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center gap-2 p-2 rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-200"
+              className="flex items-center gap-2 p-2 rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-300"
               style={{
                 backgroundColor: "var(--bg-secondary)",
                 border: "1px solid var(--border-primary)",

@@ -47,6 +47,7 @@
   --input-bg: #ffffff;
   --input-border: #d1d5db;
   --input-focus: #3b82f6;
+  --input-placeholder: #94a3b8;
 
   /* Header */
   --header-bg: #ffffff;
@@ -95,6 +96,7 @@
   --input-bg: #1e293b;
   --input-border: #475569;
   --input-focus: #3b82f6;
+  --input-placeholder: #64748b;
 
   /* Header */
   --header-bg: #1e293b;
@@ -135,6 +137,12 @@
   .card {
     transition: background-color 0.3s ease, color 0.3s ease,
       border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Input placeholder styling */
+  input::placeholder {
+    color: var(--input-placeholder);
+    transition: color 0.3s ease;
   }
 
   /* Scrollbar styling */
