@@ -101,7 +101,7 @@ const Calendar = () => {
         <div className="flex gap-2">
           <button
             onClick={handlePrevMonth}
-            className="p-2 rounded-lg hover:scale-110 active:scale-95 transition-all duration-200"
+            className="p-2 rounded-lg hover:scale-110 active:scale-95 cursor-pointer transition-all duration-200"
             style={{
               backgroundColor: "var(--bg-secondary)",
               color: "var(--text-secondary)",
@@ -111,7 +111,7 @@ const Calendar = () => {
           </button>
           <button
             onClick={handleNextMonth}
-            className="p-2 rounded-lg hover:scale-110 active:scale-95 transition-all duration-200"
+            className="p-2 rounded-lg hover:scale-110 active:scale-95 cursor-pointer transition-all duration-200"
             style={{
               backgroundColor: "var(--bg-secondary)",
               color: "var(--text-secondary)",
@@ -147,7 +147,7 @@ const Calendar = () => {
               key={index}
               onClick={() => handleDateClick(date)}
               className={`
-                relative h-10 w-10 rounded-lg text-sm font-medium transition-all duration-200
+                relative h-10 w-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200
                 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2
                 ${isSelectedDay ? "ring-2 ring-offset-2" : ""}
               `}
