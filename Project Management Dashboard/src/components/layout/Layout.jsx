@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 const Layout = ({ children, pageTitle, activeItem, setActiveItem }) => {
+  useEffect(() => {
+    document.title = `${pageTitle} | PanelFlow`;
+  }, [pageTitle]);
+
   return (
     <div className="min-h-dvh flex">
       <Sidebar activeItem={activeItem} setActiveItem={setActiveItem} />

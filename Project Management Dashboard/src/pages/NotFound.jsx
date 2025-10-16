@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Home, ArrowLeft } from "lucide-react";
 
 const NotFound = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Page Not Found | PanelFlow";
+  }, []);
 
   return (
     <div
