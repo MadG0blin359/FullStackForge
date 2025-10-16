@@ -4,7 +4,7 @@ import { projects, projectStatusCounts } from "../../data/projectsData";
 
 const ProjectStats = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
       <div
         className="p-6 rounded-xl shadow-lg border transition-all duration-500 ease-in-out hover:scale-105"
         style={{

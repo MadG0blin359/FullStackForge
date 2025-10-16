@@ -76,7 +76,7 @@ const ProjectTable = () => {
                   placeholder="Search projects..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 rounded-lg border w-full sm:w-64 transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="pl-10 pr-4 py-2 rounded-lg border w-full sm:w-64 transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                   style={{
                     backgroundColor: "var(--bg-secondary)",
                     borderColor: "var(--border-primary)",
@@ -87,7 +87,7 @@ const ProjectTable = () => {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 rounded-lg border transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-2 rounded-lg border transition-all duration-300 cursor-pointer focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 style={{
                   backgroundColor: "var(--bg-secondary)",
                   borderColor: "var(--border-primary)",
@@ -103,7 +103,8 @@ const ProjectTable = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             <thead style={{ backgroundColor: "var(--bg-secondary)" }}>
               <tr>
@@ -258,6 +259,129 @@ const ProjectTable = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden space-y-4">
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              className="p-4 rounded-xl shadow-lg border transition-all duration-300 cursor-pointer hover:scale-[1.02]"
+              style={{
+                backgroundColor: "var(--card-bg)",
+                borderColor: "var(--card-border)",
+                boxShadow: "0 4px 20px var(--card-shadow)",
+              }}
+              onClick={() =>
+                setSelectedProject(
+                  selectedProject?.id === project.id ? null : project
+                )
+              }
+            >
+              <div className="flex items-start gap-3 mb-3">
+                <div
+                  className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-semibold flex-shrink-0"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
+                  }}
+                >
+                  {project.name.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4
+                    className="font-semibold text-lg truncate"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {project.name}
+                  </h4>
+                  <p
+                    className="text-sm"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    {project.client}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {getStatusIcon(project.status)}
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full border ${getStatusColor(
+                      project.status
+                    )}`}
+                  >
+                    {project.status}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-3">
+                <div>
+                  <p
+                    className="text-xs font-medium uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    Deadline
+                  </p>
+                  <p
+                    className="text-sm font-medium"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {new Date(project.deadline).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <p
+                    className="text-xs font-medium uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    Progress
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+                      <div
+                        className="h-2 rounded-full transition-all duration-500"
+                        style={{
+                          width: `${project.progress}%`,
+                          background:
+                            "linear-gradient(90deg, var(--accent-primary), var(--accent-secondary))",
+                        }}
+                      ></div>
+                    </div>
+                    <span
+                      className="text-xs font-medium"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {project.progress}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <div>
+                  <p
+                    className="text-xs font-medium uppercase tracking-wider"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    Budget
+                  </p>
+                  <p
+                    className="text-sm font-semibold"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    ${project.spent.toLocaleString()} / $
+                    {project.budget.toLocaleString()}
+                  </p>
+                </div>
+                <div
+                  className="text-xs"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  {project.team.length} members
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

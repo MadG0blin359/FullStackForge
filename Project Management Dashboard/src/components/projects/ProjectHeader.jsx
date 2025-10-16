@@ -6,7 +6,7 @@ const ProjectHeader = () => {
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
         <h2
-          className="text-3xl font-bold"
+          className="text-2xl sm:text-3xl font-bold"
           style={{ color: "var(--text-primary)" }}
         >
           Projects Overview
@@ -16,7 +16,7 @@ const ProjectHeader = () => {
         </p>
       </div>
       <button
-        className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
+        className="flex items-center gap-2 px-4 sm:px-6 py-3 rounded-xl font-semibold text-white cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg text-sm sm:text-base"
         style={{
           background:
             "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
@@ -24,7 +24,8 @@ const ProjectHeader = () => {
         }}
       >
         <Plus size={20} />
-        Add New Project
+        <span className="hidden sm:inline">Add New Project</span>
+        <span className="sm:hidden">Add Project</span>
       </button>
     </div>
   );

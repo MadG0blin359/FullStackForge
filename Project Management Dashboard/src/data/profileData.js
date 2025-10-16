@@ -1,16 +1,23 @@
 // Sample data for profile page
 export const userProfile = {
   id: 1,
-  name: "John Doe",
-  email: "john.doe@example.com",
+  name: "Shawaiz Shahid",
+  email: "shawaiz.shahid312@gmail.com",
   role: "Administrator",
-  avatar: "JD",
+  avatar: "SS",
   joinDate: "2023-01-15",
-  lastLogin: "2024-01-10",
-  bio: "Experienced project manager with 8+ years in software development and team leadership.",
-  skills: ["Project Management", "Agile/Scrum", "React", "Node.js", "Python"],
+  lastLogin: "2025-02-10",
+  bio: "Experienced front-end engineer with 2+ years in React and NextJS.",
+  skills: [
+    "Project Management",
+    "Agile/Scrum",
+    "React",
+    "Node.js",
+    "Python",
+    "Next.js",
+  ],
   department: "Engineering",
-  location: "San Francisco, CA",
+  location: "Hyderabad, SD",
   phone: "+1 (555) 123-4567",
   timezone: "PST",
 };
@@ -55,7 +62,7 @@ export const recentProjects = [
     role: "Project Manager",
     status: "In Progress",
     progress: 75,
-    deadline: "2024-02-15",
+    deadline: "2025-02-15",
   },
   {
     id: 2,
@@ -63,7 +70,7 @@ export const recentProjects = [
     role: "Lead Developer",
     status: "Planning",
     progress: 25,
-    deadline: "2024-03-01",
+    deadline: "2025-03-01",
   },
   {
     id: 3,
@@ -71,7 +78,7 @@ export const recentProjects = [
     role: "Project Manager",
     status: "Completed",
     progress: 100,
-    deadline: "2024-01-30",
+    deadline: "2025-01-30",
   },
 ];
 

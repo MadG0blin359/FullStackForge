@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { userProfile } from "../../data/profileData";
 
 const Sidebar = ({ activeItem, setActiveItem }) => {
   const navigate = useNavigate();
@@ -253,7 +254,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
                   "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
               }}
             >
-              JD
+              {userProfile.avatar}
               <div
                 className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2"
                 style={{
@@ -272,13 +273,13 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
                 className="text-sm font-semibold whitespace-nowrap"
                 style={{ color: "var(--text-primary)" }}
               >
-                John Doe
+                {userProfile.name}
               </p>
               <p
                 className="text-xs whitespace-nowrap"
                 style={{ color: "var(--text-tertiary)" }}
               >
-                Administrator
+                {userProfile.role}
               </p>
             </div>
           </div>
