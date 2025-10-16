@@ -33,7 +33,7 @@ const TaskStatusChart = () => {
 
   return (
     <div
-      className="bg-white p-2 rounded-xl shadow-lg border h-110 flex flex-col transition-all duration-500 ease-in-out"
+      className="bg-white p-4 lg:p-6 rounded-xl shadow-lg border h-110 flex flex-col transition-all duration-500 ease-in-out"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
