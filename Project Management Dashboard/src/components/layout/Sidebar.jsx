@@ -35,11 +35,12 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
       {/* Mobile Menu Button */}
       <button
         onClick={toggleMobileSidebar}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95"
+        className="md:hidden fixed bottom-4 right-4 z-50 p-3 rounded-xl shadow-2xl backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95"
         style={{
           backgroundColor: "var(--sidebar-bg)",
           color: "var(--text-primary)",
           border: "1px solid var(--border-primary)",
+          boxShadow: "0 5px 5px rgba(0,0,0,0.4)",
         }}
       >
         {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -47,7 +48,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
 
       {/* Overlay for mobile */}
       <div
-        className={`lg:hidden fixed inset-0 bg-black z-30 transition-opacity duration-300 ${
+        className={`md:hidden fixed inset-0 bg-black z-30 transition-opacity duration-300 ${
           isMobileOpen ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
         onClick={toggleMobileSidebar}
@@ -59,7 +60,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
           fixed top-0 left-0 h-screen z-40 flex flex-col
           transition-all duration-500 ease-in-out
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0
+          md:translate-x-0
         `}
         style={{
           backgroundColor: "var(--sidebar-bg)",
@@ -102,7 +103,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
           {/* Desktop Collapse Toggle */}
           <button
             onClick={toggleCollapse}
-            className={`p-2 rounded-lg transition-all duration-300 hover:scale-110 active:scale-95 hover:rotate-180 cursor-pointer `}
+            className={`p-2 rounded-lg transition-all duration-300 hover:scale-110 active:scale-95 hover:rotate-180 cursor-pointer max-sm:hidden`}
             style={{
               backgroundColor: "var(--bg-tertiary)",
               color: "var(--text-secondary)",
@@ -293,7 +294,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
 
       {/* Spacer for main content on desktop */}
       <div
-        className="hidden lg:block transition-all duration-500"
+        className="hidden md:block transition-all duration-500"
         style={{ width: isCollapsed ? "80px" : "256px" }}
       />
     </>
