@@ -1,11 +1,14 @@
 import { Sun, Moon, Bell, Search, User, Settings, LogOut } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { userProfile } from "../../data/profileData";
 
 const Header = ({ pageTitle }) => {
   const { theme, toggleTheme } = useTheme();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const navigate = useNavigate();
 
   const notifications = [
     { id: 1, message: "New project assigned", time: "2 min ago", unread: true },
@@ -194,7 +197,7 @@ const Header = ({ pageTitle }) => {
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center gap-2 p-2 rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 transition-all duration-300"
+              className="flex items-center gap-2 p-2 rounded-xl hover:bg-[var(--header-button-hover)] active:scale-95 cursor-pointer transition-all duration-300"
               style={{
                 backgroundColor: "var(--bg-secondary)",
                 border: "1px solid var(--border-primary)",
@@ -207,7 +210,7 @@ const Header = ({ pageTitle }) => {
                     "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
                 }}
               >
-                JD
+                {userProfile.avatar}
               </div>
             </button>
 
@@ -232,26 +235,32 @@ const Header = ({ pageTitle }) => {
                           "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
                       }}
                     >
-                      JD
+                      {userProfile.avatar}
                     </div>
                     <div>
                       <p
                         className="font-semibold text-sm"
                         style={{ color: "var(--text-primary)" }}
                       >
-                        John Doe
+                        {userProfile.name}
                       </p>
                       <p
                         className="text-xs"
                         style={{ color: "var(--text-tertiary)" }}
                       >
-                        Administrator
+                        {userProfile.role}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="py-2">
-                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:opacity-80 transition-opacity">
+                  <button
+                    onClick={() => {
+                      navigate("/profile");
+                      setShowUserMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm cursor-pointer hover:opacity-80 transition-opacity"
+                  >
                     <User
                       size={16}
                       style={{ color: "var(--text-secondary)" }}
@@ -260,7 +269,13 @@ const Header = ({ pageTitle }) => {
                       Profile
                     </span>
                   </button>
-                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:opacity-80 transition-opacity">
+                  <button
+                    onClick={() => {
+                      navigate("/profile?tab=settings");
+                      setShowUserMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm cursor-pointer hover:opacity-80 transition-opacity"
+                  >
                     <Settings
                       size={16}
                       style={{ color: "var(--text-secondary)" }}
@@ -273,7 +288,7 @@ const Header = ({ pageTitle }) => {
                     className="border-t my-2"
                     style={{ borderColor: "var(--card-border)" }}
                   ></div>
-                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:opacity-80 transition-opacity text-red-500">
+                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm cursor-pointer hover:opacity-80 transition-opacity text-red-500">
                     <LogOut size={16} />
                     <span>Sign Out</span>
                   </button>

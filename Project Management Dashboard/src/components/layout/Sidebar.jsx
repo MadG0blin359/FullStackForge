@@ -246,6 +246,11 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
               backgroundColor: "var(--bg-tertiary)",
               boxShadow: "0 2px 8px var(--card-shadow)",
             }}
+            onClick={() => {
+              navigate("/profile");
+              setActiveItem("profile");
+              setIsMobileOpen(false);
+            }}
           >
             <div
               className="relative w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-lg"
