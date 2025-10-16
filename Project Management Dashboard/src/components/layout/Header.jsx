@@ -98,7 +98,7 @@ const Header = ({ pageTitle }) => {
               <Bell size={20} style={{ color: "var(--text-secondary)" }} />
               {notifications.filter((n) => n.unread).length > 0 && (
                 <span
-                  className="absolute -top-1 -right-1 w-3 h-3 rounded-full flex items-center justify-center text-xs font-bold animate-pulse"
+                  className="absolute -top-1 -right-1 w-3 h-3 rounded-full flex items-center justify-center text-xs font-bold"
                   style={{
                     backgroundColor: "var(--accent-danger)",
                     color: "white",

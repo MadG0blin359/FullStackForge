@@ -19,7 +19,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: Home, path: "/" },
     { id: "projects", label: "Projects", icon: Folder, path: "/projects" },
-    { id: "profile", label: "Profile Settings", icon: User, path: "/profile" },
+    { id: "profile", label: "Profile", icon: User, path: "/profile" },
   ];
 
   const toggleMobileSidebar = () => {

@@ -20,7 +20,7 @@ const Profile = ({ activeItem, setActiveItem }) => {
 
   return (
     <Layout
-      pageTitle="Profile Settings"
+      pageTitle="Profile"
       activeItem={activeItem}
       setActiveItem={setActiveItem}
     >
