@@ -37,10 +37,10 @@ Below is a list of the projects hosted from this repository, along with links to
 Contributions are welcome! If you have suggestions for improvements or new project ideas, feel free to:
 
 1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/your-feature-name`).
+2.  Create a new branch (`git checkout -b feat/your-feature-name`).
 3.  Make your changes.
 4.  Commit your changes (`git commit -m 'Add new feature'`).
-5.  Push to the branch (`git push origin feature/your-feature-name`).
+5.  Push to the branch (`git push origin feat/your-feature-name`).
 6.  Open a Pull Request.
 
 ---
