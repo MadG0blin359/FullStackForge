@@ -23,7 +23,7 @@ const Navbar = () => {
       <nav
         className={cn(
           "fixed w-dvw z-10",
-          "px-5 py-5 md:px-10 xl:px-20",
+          "px-5 py-2 sm:py-5 md:px-10 xl:px-20",
           "transition-all duration-300",
           "flex items-center justify-between",
           "max-sm:backdrop-blur-md"
@@ -34,7 +34,7 @@ const Navbar = () => {
           <span className="text-xl font-bold cursor-pointer">
             <Link to="home" smooth={true} duration={500}>
               <span className="text-glow">Shawaiz</span>{" "}
-              <span className="text-primary ">Shahid</span>
+              <span className="text-primary">Shahid</span>
             </Link>
           </span>
         </div>
@@ -43,7 +43,9 @@ const Navbar = () => {
         <ul className="flex items-center gap-3 max-sm:hidden">
           {navLinks.map((link) => (
             <Link key={link.name} to={link.href} smooth={true} duration={500}>
-              <li className="nav-desktop-li-items">{link.name}</li>
+              <li className="nav-desktop-li-items active:scale-95">
+                {link.name}
+              </li>
             </Link>
           ))}
         </ul>
@@ -52,8 +54,9 @@ const Navbar = () => {
         <button
           onClick={handleMobileMenu}
           className="sm:hidden rounded-full z-20 p-2 drop-shadow-[0_0_8px_#ffffff] text-white transition-all duration-300"
+          aria-label={isMobileMenuOpen ? "Close Menu" : "Open Menu"}
         >
-          {isMobileMenuOpen ? <XIcon /> : <MenuIcon />}
+          {isMobileMenuOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
         </button>
       </nav>
       {/* Mobile Menu */}
@@ -62,16 +65,21 @@ const Navbar = () => {
           "fixed sm:hidden z-5 list-none",
           "flex flex-col items-center",
           "bg-black bg-opacity-70 backdrop-blur-md",
-          "transition-all duration-300",
+          "transition-all duration-300 active:scale-95",
           "space-y-4 py-8 w-full",
           isMobileMenuOpen
-            ? "-translate-y-0 opacity-100 top-16 left-0 right-0"
+            ? "-translate-y-0 opacity-100 top-13.5 left-0 right-0"
             : "-translate-y-full opacity-0"
         )}
       >
         {navLinks.map((link) => (
           <Link key={link.name} to={link.href} smooth={true} duration={500}>
-            <li className="nav-li-items">{link.name}</li>
+            <li
+              className="nav-li-items"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {link.name}
+            </li>
           </Link>
         ))}
       </div>

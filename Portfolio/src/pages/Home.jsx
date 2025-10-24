@@ -7,6 +7,7 @@ import About from "./About";
 import Skills from "./Skills";
 import Projects from "./Projects";
 import Contact from "./Contact";
+import HomeSection from "../components/HomeSection";
 
 const Home = () => {
   return (
@@ -18,7 +19,9 @@ const Home = () => {
       <MeteorBackground />
       <ThemeToggle />
       <Navbar />
-      <h1 className="min-h-dvh flex items-center justify-center">Home</h1>
+
+      <HomeSection />
+
       <About />
       <Skills />
       <Projects />

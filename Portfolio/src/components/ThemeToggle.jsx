@@ -39,6 +39,7 @@ const ThemeToggle = () => {
         "group",
         "cursor-pointer",
         "max-xl:hidden",
+        "active:scale-95",
         "z-15 p-2",
         "fixed top-4 right-2.5",
         "rounded-full bg-gray-900 hover:bg-gray-700",
