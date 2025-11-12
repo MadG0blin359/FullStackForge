@@ -1,25 +1,29 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import StarBackground from "./components/StarBackground";
+import MeteorBackground from "./components/MeteorBackground";
+import ThemeToggle from "./components/ThemeToggle";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Skills from "./pages/Skills";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/skills" element={<Skills />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      {/* Background */}
+      <StarBackground />
+      <MeteorBackground />
+      <ThemeToggle />
+      <Navbar />
+
+      {/* Pages */}
+      <Home />
+      <About />
+      <Skills />
+      <Projects />
+      <Contact />
     </>
   );
 };

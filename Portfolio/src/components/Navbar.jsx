@@ -22,7 +22,7 @@ const Navbar = () => {
     <>
       <nav
         className={cn(
-          "fixed w-dvw z-10",
+          "fixed w-dvw z-50",
           "px-5 py-2 sm:py-5 md:px-10 xl:px-20",
           "transition-all duration-300",
           "flex items-center justify-between",
@@ -62,7 +62,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "fixed sm:hidden z-5 list-none",
+          "fixed sm:hidden z-50 list-none",
           "flex flex-col items-center",
           "bg-black bg-opacity-70 backdrop-blur-md",
           "transition-all duration-300 active:scale-95",

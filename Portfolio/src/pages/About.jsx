@@ -33,7 +33,11 @@ const About = () => {
               <Link to="contact" smooth={true} duration={500}>
                 <p className="cosmic-button">Get in Touch</p>
               </Link>
-              <a className="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-all duration-300 cursor-pointer active:scale-95">
+              <a
+                download
+                href="/Front-End CV.pdf"
+                className="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-all duration-300 cursor-pointer active:scale-95"
+              >
                 Download CV
               </a>
             </div>

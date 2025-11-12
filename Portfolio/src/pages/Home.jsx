@@ -1,32 +1,47 @@
 import React from "react";
-import StarBackground from "@/components/StarBackground";
-import MeteorBackground from "../components/MeteorBackground";
-import ThemeToggle from "../components/ThemeToggle";
-import Navbar from "../components/Navbar";
-import About from "./About";
-import Skills from "./Skills";
-import Projects from "./Projects";
-import Contact from "./Contact";
-import HomeSection from "../components/HomeSection";
+import { ArrowDown } from "lucide-react";
+import { Link } from "react-scroll";
 
 const Home = () => {
   return (
-    <div
+    <section
       id="home"
-      className="min-h-dvh bg-background text-foreground overflow-x-hidden"
+      className="relative min-h-dvh flex flex-col items-center justify-center px-4"
     >
-      <StarBackground />
-      <MeteorBackground />
-      <ThemeToggle />
-      <Navbar />
+      <div className="container max-w-4xl mx-auto text-center z-10">
+        <div className="space-y-6">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+            <span className="opacity-0 animate-fade-in"> Hi, I'm </span>
+            <span className="text-primary opacity-0 animate-fade-in-delay-1">
+              {" "}
+              Shawaiz{" "}
+            </span>
+            <span className="text-gradient ml-2 opacity-0 animate-fade-in-delay-2">
+              {" "}
+              Shahid{" "}
+            </span>
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground max-2-2xl mx-auto opacity-0 animate-fade-in-delay-3">
+            I create stellar web experiences with modern technologies.
+            Specializing in front-end development, I build interfaces that are
+            both beautiful and functional.
+          </p>
 
-      <HomeSection />
+          <div className="pt-4 opacity-0 animate-fade-in-delay-4 active:scale-95">
+            <Link to="projects" smooth={true} duration={500}>
+              <span className="cosmic-button">View My Work</span>
+            </Link>
+          </div>
+        </div>
+      </div>
 
-      <About />
-      <Skills />
-      <Projects />
-      <Contact />
-    </div>
+      <Link to="about" smooth={true} duration={500}>
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce cursor-pointer">
+          <span className="text-sm text-muted-foreground mb-2"> Scroll </span>
+          <ArrowDown className="h-5 w-5 text-primary" />
+        </div>
+      </Link>
+    </section>
   );
 };
 
