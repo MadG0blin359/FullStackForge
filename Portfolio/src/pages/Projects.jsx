@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getImageURL } from "../lib/imageURL";
+import { getImageUrl } from "../lib/imageURL";
 import { ExternalLink, Github, Eye } from "lucide-react";
 
 const Projects = () => {
@@ -11,7 +11,7 @@ const Projects = () => {
       title: "Streamer SaaS App",
       description:
         "A modern, responsive SaaS website built with React and Tailwind CSS, featuring smooth animations.",
-      image: getImageURL("Project 1.jpg"),
+      image: getImageUrl("Project 1.jpg"),
       technologies: [
         "Tailwind CSS",
         "JavaScript",
@@ -31,7 +31,7 @@ const Projects = () => {
       title: "Project Management Dashboard",
       description:
         "Front-End design of project management dashboard, featuring visuals and all details of project metrics.",
-      image: getImageURL("Project 2.jpg"),
+      image: getImageUrl("Project 2.jpg"),
       technologies: [
         "Tailwind CSS",
         "JavaScript",
@@ -51,7 +51,7 @@ const Projects = () => {
       title: "Animated Contact Form	",
       description:
         "A figma design turned into an asthetic web page, with smooth animations and multi-theme mode support.",
-      image: getImageURL("Project 3.jpg"),
+      image: getImageUrl("Project 3.jpg"),
       technologies: ["HTML5", "CSS3", "JavaScript", "Google Icons"],
       category: "web",
       liveDemo: "https://animatedcontactform.netlify.app/",
