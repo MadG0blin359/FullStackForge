@@ -19,6 +19,7 @@ const Projects = () => {
         "Framer Motion",
         "React Icons",
         "React Scroll",
+        "Figma",
       ],
       category: "web",
       liveDemo: "https://streamer-saas.vercel.app/",
@@ -52,7 +53,7 @@ const Projects = () => {
       description:
         "A figma design turned into an asthetic web page, with smooth animations and multi-theme mode support.",
       image: getImageUrl("Project 3.jpg"),
-      technologies: ["HTML5", "CSS3", "JavaScript", "Google Icons"],
+      technologies: ["HTML5", "CSS3", "JavaScript", "Google Icons", "Figma"],
       category: "web",
       liveDemo: "https://animatedcontactform.netlify.app/",
       github:

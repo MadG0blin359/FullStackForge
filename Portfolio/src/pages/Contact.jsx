@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Github,
-  Linkedin,
-  Twitter,
-  Send,
-} from "lucide-react";
+import { Mail, MapPin, Github, Linkedin, Send } from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -60,6 +52,8 @@ const Contact = () => {
     // Simulate form submission (replace with actual API call)
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API delay
+      setSubmitMessage("Something went wrong. Please try again.");
+      throw new Error("No API Found!");
       setSubmitMessage(
         "Thank you for your message! I'll get back to you soon."
       );
@@ -75,19 +69,13 @@ const Contact = () => {
     {
       icon: Mail,
       label: "Email",
-      value: "shawaizshahid.dev@gmail.com",
-      href: "mailto:shawaizshahid.dev@gmail.com",
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+92 300 1234567",
-      href: "tel:+923001234567",
+      value: "shawaizshahid312@gmail.com",
+      href: "mailto:shawaizshahid312@gmail.com",
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "Lahore, Pakistan",
+      value: "Hyderabad, Pakistan",
       href: "#",
     },
   ];
@@ -96,17 +84,12 @@ const Contact = () => {
     {
       icon: Github,
       label: "GitHub",
-      href: "https://github.com/shawaizshahid",
+      href: "https://github.com/MadG0blin359/",
     },
     {
       icon: Linkedin,
       label: "LinkedIn",
-      href: "https://linkedin.com/in/shawaizshahid",
-    },
-    {
-      icon: Twitter,
-      label: "Twitter",
-      href: "https://twitter.com/shawaizshahid",
+      href: "https://www.linkedin.com/in/shawaiz-shahid-2695181b5/",
     },
   ];
 
@@ -116,23 +99,27 @@ const Contact = () => {
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
           Get In <span className="text-primary">Touch</span>
         </h2>
-        <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
+        {/* <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
           Have a project in mind or just want to chat? I'd love to hear from
           you. Send me a message and I'll respond as soon as possible.
-        </p>
+        </p> */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
           {/* Contact Form */}
           <div className="gradient-border p-8 card-hover">
             <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              autocomplete="off"
+              onSubmit={handleSubmit}
+              className="space-y-6"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium mb-2"
+                    className="block text-left text-sm font-medium mb-2"
                   >
-                    Name *
+                    Name
                   </label>
                   <input
                     type="text"
@@ -152,9 +139,9 @@ const Contact = () => {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium mb-2"
+                    className="block text-left text-sm font-medium mb-2"
                   >
-                    Email *
+                    Email
                   </label>
                   <input
                     type="email"
@@ -175,9 +162,9 @@ const Contact = () => {
               <div>
                 <label
                   htmlFor="subject"
-                  className="block text-sm font-medium mb-2"
+                  className="block text-left text-sm font-medium mb-2"
                 >
-                  Subject *
+                  Subject
                 </label>
                 <input
                   type="text"
@@ -197,9 +184,9 @@ const Contact = () => {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium mb-2"
+                  className="block text-left text-sm font-medium mb-2"
                 >
-                  Message *
+                  Message
                 </label>
                 <textarea
                   id="message"
@@ -261,7 +248,7 @@ const Contact = () => {
                       <info.icon className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="font-medium">{info.label}</p>
+                      <p className="font-medium text-left">{info.label}</p>
                       <p className="text-muted-foreground">{info.value}</p>
                     </div>
                   </a>
