@@ -94,22 +94,35 @@ const Contact = () => {
     },
   ];
 
-  const handleCopy = () => {
-    const elements = document.getElementById("contactInfo").children;
-    if (elements[0].innerHTML == "Email" && !isCopied) {
-      const content = elements[1].innerText;
-      navigator.clipboard
-        .writeText(content)
-        .then(() => {
+  const handleCopy = async (label, content) => {
+    if (label != "Email" || isCopied) return;
+
+    if (navigator.clipboard) {
+      // 1. Attempt to use the modern Clipboard API (works well outside iFrames)
+      try {
+        await navigator.clipboard.writeText(content);
+        setCopied(true);
+      } catch (err) {
+        // If the modern API fails (due to permissions or iFrame context), use the fallback
+        if (copyTextToClipboardFallback(content)) {
           setCopied(true);
-          setTimeout(() => {
-            setCopied(false);
-          }, 2000);
-        })
-        .catch((err) => {
-          alert("Failed to Copy Email Due to :", err);
-        });
+        } else {
+          alert("Copy failed. Please try manually.");
+        }
+      }
+    } else {
+      // 2. Fallback if navigator.clipboard is not available at all
+      if (copyTextToClipboardFallback(content)) {
+        setCopied(true);
+      } else {
+        alert("Copy failed. Clipboard API is unavailable.");
+      }
     }
+
+    if (isCopied)
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
   };
 
   return (
@@ -144,6 +157,7 @@ const Contact = () => {
                     type="text"
                     id="name"
                     name="name"
+                    autoComplete="off"
                     value={formData.name}
                     onChange={handleInputChange}
                     className={`w-full px-4 py-3 rounded-lg bg-background border ${
@@ -168,6 +182,7 @@ const Contact = () => {
                     type="email"
                     id="email"
                     name="email"
+                    autoComplete="off"
                     value={formData.email}
                     onChange={handleInputChange}
                     className={`w-full px-4 py-3 rounded-lg bg-background border ${
@@ -270,12 +285,12 @@ const Contact = () => {
                     key={index}
                     href={info.href}
                     className="flex items-center gap-4 p-4 gradient-border card-hover group active:scale-95"
-                    onClick={handleCopy}
+                    onClick={() => handleCopy(info.label, info.value)}
                   >
                     <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
                       <info.icon className="h-5 w-5 text-primary" />
                     </div>
-                    <div id="contactInfo">
+                    <div>
                       <p className="font-medium text-left">{info.label}</p>
                       <p className="text-muted-foreground">{info.value}</p>
                       {isCopied && info.label == "Email" && (
