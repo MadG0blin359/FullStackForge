@@ -75,7 +75,7 @@ const Projects = () => {
       : projectsData.filter((project) => project.category === filter);
 
   return (
-    <section id="projects" className="py-24 px-4 relative min-h-dvh">
+    <section id="projects" className="py-24 px-4 relative min-h-dvh z-10">
       <div className="container mx-auto max-w-7xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
           My <span className="text-primary">Projects</span>
