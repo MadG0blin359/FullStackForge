@@ -32,7 +32,7 @@ const Home = () => {
               <span className="cosmic-button active:scale-95">View My Work</span>
             </Link>
             <a
-              href="/Shawaiz_Shahid_CV.pdf"
+              href="/Front-End CV.pdf"
               download
               className="px-6 py-2 rounded-full border-2 border-primary text-primary font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
             >

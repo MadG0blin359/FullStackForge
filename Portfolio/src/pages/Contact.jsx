@@ -50,17 +50,30 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitMessage("");
 
-    // Simulate form submission (replace with actual API call)
+    const formPayload = new FormData();
+    formPayload.append("access_key", "d8870983-3f7c-4198-b7db-c20bf75fad3a");
+    formPayload.append("name", formData.name);
+    formPayload.append("email", formData.email);
+    formPayload.append("subject", formData.subject);
+    formPayload.append("message", formData.message);
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API delay
-      setSubmitMessage("Something went wrong. Please try again.");
-      throw new Error("No API Found!");
-      setSubmitMessage(
-        "Thank you for your message! I'll get back to you soon."
-      );
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formPayload,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitMessage("Thank you! Your message has been sent successfully.");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setSubmitMessage(data.message || "Something went wrong. Please try again.");
+      }
     } catch (error) {
-      setSubmitMessage("Something went wrong. Please try again.");
+      console.error("Error submitting form:", error);
+      setSubmitMessage("Something went wrong. Please check your connection.");
     } finally {
       setIsSubmitting(false);
     }
