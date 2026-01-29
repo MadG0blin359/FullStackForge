@@ -16,7 +16,7 @@ const App = () => {
       {/* Background */}
       <StarBackground />
       <MeteorBackground />
-      <ThemeToggle />
+      {/* <ThemeToggle /> */}
       <Navbar />
 
       {/* Pages */}
