@@ -142,64 +142,72 @@ const Projects = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="gradient-border p-6 card-hover cursor-pointer group"
+              className="group relative rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(139,92,246,0.12)] flex flex-col"
             >
               {/* Project Image */}
-              <div className="relative overflow-hidden rounded-lg mb-4">
+              <div className="relative h-52 overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-60" />
+                
+                {/* Featured Badge */}
                 {project.featured && (
-                  <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-medium">
-                    Featured
+                  <div className="absolute top-3 left-3 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                    ⭐ Featured
                   </div>
                 )}
               </div>
 
-              {/* Project Info */}
-              <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-              <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                {project.description}
-              </p>
+              {/* Content */}
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                  {project.description}
+                </p>
 
-              {/* Tech Stack */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.technologies.map((tech, index) => (
-                  <span
-                    key={index}
-                    className="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium"
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {project.technologies.map((tech, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-0.5 bg-primary/10 text-primary/80 rounded text-xs"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-2 mt-auto pt-2">
+                  <a
+                    href={project.liveDemo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 px-4 rounded-lg bg-primary text-white text-sm font-medium text-center flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] active:scale-95"
                   >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-3">
-                <a
-                  href={project.liveDemo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 cosmic-button text-center flex items-center justify-center gap-2"
-                >
-                  <Eye size={16} />
-                  Live Demo
-                </a>
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors duration-300"
-                  aria-label="View on GitHub"
-                >
-                  <Github size={20} />
-                </a>
+                    <Eye size={16} />
+                    Live Demo
+                  </a>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2 px-4 rounded-lg bg-gray-800 text-white transition-all duration-300 hover:scale-105 hover:bg-gray-700 hover:shadow-lg active:scale-95"
+                    aria-label="GitHub"
+                  >
+                    <Github size={16} />
+                  </a>
+                </div>
               </div>
             </div>
           ))}
