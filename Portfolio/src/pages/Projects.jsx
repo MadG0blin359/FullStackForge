@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { getImageUrl } from "../lib/imageURL";
-import { ExternalLink, Github, Eye } from "lucide-react";
+import { Github, Eye } from "lucide-react";
 
 const Projects = () => {
-  const [filter, setFilter] = useState("all");
-
   const projectsData = [
     {
       id: 1,
@@ -101,49 +99,17 @@ const Projects = () => {
     },
   ];
 
-  const categories = [
-    { id: "all", name: "All Projects" },
-    { id: "web", name: "Web Apps" },
-    { id: "mobile", name: "Mobile Apps" },
-    { id: "design", name: "Design" },
-  ];
-
-  const filteredProjects =
-    filter === "all"
-      ? projectsData
-      : projectsData.filter((project) => project.category === filter);
 
   return (
     <section id="projects" className="py-24 px-4 relative min-h-dvh z-10">
       <div className="container mx-auto max-w-7xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
           My <span className="text-primary">Projects</span>
         </h2>
-        {/* <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          A showcase of my recent work and creative projects that demonstrate my
-          skills and passion for development.
-        </p> */}
-
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setFilter(category.id)}
-              className={`px-6 py-2 rounded-full hover:cursor-pointer transition-all duration-300 ${
-                filter === category.id
-                  ? "bg-primary text-primary-foreground shadow-lg"
-                  : "bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => (
+          {projectsData.map((project) => (
             <div
               key={project.id}
               className="group relative rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(139,92,246,0.12)] flex flex-col"
@@ -161,7 +127,7 @@ const Projects = () => {
                 {/* Featured Badge */}
                 {project.featured && (
                   <div className="absolute top-3 left-3 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-                    ⭐ Featured
+                    Featured
                   </div>
                 )}
               </div>
