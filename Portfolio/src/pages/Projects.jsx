@@ -49,10 +49,49 @@ const Projects = () => {
     },
     {
       id: 3,
-      title: "Animated Contact Form	",
+      title: "Logan Smith Tattoos",
+      description:
+        "Artistic portfolio for a tattoo artist with dark aesthetic and smooth gallery.",
+      image: getImageUrl("Project 3.png"),
+      technologies: ["HTML5", "CSS3", "JavaScript", "Google Icons", "Figma"],
+      category: "web",
+      liveDemo: "https://logan-smith-tattoos.netlify.app/",
+      github:
+        "https://github.com/MadG0blin359/FullStackForge/tree/main/Logan%20Smith%20Tattoos",
+      featured: false,
+    },
+    {
+      id: 4,
+      title: "Flowtech Plumbing",
+      description:
+        "Professional plumbing business site with services, testimonials, and contact forms.",
+      image: getImageUrl("Project 4.png"),
+      technologies: ["HTML5", "CSS3", "JavaScript", "Google Icons", "Figma"],
+      category: "web",
+      liveDemo: "https://flowtech-plumbing.netlify.app/",
+      github:
+        "https://github.com/MadG0blin359/FullStackForge/tree/main/Flowtech%20Plumbing",
+      featured: false,
+    },
+    {
+      id: 5,
+      title: "Zeh Plumbing Heating and Cooling",
+      description:
+        "HVAC and plumbing services site with service areas and booking options.",
+      image: getImageUrl("Project 5.png"),
+      technologies: ["HTML5", "CSS3", "JavaScript", "Google Icons", "Figma"],
+      category: "web",
+      liveDemo: "https://zeh-plumbing.netlify.app/",
+      github:
+        "https://github.com/MadG0blin359/FullStackForge/tree/main/Zeh%20Plumbing%20Heating%20and%20Cooling",
+      featured: false,
+    },
+    {
+      id: 6,
+      title: "Animated Contact Form",
       description:
         "A figma design turned into an asthetic web page, with smooth animations and multi-theme mode support.",
-      image: getImageUrl("Project 3.jpg"),
+      image: getImageUrl("Project 6.jpg"),
       technologies: ["HTML5", "CSS3", "JavaScript", "Google Icons", "Figma"],
       category: "web",
       liveDemo: "https://animatedcontactform.netlify.app/",
