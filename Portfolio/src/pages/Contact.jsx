@@ -138,7 +138,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 px-4 relative min-h-dvh z-10">
+    <section id="contact" className="py-12 md:py-24 px-4 relative min-h-dvh z-10">
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
           Get In <span className="text-primary">Touch</span>
@@ -148,9 +148,9 @@ const Contact = () => {
           you. Send me a message and I'll respond as soon as possible.
         </p> */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mt-8 md:mt-12">
           {/* Contact Form */}
-          <div className="gradient-border p-8 card-hover">
+          <div className="gradient-border p-6 md:p-8 card-hover">
             <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
             <form
               autoComplete="off"
