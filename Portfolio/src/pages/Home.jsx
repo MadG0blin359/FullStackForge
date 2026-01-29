@@ -27,10 +27,18 @@ const Home = () => {
             both beautiful and functional.
           </p>
 
-          <div className="pt-4 opacity-0 animate-fade-in-delay-4 active:scale-95">
+          <div className="pt-4 opacity-0 animate-fade-in-delay-4 flex flex-wrap gap-4 justify-center items-center">
             <Link to="projects" smooth={true} duration={500}>
-              <span className="cosmic-button">View My Work</span>
+              <span className="cosmic-button active:scale-95">View My Work</span>
             </Link>
+            <a
+              href="/Shawaiz_Shahid_CV.pdf"
+              download
+              className="px-6 py-2 rounded-full border-2 border-primary text-primary font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
+            >
+              <ArrowDown size={16} />
+              Download CV
+            </a>
           </div>
         </div>
       </div>
