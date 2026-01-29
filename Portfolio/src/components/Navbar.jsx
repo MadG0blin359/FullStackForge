@@ -33,10 +33,11 @@ const Navbar = () => {
       {/* Wrapper for floating effect */}
       <div
         className={cn(
-          "fixed z-50 transition-all duration-500 ease-in-out",
+          "fixed z-50 left-0 right-0 mx-auto",
+          "transition-all duration-500 ease-in-out",
           isScrolled
-            ? "top-4 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4"
-            : "top-0 left-0 w-full"
+            ? "top-4 max-w-5xl px-4"
+            : "top-0 max-w-none px-0"
         )}
       >
         <nav
@@ -44,7 +45,7 @@ const Navbar = () => {
             "flex items-center justify-between",
             "transition-all duration-500 ease-in-out",
             isScrolled
-              ? "px-6 py-3 rounded-full backdrop-blur-xl bg-gray-900/90 border border-white/10 shadow-lg"
+              ? "px-8 py-3 rounded-full backdrop-blur-xl bg-gray-900/90 border border-white/10 shadow-lg"
               : "px-5 py-2 sm:py-5 md:px-10 xl:px-20 max-sm:backdrop-blur-md"
           )}
         >
