@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zeh Plumbing Heating and Cooling - Your trusted HVAC and plumbing experts in Waynesboro, VA. 24/7 emergency service, licensed & insured. Call 888-403-6727 for plumbing repair, AC installation, and heating services.">
+    <meta name="keywords" content="Plumbing repair Waynesboro VA, HVAC services near me, AC installation 22980, heating services Waynesboro, emergency plumber Waynesboro VA">
+    <meta name="author" content="Zeh Plumbing Heating and Cooling">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Zeh Plumbing Heating and Cooling | Waynesboro VA">
+    <meta property="og:description" content="Comfort you can feel…service you can count on! Licensed HVAC and plumbing services in Waynesboro, VA.">
+    <meta property="og:type" content="website">
+    
+    <title>Zeh Plumbing Heating and Cooling | HVAC & Plumbing Services Waynesboro VA</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <span class="logo-icon"><i class="fas fa-wrench"></i></span>
+                <div class="logo-text">
+                    <span class="logo-name">Zeh</span>
+                    <span class="logo-tagline">Plumbing Heating & Cooling</span>
+                </div>
+            </a>
+            
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#difference" class="nav-link">Why Choose Us</a></li>
+                    <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <a href="tel:888-403-6727" class="phone-link">
+                    <i class="fas fa-phone"></i>
+                    <span>888-403-6727</span>
+                </a>
+                <a href="#quote" class="btn btn-emergency">
+                    <i class="fas fa-bolt"></i>
+                    Emergency Service
+                </a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <span class="hero-badge">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Proudly Serving Waynesboro, VA
+                </span>
+                <h1 class="hero-title">Comfort you can feel…<br><span>service you can count on!</span></h1>
+                <p class="hero-description">
+                    Your trusted experts for plumbing repair, HVAC services, and AC installation in Waynesboro and the 22980 area. Available 24/7 for all your home comfort needs.
+                </p>
+                <div class="hero-ctas">
+                    <a href="#quote" class="btn btn-primary btn-lg">
+                        <i class="fas fa-calendar-check"></i>
+                        Schedule Your Service Now
+                    </a>
+                    <a href="tel:888-403-6727" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-phone-alt"></i>
+                        Call Today
+                    </a>
+                </div>
+                <div class="hero-trust">
+                    <div class="trust-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Licensed & Insured</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 Available</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-star"></i>
+                        <span>5-Star Rated</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-form-container">
+                <div class="quote-form-card" id="quote">
+                    <div class="form-header">
+                        <h2><i class="fas fa-file-invoice-dollar"></i> Get a Free Quote</h2>
+                        <p>No obligation • Fast response</p>
+                    </div>
+                    <form class="quote-form" id="quoteForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="John Smith" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Needed</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service...</option>
+                                <option value="plumbing">Plumbing Repair</option>
+                                <option value="heating">Heating Services</option>
+                                <option value="cooling">AC / Cooling</option>
+                                <option value="emergency">Emergency Service</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="zipcode">Zip Code</label>
+                            <input type="text" id="zipcode" name="zipcode" placeholder="22980" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i>
+                            Request Free Quote
+                        </button>
+                        <p class="form-disclaimer">
+                            <i class="fas fa-lock"></i> Your information is secure and never shared.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,75 1440,60 L1440,120 L0,120 Z" fill="#ffffff"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Our Expertise</span>
+                <h2 class="section-title">Core Services</h2>
+                <p class="section-subtitle">Professional solutions for all your home comfort needs in Waynesboro, VA</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Plumbing Card -->
+                <div class="service-card">
+                    <div class="service-icon plumbing">
+                        <i class="fas fa-faucet"></i>
+                    </div>
+                    <h3>Plumbing</h3>
+                    <p>From leaky faucets to complete pipe replacements, our licensed plumbers handle all your plumbing repair needs in Waynesboro, VA. Fast, reliable service with upfront pricing.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Drain Cleaning</li>
+                        <li><i class="fas fa-check"></i> Water Heater Repair</li>
+                        <li><i class="fas fa-check"></i> Pipe Repair & Replacement</li>
+                        <li><i class="fas fa-check"></i> Fixture Installation</li>
+                    </ul>
+                    <a href="#quote" class="btn btn-outline">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Heating Card -->
+                <div class="service-card featured">
+                    <div class="featured-badge">Most Popular</div>
+                    <div class="service-icon heating">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Heating</h3>
+                    <p>Keep your home warm and cozy during Virginia winters. Our HVAC experts provide heating installation, repair, and maintenance services you can count on.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Furnace Repair</li>
+                        <li><i class="fas fa-check"></i> Heat Pump Services</li>
+                        <li><i class="fas fa-check"></i> New System Installation</li>
+                        <li><i class="fas fa-check"></i> Annual Maintenance</li>
+                    </ul>
+                    <a href="#quote" class="btn btn-primary">
+                        Get Started <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Cooling Card -->
+                <div class="service-card">
+                    <div class="service-icon cooling">
+                        <i class="fas fa-snowflake"></i>
+                    </div>
+                    <h3>Cooling</h3>
+                    <p>Stay cool when the heat hits. We offer complete AC installation in the 22980 area, plus repairs and tune-ups to keep your system running efficiently all summer.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> AC Installation</li>
+                        <li><i class="fas fa-check"></i> AC Repair</li>
+                        <li><i class="fas fa-check"></i> Ductless Mini-Splits</li>
+                        <li><i class="fas fa-check"></i> Seasonal Tune-Ups</li>
+                    </ul>
+                    <a href="#quote" class="btn btn-outline">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Zeh Difference Section -->
+    <section class="difference" id="difference">
+        <div class="container">
+            <div class="section-header light">
+                <span class="section-badge">Why Choose Us</span>
+                <h2 class="section-title">The Zeh Difference</h2>
+                <p class="section-subtitle">What sets us apart as Waynesboro's trusted HVAC and plumbing experts</p>
+            </div>
+            
+            <div class="difference-grid">
+                <div class="difference-card">
+                    <div class="difference-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Local & Reliable</h3>
+                    <p>We're not a faceless corporation — we're your neighbors in Waynesboro, VA. We understand local needs and respond quickly because we're right around the corner at 276 Arch Avenue.</p>
+                </div>
+                
+                <div class="difference-card">
+                    <div class="difference-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Licensed & Insured</h3>
+                    <p>Every technician is fully licensed, certified, and insured for your peace of mind. We follow all state and local codes, and stand behind our work with solid warranties.</p>
+                </div>
+                
+                <div class="difference-card">
+                    <div class="difference-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Availability</h3>
+                    <p>Emergencies don't wait for business hours — and neither do we. Our team is available around the clock for urgent plumbing and HVAC emergencies. Just call 888-403-6727.</p>
+                </div>
+                
+                <div class="difference-card">
+                    <div class="difference-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Upfront Pricing</h3>
+                    <p>No surprises, no hidden fees. We provide transparent quotes before any work begins, so you know exactly what to expect. Honest service from start to finish.</p>
+                </div>
+                
+                <div class="difference-card">
+                    <div class="difference-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Expert Technicians</h3>
+                    <p>Our team undergoes continuous training on the latest HVAC and plumbing technologies. We bring expertise and professionalism to every job, big or small.</p>
+                </div>
+                
+                <div class="difference-card">
+                    <div class="difference-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Customer First</h3>
+                    <p>Your satisfaction is our priority. We treat your home with respect, clean up after ourselves, and won't rest until you're completely happy with our service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / Reviews Section -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Customer Love</span>
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Don't just take our word for it — hear from real homeowners in Waynesboro</p>
+            </div>
+            
+            <div class="reviews-stats">
+                <div class="stat-item">
+                    <div class="stat-number">4.9</div>
+                    <div class="stat-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-label">Google Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Years of Service</div>
+                </div>
+            </div>
+            
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="reviewer-info">
+                            <h4>Sarah M.</h4>
+                            <span class="review-location">Waynesboro, VA</span>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="review-text">"Our furnace went out on the coldest night of the year. Zeh had a technician at our door within an hour! They fixed the problem quickly and didn't overcharge us. Truly a lifesaver!"</p>
+                    <div class="review-service">
+                        <i class="fas fa-fire"></i> Heating Repair
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="reviewer-info">
+                            <h4>Mike T.</h4>
+                            <span class="review-location">Waynesboro, VA</span>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="review-text">"Had them install a new AC system last summer. The team was professional, explained everything clearly, and finished ahead of schedule. Our energy bills dropped 30%!"</p>
+                    <div class="review-service">
+                        <i class="fas fa-snowflake"></i> AC Installation
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="reviewer-info">
+                            <h4>Jennifer L.</h4>
+                            <span class="review-location">Staunton, VA</span>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="review-text">"Called Zeh for a clogged drain that turned out to be a bigger pipe issue. They were upfront about the problem and the cost before doing any work. Honest and reliable!"</p>
+                    <div class="review-service">
+                        <i class="fas fa-faucet"></i> Plumbing Repair
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reviews-cta">
+                <a href="https://google.com/maps" target="_blank" class="btn btn-outline-dark">
+                    <i class="fab fa-google"></i>
+                    See All Google Reviews
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready for Home Comfort You Can Count On?</h2>
+                <p>Get your free quote today — no obligation, just honest service.</p>
+            </div>
+            <div class="cta-actions">
+                <a href="#quote" class="btn btn-white btn-lg">
+                    <i class="fas fa-calendar-check"></i>
+                    Get Free Quote
+                </a>
+                <a href="tel:888-403-6727" class="btn btn-outline-white btn-lg">
+                    <i class="fas fa-phone"></i>
+                    888-403-6727
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">
+                        <span class="logo-icon"><i class="fas fa-wrench"></i></span>
+                        <div class="logo-text">
+                            <span class="logo-name">Zeh</span>
+                            <span class="logo-tagline">Plumbing Heating & Cooling</span>
+                        </div>
+                    </a>
+                    <p>Comfort you can feel…service you can count on! Serving Waynesboro, VA and surrounding areas with professional HVAC and plumbing services since 2009.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Google"><i class="fab fa-google"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#services">Plumbing Services</a></li>
+                        <li><a href="#services">Heating Services</a></li>
+                        <li><a href="#services">Cooling / AC Services</a></li>
+                        <li><a href="#difference">Why Choose Us</a></li>
+                        <li><a href="#reviews">Customer Reviews</a></li>
+                        <li><a href="#quote">Free Quote</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Address</strong>
+                                276 Arch Avenue<br>
+                                Waynesboro, VA 22980
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Phone</strong>
+                                <a href="tel:888-403-6727">888-403-6727</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Hours</strong>
+                                24/7 Emergency Service<br>
+                                Office: Mon-Fri 8am-6pm
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-map">
+                    <h3>Find Us</h3>
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3139.123456789!2d-78.889444!3d38.068889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDA0JzA4LjAiTiA3OMKwNTMnMjIuMCJX!5e0!3m2!1sen!2sus!4v1234567890"
+                            width="100%" 
+                            height="200" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Zeh Plumbing Location Map">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Zeh Plumbing Heating and Cooling. All rights reserved.</p>
+                <p>Serving Waynesboro, Staunton, Charlottesville, and the Shenandoah Valley</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Thank You!</h3>
+            <p>We've received your request and will call you within 30 minutes during business hours.</p>
+            <button class="btn btn-primary" id="closeModal">Got It!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
