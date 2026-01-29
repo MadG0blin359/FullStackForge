@@ -91,29 +91,32 @@ const Navbar = () => {
         </nav>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Dropdown */}
       <div
         className={cn(
-          "fixed sm:hidden z-40 list-none",
-          "flex flex-col items-center",
-          "bg-black bg-opacity-70 backdrop-blur-md",
-          "transition-all duration-300 active:scale-95",
-          "space-y-4 py-8 w-full",
+          "fixed sm:hidden z-40 left-4 right-4 top-24",
+          "rounded-2xl",
+          "backdrop-blur-xl bg-gray-900/80 border border-white/10",
+          "shadow-lg",
+          "transition-all duration-300 ease-out",
+          "overflow-hidden",
           isMobileMenuOpen
-            ? "-translate-y-0 opacity-100 top-13.5 left-0 right-0"
-            : "-translate-y-full opacity-0"
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 -translate-y-4 pointer-events-none"
         )}
       >
-        {navLinks.map((link) => (
-          <Link key={link.name} to={link.href} smooth={true} duration={500}>
-            <li
-              className="nav-li-items"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {link.name}
-            </li>
-          </Link>
-        ))}
+        <ul className="flex flex-col py-4">
+          {navLinks.map((link) => (
+            <Link key={link.name} to={link.href} smooth={true} duration={500}>
+              <li
+                className="px-6 py-3 text-white/80 hover:text-primary hover:bg-white/5 cursor-pointer transition-all duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </li>
+            </Link>
+          ))}
+        </ul>
       </div>
     </>
   );
