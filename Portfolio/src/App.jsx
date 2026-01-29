@@ -3,6 +3,7 @@ import StarBackground from "./components/StarBackground";
 import MeteorBackground from "./components/MeteorBackground";
 import ThemeToggle from "./components/ThemeToggle";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Skills from "./pages/Skills";
@@ -24,6 +25,9 @@ const App = () => {
       <Skills />
       <Projects />
       <Contact />
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 };
