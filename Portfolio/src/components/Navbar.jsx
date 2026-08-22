@@ -17,10 +17,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "home" },
-    { name: "About", href: "about" },
-    { name: "Skills", href: "skills" },
+    { name: "Intro", href: "intro" },
     { name: "Projects", href: "projects" },
+    { name: "Experience", href: "experience" },
+    { name: "Stack", href: "stack" },
     { name: "Contact", href: "contact" },
   ];
 
@@ -35,9 +35,7 @@ const Navbar = () => {
         className={cn(
           "fixed z-50 left-0 right-0 mx-auto",
           "transition-all duration-500 ease-in-out",
-          isScrolled
-            ? "top-4 max-w-5xl px-4"
-            : "top-0 max-w-none px-0"
+          isScrolled ? "top-4 max-w-5xl px-4" : "top-0 max-w-none px-0",
         )}
       >
         <nav
@@ -46,7 +44,7 @@ const Navbar = () => {
             "transition-all duration-500 ease-in-out",
             isScrolled
               ? "px-8 py-3 rounded-full backdrop-blur-xl bg-gray-900/90 border border-white/10 shadow-lg"
-              : "px-5 py-2 sm:py-5 md:px-10 xl:px-20 max-sm:backdrop-blur-md"
+              : "px-5 py-2 sm:py-5 md:px-10 xl:px-20 max-sm:backdrop-blur-md",
           )}
         >
           {/* Logo or Portfolio Name */}
@@ -60,10 +58,12 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <ul className={cn(
-            "flex items-center gap-3 max-sm:hidden",
-            isScrolled && "ml-8"
-          )}>
+          <ul
+            className={cn(
+              "flex items-center gap-3 max-sm:hidden",
+              isScrolled && "ml-8",
+            )}
+          >
             {navLinks.map((link) => (
               <Link key={link.name} to={link.href} smooth={true} duration={500}>
                 <li
@@ -71,7 +71,7 @@ const Navbar = () => {
                     "active:scale-95 cursor-pointer transition-all duration-300",
                     isScrolled
                       ? "px-4 py-1.5 text-sm text-white/80 hover:text-primary hover:bg-primary/10 rounded-full"
-                      : "nav-desktop-li-items"
+                      : "nav-desktop-li-items",
                   )}
                 >
                   {link.name}
@@ -102,7 +102,7 @@ const Navbar = () => {
           "overflow-hidden",
           isMobileMenuOpen
             ? "opacity-100 scale-100 translate-y-0"
-            : "opacity-0 scale-95 -translate-y-4 pointer-events-none"
+            : "opacity-0 scale-95 -translate-y-4 pointer-events-none",
         )}
       >
         <ul className="flex flex-col py-4">

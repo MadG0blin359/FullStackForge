@@ -6,10 +6,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const navLinks = [
-    { name: "Home", href: "home" },
-    { name: "About", href: "about" },
-    { name: "Skills", href: "skills" },
+    { name: "Intro", href: "intro" },
     { name: "Projects", href: "projects" },
+    { name: "Experience", href: "experience" },
+    { name: "Stack", href: "stack" },
     { name: "Contact", href: "contact" },
   ];
 

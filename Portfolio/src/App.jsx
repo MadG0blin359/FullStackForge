@@ -21,9 +21,9 @@ const App = () => {
 
       {/* Pages */}
       <Home />
+      <Projects />
       <About />
       <Skills />
-      <Projects />
       <Contact />
 
       {/* Footer */}

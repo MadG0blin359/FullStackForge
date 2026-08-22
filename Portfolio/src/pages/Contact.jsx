@@ -69,7 +69,9 @@ const Contact = () => {
         setSubmitMessage("Thank you! Your message has been sent successfully.");
         setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
-        setSubmitMessage(data.message || "Something went wrong. Please try again.");
+        setSubmitMessage(
+          data.message || "Something went wrong. Please try again.",
+        );
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -87,23 +89,16 @@ const Contact = () => {
       href: "mailto:shawaizshahid312@gmail.com",
     },
     {
-      icon: MapPin,
-      label: "Location",
-      value: "Hyderabad, Pakistan",
-      href: "maps:hyderabd,Pakistan",
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "Connect, Communicate, Collaborate",
+      href: "https://www.linkedin.com/in/shawaiz-shahid-2695181b5/",
     },
-  ];
-
-  const socialLinks = [
     {
       icon: Github,
       label: "GitHub",
+      value: "Open-Source Projects",
       href: "https://github.com/MadG0blin359/",
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/shawaiz-shahid-2695181b5/",
     },
   ];
 
@@ -138,7 +133,10 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-12 md:py-24 px-0 md:px-4 relative min-h-dvh z-10">
+    <section
+      id="contact"
+      className="py-12 md:py-24 px-0 md:px-4 relative min-h-dvh z-10"
+    >
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
           Get In <span className="text-primary">Touch</span>
@@ -311,24 +309,6 @@ const Contact = () => {
                         </p>
                       )}
                     </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold mb-6">Follow Me</h3>
-              <div className="flex gap-4 justify-center">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 rounded-full bg-muted hover:bg-muted/80 transition-colors group"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="h-5 w-5 group-hover:text-primary transition-colors" />
                   </a>
                 ))}
               </div>
