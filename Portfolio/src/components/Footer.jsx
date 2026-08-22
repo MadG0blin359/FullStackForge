@@ -37,15 +37,20 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <Link to="home" smooth={true} duration={500} className="cursor-pointer">
+            <Link
+              to="home"
+              smooth={true}
+              duration={500}
+              className="cursor-pointer"
+            >
               <h3 className="text-2xl font-bold">
                 <span className="text-glow">Shawaiz</span>{" "}
                 <span className="text-primary">Shahid</span>
               </h3>
             </Link>
             <p className="text-muted-foreground text-sm">
-              Front-End Developer crafting beautiful and functional web experiences
-              with modern technologies.
+              Software Developer building exceptional systems with the right
+              technologies.
             </p>
           </div>
 
@@ -85,9 +90,7 @@ const Footer = () => {
                 </a>
               ))}
             </div>
-            <p className="text-muted-foreground text-sm">
-              Hyderabad, Pakistan
-            </p>
+            <p className="text-muted-foreground text-sm">Hyderabad, Pakistan</p>
           </div>
         </div>
 
@@ -98,7 +101,8 @@ const Footer = () => {
               © {currentYear} Shawaiz Shahid. All rights reserved.
             </p>
             <p className="text-muted-foreground text-sm flex items-center gap-1">
-              Made with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> using React & Tailwind
+              Made with <Heart className="h-4 w-4 text-red-500 fill-red-500" />{" "}
+              using React & Tailwind
             </p>
           </div>
         </div>
