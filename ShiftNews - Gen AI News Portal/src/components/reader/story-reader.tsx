@@ -4,7 +4,7 @@ import React, { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 import { motion } from "motion/react";
-import { Story, ReadingMode, GeneratedLayout, READING_MODES } from "@/lib/types";
+import { Story, ReadingMode, GeneratedLayout, READING_MODES, AVAILABLE_MODELS } from "@/lib/types";
 import { getLayout } from "@/data/layouts";
 import { formatDate, readingTime, cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,8 @@ export function StoryReader({ story }: StoryReaderProps) {
   const [streamedBlockCount, setStreamedBlockCount] = useState<number>(0);
   const [highlightedParagraphId, setHighlightedParagraphId] = useState<string | null>(null);
   const [showOriginalText, setShowOriginalText] = useState(false);
+  const [activeModel, setActiveModel] = useState<string>(AVAILABLE_MODELS[0].id);
+  const [generationSource, setGenerationSource] = useState<"openrouter" | "catalog">("catalog");
 
   // Accessibility state
   const [settings, setSettings] = useState<AccessibilitySettings>({
@@ -69,10 +71,12 @@ export function StoryReader({ story }: StoryReaderProps) {
     }, 3200);
   }, [settings.reduceMotion]);
 
-  // Mode selection & simulated generation illusion
-  const handleSelectMode = (newMode: ReadingMode | null) => {
-    if (newMode === currentMode) return;
-
+  // Mode selection & live OpenRouter generation
+  const handleSelectMode = async (
+    newMode: ReadingMode | null,
+    customPrompt?: string,
+    modelName?: string
+  ) => {
     if (newMode === null) {
       setCurrentMode(null);
       setLayout(null);
@@ -81,34 +85,60 @@ export function StoryReader({ story }: StoryReaderProps) {
       return;
     }
 
-    // Trigger mock generator with realistic streaming effect
+    const modelToUse = modelName || activeModel;
+    setActiveModel(modelToUse);
     setIsGenerating(true);
     setStreamedBlockCount(0);
     setCurrentMode(newMode);
 
-    const targetLayout = getLayout(story.slug, newMode);
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          storySlug: story.slug,
+          mode: newMode,
+          userPrompt: customPrompt,
+          model: modelToUse,
+        }),
+      });
 
-    // Simulate network delay & block streaming
-    const totalBlocks = targetLayout?.blocks.length || 0;
-    const initialDelay = 550;
+      if (!res.ok) {
+        throw new Error(`API returned ${res.status}`);
+      }
 
-    setTimeout(() => {
-      setLayout(targetLayout || null);
+      const data = await res.json();
+      const targetLayout: GeneratedLayout = data.layout;
+
+      if (!targetLayout || !targetLayout.blocks || targetLayout.blocks.length === 0) {
+        throw new Error("Empty layout returned");
+      }
+
+      setGenerationSource(data.source === "openrouter" ? "openrouter" : "catalog");
+      setLayout(targetLayout);
       setIsGenerating(false);
 
-      // Stream blocks in rapid cascading succession
-      if (targetLayout) {
-        let count = 1;
-        setStreamedBlockCount(1);
-        const interval = setInterval(() => {
-          count++;
-          setStreamedBlockCount(count);
-          if (count >= totalBlocks) {
-            clearInterval(interval);
-          }
-        }, 120);
+      // Stream cascade of blocks
+      const totalBlocks = targetLayout.blocks.length;
+      let count = 1;
+      setStreamedBlockCount(1);
+      const interval = setInterval(() => {
+        count++;
+        setStreamedBlockCount(count);
+        if (count >= totalBlocks) {
+          clearInterval(interval);
+        }
+      }, 100);
+    } catch (err) {
+      console.warn("Live generation error, using catalog fallback:", err);
+      const fallbackLayout = getLayout(story.slug, newMode);
+      setGenerationSource("catalog");
+      setLayout(fallbackLayout || null);
+      setIsGenerating(false);
+      if (fallbackLayout) {
+        setStreamedBlockCount(fallbackLayout.blocks.length);
       }
-    }, initialDelay);
+    }
   };
 
   const allWords = story.paragraphs.map((p) => p.text).join(" ");
@@ -235,11 +265,17 @@ export function StoryReader({ story }: StoryReaderProps) {
                 className="space-y-7"
               >
                 {/* Mode active banner */}
-                <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl border border-primary/20 bg-primary/5 text-xs">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl border border-primary/20 bg-primary/5 text-xs flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <Sparkles className="h-4 w-4 text-primary shrink-0" />
                     <span className="font-semibold text-foreground">
-                      Active Mode: {READING_MODES[layout.mode].label}
+                      Active: {READING_MODES[layout.mode].badge}
+                    </span>
+                    <span className="text-muted-foreground" aria-hidden="true">·</span>
+                    <span className="font-mono text-xs text-primary font-medium">
+                      {generationSource === "openrouter"
+                        ? `Live AI: ${activeModel.split("/").pop()}`
+                        : "Deterministic Catalog"}
                     </span>
                   </div>
                   <button
@@ -323,19 +359,19 @@ export function StoryReader({ story }: StoryReaderProps) {
                           id={`paragraph-${para.id}`}
                           tabIndex={-1}
                           className={cn(
-                            "relative pl-8 transition-all duration-300 rounded-2xl p-4",
+                            "group flex items-start gap-4 transition-all duration-300 rounded-2xl p-4 sm:p-5",
                             isHighlighted
                               ? "bg-primary/10 ring-2 ring-primary ring-offset-4 ring-offset-background shadow-sm"
                               : "hover:bg-muted/20"
                           )}
                         >
                           <span
-                            className="absolute left-2.5 top-4 font-mono text-xs font-bold text-muted-foreground select-none"
+                            className="mt-0.5 inline-flex h-6 min-w-8 shrink-0 items-center justify-center rounded-md bg-muted/60 border border-border/50 font-mono text-xs font-bold text-muted-foreground select-none group-hover:text-primary group-hover:border-primary/40 group-hover:bg-primary/10 transition-colors"
                             aria-hidden="true"
                           >
                             ¶{paragraphNumber}
                           </span>
-                          <p className="text-foreground/90 font-normal leading-relaxed">
+                          <p className="flex-1 text-foreground/90 font-normal leading-relaxed">
                             {para.text}
                           </p>
                         </div>

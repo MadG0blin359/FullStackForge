@@ -5,8 +5,8 @@ import { Newspaper, Sparkles } from "lucide-react";
 
 export function Header() {
   return (
-    <header className="sticky top-4 z-50 w-full px-4 sm:px-6 pointer-events-none">
-      <div className="mx-auto flex h-14 max-w-4xl items-center justify-between rounded-full border border-border/60 bg-background/80 px-4 sm:px-6 shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl pointer-events-auto transition-all">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
         {/* Brand Logo & Name */}
         <Link
           href="/"

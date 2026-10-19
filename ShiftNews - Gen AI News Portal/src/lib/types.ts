@@ -156,3 +156,17 @@ export const READING_MODES: Record<ReadingMode, ReadingModeMeta> = {
     badge: 'Calm Read'
   }
 };
+
+export interface AIModelOption {
+  id: string;
+  label: string;
+  provider: 'OpenAI' | 'Anthropic' | 'Google';
+}
+
+export const AVAILABLE_MODELS: AIModelOption[] = [
+  { id: 'openai/gpt-4o-mini', label: 'ChatGPT 4o-mini', provider: 'OpenAI' },
+  { id: 'anthropic/claude-haiku-5.5', label: 'Claude Haiku 5.5', provider: 'Anthropic' },
+  { id: 'google/gemini-2.5-flash', label: 'Gemini 2.5 Flash', provider: 'Google' },
+  { id: 'anthropic/claude-sonnet-5.5', label: 'Claude Sonnet 5.5', provider: 'Anthropic' },
+  { id: 'openai/gpt-4o-2024-11-20', label: 'ChatGPT 4o', provider: 'OpenAI' },
+];

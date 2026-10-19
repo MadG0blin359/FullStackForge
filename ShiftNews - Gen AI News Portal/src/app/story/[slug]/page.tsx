@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { getStoryBySlug, getAllStories } from "@/data/stories";
 import { StoryReader } from "@/components/reader/story-reader";
 
+export const instant = false;
+
 interface StoryPageProps {
   params: Promise<{ slug: string }>;
 }
