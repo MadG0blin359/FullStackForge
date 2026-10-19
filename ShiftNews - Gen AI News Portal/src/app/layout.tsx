@@ -49,6 +49,7 @@ export const metadata: Metadata = {
 };
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -68,6 +69,17 @@ export default function RootLayout({
         <TooltipProvider delay={150}>
           {children}
         </TooltipProvider>
+        <Toaster
+          position="bottom-right"
+          richColors
+          closeButton
+          toastOptions={{
+            duration: 3500,
+            style: {
+              fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
+            },
+          }}
+        />
       </body>
     </html>
   );

@@ -160,13 +160,51 @@ export const READING_MODES: Record<ReadingMode, ReadingModeMeta> = {
 export interface AIModelOption {
   id: string;
   label: string;
-  provider: 'OpenAI' | 'Anthropic' | 'Google';
+  provider: "OpenRouter" | "NVIDIA" | "Cohere" | "OpenAI" | "Anthropic";
+  isFree: boolean;
+  badge?: string;
+  description?: string;
 }
 
 export const AVAILABLE_MODELS: AIModelOption[] = [
-  { id: 'openai/gpt-4o-mini', label: 'ChatGPT 4o-mini', provider: 'OpenAI' },
-  { id: 'anthropic/claude-haiku-5.5', label: 'Claude Haiku 5.5', provider: 'Anthropic' },
-  { id: 'google/gemini-2.5-flash', label: 'Gemini 2.5 Flash', provider: 'Google' },
-  { id: 'anthropic/claude-sonnet-5.5', label: 'Claude Sonnet 5.5', provider: 'Anthropic' },
-  { id: 'openai/gpt-4o-2024-11-20', label: 'ChatGPT 4o', provider: 'OpenAI' },
+  {
+    id: "openrouter/free",
+    label: "OpenRouter Free Router",
+    provider: "OpenRouter",
+    isFree: true,
+    badge: "100% Free",
+    description: "Auto-routes to the best active free model on OpenRouter with zero token charges.",
+  },
+  {
+    id: "nvidia/nemotron-3.5-lightning:free",
+    label: "Nemotron 3.5 Lightning",
+    provider: "NVIDIA",
+    isFree: true,
+    badge: "Fast & Free",
+    description: "High-throughput NVIDIA inference model with full free quota.",
+  },
+  {
+    id: "cohere/north-mini-code:free",
+    label: "Cohere North Mini",
+    provider: "Cohere",
+    isFree: true,
+    badge: "Free Quota",
+    description: "Efficient structured reasoning model with free tier accessibility.",
+  },
+  {
+    id: "openai/gpt-4o-mini",
+    label: "ChatGPT 4o-mini",
+    provider: "OpenAI",
+    isFree: false,
+    badge: "Fast & Precise",
+    description: "Ultra-fast OpenAI model with strict structured schema fidelity.",
+  },
+  {
+    id: "anthropic/claude-haiku-5.5",
+    label: "Claude Haiku 5.5",
+    provider: "Anthropic",
+    isFree: false,
+    badge: "Editorial Quality",
+    description: "Anthropic fast editorial model with nuanced readability and tone.",
+  },
 ];

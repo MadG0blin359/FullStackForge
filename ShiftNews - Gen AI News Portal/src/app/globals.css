@@ -235,13 +235,50 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
+
+  /* Optical sizing & tracking per Apple Typography guidelines */
+  h1, h2, h3, h4 {
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Mobile native: Prevent unwanted iOS auto-zoom on form inputs */
+  @media (max-width: 640px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+  }
+}
+
+/* ── Emil Kowalski Pressable Interaction Utility ── */
+.pressable {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* ── Apple Translucent Glass Chrome ── */
+.glass-chrome {
+  background: color-mix(in oklch, var(--background) 82%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 /* ── Prose measure for article text ── */

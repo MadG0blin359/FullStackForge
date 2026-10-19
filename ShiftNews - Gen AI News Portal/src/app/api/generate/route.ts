@@ -8,6 +8,99 @@ import { ReadingMode } from "@/lib/types";
 
 export const maxDuration = 45;
 
+// Normalize shorthand JSON formats returned by diverse LLMs
+function normalizeBlock(raw: any, defaultParagraphId: string): any {
+  if (!raw || typeof raw !== "object") return raw;
+
+  const normalizeSourceRefs = (refs: any): { paragraphId: string }[] => {
+    if (!Array.isArray(refs) || refs.length === 0) {
+      return [{ paragraphId: defaultParagraphId }];
+    }
+    return refs.map((ref) => {
+      if (typeof ref === "string") return { paragraphId: ref };
+      if (ref && typeof ref === "object" && typeof ref.paragraphId === "string") {
+        return { paragraphId: ref.paragraphId };
+      }
+      return { paragraphId: defaultParagraphId };
+    });
+  };
+
+  const block = { ...raw };
+
+  if ("sourceRefs" in block) {
+    block.sourceRefs = normalizeSourceRefs(block.sourceRefs);
+  }
+
+  // Key facts normalization
+  if (block.type === "key-facts" && Array.isArray(block.facts)) {
+    block.facts = block.facts.map((f: any) => {
+      if (typeof f === "string") {
+        return { text: f, sourceRefs: [{ paragraphId: defaultParagraphId }] };
+      }
+      if (f && typeof f === "object") {
+        return {
+          text: String(f.text || f.fact || "Key fact"),
+          sourceRefs: normalizeSourceRefs(f.sourceRefs),
+        };
+      }
+      return { text: "Key fact", sourceRefs: [{ paragraphId: defaultParagraphId }] };
+    });
+  }
+
+  // Comparison normalization
+  if (block.type === "comparison") {
+    if (!block.sideA || typeof block.sideA !== "object") {
+      block.sideA = { label: "Perspective A", points: [] };
+    }
+    if (!block.sideB || typeof block.sideB !== "object") {
+      block.sideB = { label: "Perspective B", points: [] };
+    }
+    if (Array.isArray(block.sideA.points)) {
+      block.sideA.points = block.sideA.points.map((p: any) => {
+        if (typeof p === "string") {
+          return { text: p, sourceRefs: [{ paragraphId: defaultParagraphId }] };
+        }
+        return {
+          text: String(p?.text || p?.point || "Perspective point"),
+          sourceRefs: normalizeSourceRefs(p?.sourceRefs),
+        };
+      });
+    }
+    if (Array.isArray(block.sideB.points)) {
+      block.sideB.points = block.sideB.points.map((p: any) => {
+        if (typeof p === "string") {
+          return { text: p, sourceRefs: [{ paragraphId: defaultParagraphId }] };
+        }
+        return {
+          text: String(p?.text || p?.point || "Counterpoint"),
+          sourceRefs: normalizeSourceRefs(p?.sourceRefs),
+        };
+      });
+    }
+  }
+
+  // Timeline normalization
+  if (block.type === "timeline" && Array.isArray(block.events)) {
+    block.events = block.events.map((e: any) => ({
+      date: String(e.date || "Recent"),
+      label: String(e.label || e.title || "Milestone"),
+      description: String(e.description || e.text || ""),
+      sourceRefs: normalizeSourceRefs(e.sourceRefs),
+    }));
+  }
+
+  // Glossary normalization
+  if (block.type === "glossary" && Array.isArray(block.terms)) {
+    block.terms = block.terms.map((t: any) => ({
+      term: String(t.term || t.word || "Term"),
+      definition: String(t.definition || t.desc || "Definition"),
+      sourceRefs: normalizeSourceRefs(t.sourceRefs),
+    }));
+  }
+
+  return block;
+}
+
 export async function POST(req: NextRequest) {
   let requestBody: {
     storySlug?: string;
@@ -30,7 +123,7 @@ export async function POST(req: NextRequest) {
   } = requestBody;
 
   const effectiveMode = (mode as ReadingMode) || "brief";
-  const fallback = getLayout(storySlug, effectiveMode);
+  const deterministicFallback = getLayout(storySlug, effectiveMode);
 
   try {
     const story = getStoryBySlug(storySlug);
@@ -38,20 +131,37 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Story not found" }, { status: 404 });
     }
 
+    const defaultParagraphId = story.paragraphs[0]?.id || "p1";
     const apiKey = process.env.OPENROUTER_API_KEY;
 
-    // If no API key configured, use deterministic fallback
+    // If no API key configured, return catalog fallback
     if (!apiKey || apiKey === "your_api_key_here") {
       return NextResponse.json({
-        layout: fallback,
+        layout: deterministicFallback,
         source: "fallback",
         model: "offline-catalog",
+        fallbackUsed: false,
       });
     }
 
-    const selectedModel = requestedModel || DEFAULT_MODEL;
+    // Build focused multi-model fallback chain
+    const initialModel = requestedModel || DEFAULT_MODEL;
+    const candidateModels: string[] = [initialModel];
 
-    // Build context with paragraph IDs
+    // Priority fallbacks (Free router -> Nemotron Free -> GPT-4o-mini)
+    const priorityFallbacks = [
+      "openrouter/free",
+      "nvidia/nemotron-3.5-lightning:free",
+      "openai/gpt-4o-mini",
+    ];
+
+    for (const m of priorityFallbacks) {
+      if (!candidateModels.includes(m)) {
+        candidateModels.push(m);
+      }
+    }
+
+    // Paragraphs context
     const paragraphsContext = story.paragraphs
       .map((p) => `[Paragraph ID: "${p.id}"]\n${p.text}`)
       .join("\n\n");
@@ -82,7 +192,7 @@ CATALOG OF VETTED BLOCKS:
 8. "section": { "type": "section", "title": string, "content": string, "sourceRefs": [{"paragraphId": string}] }
 
 CRITICAL ACCREDITATION & TRUST RULE:
-Every fact, point, quote, and summary MUST include at least one "sourceRefs" containing the exact "paragraphId" from the text above (e.g. {"paragraphId": "${story.paragraphs[0]?.id || "p1"}"}).
+Every fact, point, quote, and summary MUST include at least one "sourceRefs" containing the exact "paragraphId" from the text above (e.g. {"paragraphId": "${defaultParagraphId}"}).
 Do NOT invent paragraph IDs. Only cite the real paragraph IDs provided in the article.
 
 CONCISENESS GUIDELINE:
@@ -108,42 +218,74 @@ ${userInstructions}
 
 OUTPUT: Return only the JSON object.`;
 
-    const res = await generateText({
-      model: openrouter.chat(selectedModel),
-      system: systemPrompt,
-      prompt,
-      maxOutputTokens: 4000,
-      temperature: 0.2,
-    });
+    let lastError: Error | null = null;
 
-    const jsonMatch = res.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error("No JSON found in model response");
+    for (const currentModel of candidateModels) {
+      try {
+        const res = await generateText({
+          model: openrouter.chat(currentModel),
+          system: systemPrompt,
+          prompt,
+          maxOutputTokens: 2500,
+          temperature: 0.2,
+          abortSignal: AbortSignal.timeout(12000),
+        });
+
+        const jsonMatch = res.text.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) {
+          throw new Error(`Model ${currentModel} returned non-JSON text output`);
+        }
+
+        const rawParsed = JSON.parse(jsonMatch[0]);
+        rawParsed.storySlug = storySlug;
+        rawParsed.mode = effectiveMode;
+        if (!rawParsed.generatedAt) {
+          rawParsed.generatedAt = new Date().toISOString();
+        }
+
+        // Normalize blocks before schema validation
+        if (Array.isArray(rawParsed.blocks)) {
+          rawParsed.blocks = rawParsed.blocks.map((b: any) =>
+            normalizeBlock(b, defaultParagraphId)
+          );
+        }
+
+        const validatedLayout = GeneratedLayoutSchema.parse(rawParsed);
+
+        return NextResponse.json({
+          layout: validatedLayout,
+          source: "openrouter",
+          model: currentModel,
+          requestedModel: initialModel,
+          fallbackUsed: currentModel !== initialModel,
+        });
+      } catch (err) {
+        lastError = err as Error;
+        console.warn(
+          `[ShiftNews AI] Model '${currentModel}' failed: ${lastError.message}. Cascading to next candidate...`
+        );
+      }
     }
 
-    const rawParsed = JSON.parse(jsonMatch[0]);
-    // Ensure storySlug and mode are set properly
-    rawParsed.storySlug = storySlug;
-    rawParsed.mode = effectiveMode;
-    if (!rawParsed.generatedAt) {
-      rawParsed.generatedAt = new Date().toISOString();
-    }
-
-    const validatedLayout = GeneratedLayoutSchema.parse(rawParsed);
-
+    // If all models in the cascade failed, gracefully return deterministic fallback
+    console.error("[ShiftNews AI] All OpenRouter cascade models exhausted, using deterministic catalog fallback:", lastError);
     return NextResponse.json({
-      layout: validatedLayout,
-      source: "openrouter",
-      model: selectedModel,
+      layout: deterministicFallback,
+      source: "fallback",
+      model: "offline-catalog",
+      error: lastError?.message || "Model cascade exhausted",
+      fallbackUsed: true,
     });
   } catch (error: unknown) {
     const err = error as Error;
-    console.error("OpenRouter generation error, falling back to deterministic layout:", err);
+    console.error("OpenRouter catastrophic error, falling back to deterministic layout:", err);
 
     return NextResponse.json({
-      layout: fallback,
+      layout: deterministicFallback,
       source: "fallback",
+      model: "offline-catalog",
       error: err.message,
+      fallbackUsed: true,
     });
   }
 }

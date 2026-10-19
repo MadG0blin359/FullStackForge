@@ -1,10 +1,27 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  ArrowLeft,
+  Sparkles,
+  ChevronDown,
+  ChevronUp,
+  ShieldCheck,
+  Share2,
+  Clock,
+  BookOpen,
+  Scale,
+} from "lucide-react";
 import { motion } from "motion/react";
-import { Story, ReadingMode, GeneratedLayout, READING_MODES, AVAILABLE_MODELS } from "@/lib/types";
+import { toast } from "sonner";
+import {
+  Story,
+  ReadingMode,
+  GeneratedLayout,
+  READING_MODES,
+  AVAILABLE_MODELS,
+} from "@/lib/types";
 import { getLayout } from "@/data/layouts";
 import { formatDate, readingTime, cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +36,13 @@ interface StoryReaderProps {
   story: Story;
 }
 
+const DOCK_ICONS: Record<ReadingMode, React.ComponentType<{ className?: string }>> = {
+  brief: Clock,
+  explainer: BookOpen,
+  comparison: Scale,
+  calm: Sparkles,
+};
+
 export function StoryReader({ story }: StoryReaderProps) {
   const [currentMode, setCurrentMode] = useState<ReadingMode | null>(null);
   const [layout, setLayout] = useState<GeneratedLayout | null>(null);
@@ -28,6 +52,9 @@ export function StoryReader({ story }: StoryReaderProps) {
   const [showOriginalText, setShowOriginalText] = useState(false);
   const [activeModel, setActiveModel] = useState<string>(AVAILABLE_MODELS[0].id);
   const [generationSource, setGenerationSource] = useState<"openrouter" | "catalog">("catalog");
+  const [fallbackUsed, setFallbackUsed] = useState(false);
+  const [readProgress, setReadProgress] = useState(0);
+  const [showFloatingDock, setShowFloatingDock] = useState(false);
 
   // Accessibility state
   const [settings, setSettings] = useState<AccessibilitySettings>({
@@ -42,6 +69,19 @@ export function StoryReader({ story }: StoryReaderProps) {
   const paragraphRefs = useRef<Map<string, HTMLElement>>(new Map());
   const articleContentRef = useRef<HTMLDivElement>(null);
 
+  // Reading progress and floating dock visibility tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setReadProgress(Math.min(1, Math.max(0, window.scrollY / totalHeight)));
+      }
+      setShowFloatingDock(window.scrollY > 480);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Function to register paragraph DOM nodes
   const registerParagraphRef = useCallback((id: string) => (el: HTMLElement | null) => {
     if (el) {
@@ -51,11 +91,18 @@ export function StoryReader({ story }: StoryReaderProps) {
     }
   }, []);
 
-  // Jump to & highlight source paragraph
+  // Jump to & highlight source paragraph with fluid animation and Sonner toast
   const handleSourceClick = useCallback((paragraphId: string) => {
-    // If in generated mode and original text is collapsed, expand it
     setShowOriginalText(true);
     setHighlightedParagraphId(paragraphId);
+
+    const match = paragraphId.match(/p(\d+)$/i);
+    const paraNum = match ? match[1] : paragraphId;
+
+    toast.info(`Source Citation: Paragraph ${paraNum}`, {
+      description: "Grounded directly in original journalistic reporting.",
+      duration: 2500,
+    });
 
     setTimeout(() => {
       const el = paragraphRefs.current.get(paragraphId);
@@ -71,6 +118,23 @@ export function StoryReader({ story }: StoryReaderProps) {
     }, 3200);
   }, [settings.reduceMotion]);
 
+  // Share or copy link with Sonner toast
+  const handleShare = async () => {
+    try {
+      if (typeof window !== "undefined") {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Link copied to clipboard!", {
+          description: currentMode
+            ? `Shared active ${READING_MODES[currentMode].badge} mode.`
+            : "Shared full editorial dispatch.",
+          duration: 2500,
+        });
+      }
+    } catch {
+      toast.error("Failed to copy link to clipboard.");
+    }
+  };
+
   // Mode selection & live OpenRouter generation
   const handleSelectMode = async (
     newMode: ReadingMode | null,
@@ -82,6 +146,8 @@ export function StoryReader({ story }: StoryReaderProps) {
       setLayout(null);
       setIsGenerating(false);
       setStreamedBlockCount(0);
+      setFallbackUsed(false);
+      toast("Restored full editorial dispatch", { duration: 1800 });
       return;
     }
 
@@ -90,6 +156,9 @@ export function StoryReader({ story }: StoryReaderProps) {
     setIsGenerating(true);
     setStreamedBlockCount(0);
     setCurrentMode(newMode);
+    setFallbackUsed(false);
+
+    const toastId = toast.loading(`Reshaping layout into ${READING_MODES[newMode].badge}...`);
 
     try {
       const res = await fetch("/api/generate", {
@@ -114,11 +183,33 @@ export function StoryReader({ story }: StoryReaderProps) {
         throw new Error("Empty layout returned");
       }
 
-      setGenerationSource(data.source === "openrouter" ? "openrouter" : "catalog");
+      const isLiveAI = data.source === "openrouter";
+      setGenerationSource(isLiveAI ? "openrouter" : "catalog");
+      setFallbackUsed(Boolean(data.fallbackUsed));
+      if (data.model) {
+        setActiveModel(data.model);
+      }
+
       setLayout(targetLayout);
       setIsGenerating(false);
 
-      // Stream cascade of blocks
+      if (data.fallbackUsed) {
+        toast.warning(`Reshaped into ${READING_MODES[newMode].badge}`, {
+          id: toastId,
+          description: `Cascaded seamlessly to ${data.model?.split("/").pop() || "catalog"} fallback.`,
+          duration: 3000,
+        });
+      } else {
+        toast.success(`Reshaped into ${READING_MODES[newMode].badge}`, {
+          id: toastId,
+          description: isLiveAI
+            ? `Synthesized live via ${data.model?.split("/").pop() || "OpenRouter"}.`
+            : "Loaded verified component catalog.",
+          duration: 3000,
+        });
+      }
+
+      // Stagger stream cascade of blocks (70ms interval per Emil Kowalski stagger rule)
       const totalBlocks = targetLayout.blocks.length;
       let count = 1;
       setStreamedBlockCount(1);
@@ -128,16 +219,22 @@ export function StoryReader({ story }: StoryReaderProps) {
         if (count >= totalBlocks) {
           clearInterval(interval);
         }
-      }, 100);
+      }, 70);
     } catch (err) {
       console.warn("Live generation error, using catalog fallback:", err);
       const fallbackLayout = getLayout(story.slug, newMode);
       setGenerationSource("catalog");
+      setFallbackUsed(true);
       setLayout(fallbackLayout || null);
       setIsGenerating(false);
       if (fallbackLayout) {
         setStreamedBlockCount(fallbackLayout.blocks.length);
       }
+      toast.warning(`Reshaped into ${READING_MODES[newMode].badge}`, {
+        id: toastId,
+        description: "Zero downtime fail-safe activated.",
+        duration: 3000,
+      });
     }
   };
 
@@ -162,25 +259,37 @@ export function StoryReader({ story }: StoryReaderProps) {
     }
   };
 
+  const activeModelMeta = AVAILABLE_MODELS.find((m) => m.id === activeModel);
+
   return (
     <div
       data-mode={currentMode === "calm" ? "calm" : undefined}
       className={cn(
-        "min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 relative",
+        "min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 relative selection:bg-primary/20",
         currentMode === "calm" && "selection:bg-amber-100 dark:selection:bg-amber-950"
       )}
     >
+      {/* Editorial Reading Progress Bar (Hardware Accelerated ScaleX) */}
+      <div
+        className="fixed top-0 left-0 right-0 h-[2.5px] bg-primary z-[60] origin-left pointer-events-none"
+        style={{
+          transform: `scaleX(${readProgress})`,
+          transition: settings.reduceMotion ? "none" : "transform 100ms cubic-bezier(0.23,1,0.32,1)",
+        }}
+        aria-hidden="true"
+      />
+
       <Header />
 
-      <main id="main-content" className="flex-1 pb-24">
+      <main id="main-content" className="flex-1 pb-28">
         <article className="prose-measure mx-auto px-4 sm:px-6 pt-10">
           {/* Back button & Category */}
           <div className="flex items-center justify-between gap-3 mb-8">
             <Link
               href="/"
-              className="group inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted/30 px-3.5 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted/30 px-3.5 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-[transform,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97]"
             >
-              <div className="flex h-4 w-4 items-center justify-center rounded-full bg-foreground/10 group-hover:-translate-x-0.5 transition-transform">
+              <div className="flex h-4 w-4 items-center justify-center rounded-full bg-foreground/10 group-hover:-translate-x-0.5 transition-transform duration-160">
                 <ArrowLeft className="h-2.5 w-2.5" />
               </div>
               <span>Back to Dispatch</span>
@@ -189,7 +298,7 @@ export function StoryReader({ story }: StoryReaderProps) {
             <Badge
               variant="outline"
               className={cn(
-                "rounded-full text-[11px] font-semibold tracking-wide px-3 py-1 shadow-2xs",
+                "rounded-full text-[11px] font-semibold tracking-wide px-3 py-1 shadow-2xs select-none",
                 story.category === "Technology" && "border-blue-500/40 text-blue-600 dark:text-blue-400 bg-blue-500/5",
                 story.category === "Local" && "border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5",
                 story.category === "World" && "border-purple-500/40 text-purple-600 dark:text-purple-400 bg-purple-500/5"
@@ -220,6 +329,15 @@ export function StoryReader({ story }: StoryReaderProps) {
 
               {/* Action Toolbar */}
               <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background/80 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all select-none cursor-pointer pressable"
+                  title="Share or copy story link"
+                >
+                  <Share2 className="h-3.5 w-3.5 text-primary" />
+                  <span>Share</span>
+                </button>
                 <AudioReader story={story} layout={layout} mode={currentMode} />
                 <TrustDrawer
                   story={story}
@@ -235,33 +353,35 @@ export function StoryReader({ story }: StoryReaderProps) {
             </div>
           </header>
 
-          {/* Generative UI Intent Picker */}
+          {/* Generative UI Intent Picker with Free & Fallback Models */}
           <IntentPicker
             currentMode={currentMode}
             onSelectMode={handleSelectMode}
             isGenerating={isGenerating}
+            activeModelName={activeModel}
+            fallbackUsed={fallbackUsed}
           />
 
           {/* Dynamic Content View Area */}
           <div ref={articleContentRef} className="space-y-7 pt-2">
             {/* Live generation loading skeleton */}
             {isGenerating && (
-              <div className="space-y-4 animate-in fade-in duration-300">
+              <div className="space-y-4 animate-in fade-in duration-200">
                 <div className="flex items-center gap-2 text-xs font-mono text-primary font-medium">
-                  <Sparkles className="h-4 w-4 animate-spin" />
-                  <span>Synthesizing custom layout blocks...</span>
+                  <Sparkles className="h-4 w-4 animate-spin text-primary" />
+                  <span>Synthesizing vetted layout blocks via OpenRouter...</span>
                 </div>
                 <BlockSkeleton />
                 <BlockSkeleton />
               </div>
             )}
 
-            {/* Generated Layout View */}
+            {/* Generated Layout View (Hardware-accelerated Emil Kowalski entry) */}
             {!isGenerating && layout && (
               <motion.div
-                initial={settings.reduceMotion ? false : { opacity: 0, transform: "translateY(12px) scale(0.98)" }}
+                initial={settings.reduceMotion ? false : { opacity: 0, transform: "translateY(8px) scale(0.985)" }}
                 animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
-                transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+                transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
                 className="space-y-7"
               >
                 {/* Mode active banner */}
@@ -274,14 +394,20 @@ export function StoryReader({ story }: StoryReaderProps) {
                     <span className="text-muted-foreground" aria-hidden="true">·</span>
                     <span className="font-mono text-xs text-primary font-medium">
                       {generationSource === "openrouter"
-                        ? `Live AI: ${activeModel.split("/").pop()}`
+                        ? `Live AI: ${activeModelMeta ? activeModelMeta.label : activeModel.split("/").pop()} ${activeModelMeta?.isFree ? "(Free)" : ""}`
                         : "Deterministic Catalog"}
                     </span>
+                    {fallbackUsed && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-mono font-medium text-amber-700 dark:text-amber-400 border border-amber-500/20">
+                        <ShieldCheck className="h-2.5 w-2.5" />
+                        <span>Auto-Fallback Active</span>
+                      </span>
+                    )}
                   </div>
                   <button
                     type="button"
                     onClick={() => handleSelectMode(null)}
-                    className="font-mono text-primary hover:underline cursor-pointer active:scale-[0.97]"
+                    className="font-mono text-primary hover:underline cursor-pointer active:scale-[0.97] transition-transform duration-150"
                   >
                     Reset to original story
                   </button>
@@ -296,9 +422,9 @@ export function StoryReader({ story }: StoryReaderProps) {
                     return (
                       <motion.div
                         key={index}
-                        initial={settings.reduceMotion ? false : { opacity: 0, transform: "translateY(10px) scale(0.98)" }}
+                        initial={settings.reduceMotion ? false : { opacity: 0, transform: "translateY(8px) scale(0.985)" }}
                         animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
-                        transition={{ duration: 0.22, delay: index * 0.04, ease: [0.23, 1, 0.32, 1] }}
+                        transition={{ duration: 0.2, delay: index * 0.03, ease: [0.23, 1, 0.32, 1] }}
                       >
                         <BlockRenderer
                           block={block}
@@ -331,7 +457,7 @@ export function StoryReader({ story }: StoryReaderProps) {
                     <button
                       type="button"
                       onClick={() => setShowOriginalText(!showOriginalText)}
-                      className="w-full flex items-center justify-between p-4 rounded-2xl border border-border/60 bg-muted/20 hover:bg-muted/40 transition-all text-xs font-semibold text-muted-foreground hover:text-foreground cursor-pointer active:scale-[0.99]"
+                      className="w-full flex items-center justify-between p-4 rounded-2xl border border-border/60 bg-muted/20 hover:bg-muted/40 transition-[background-color,border-color] duration-160 text-xs font-semibold text-muted-foreground hover:text-foreground cursor-pointer active:scale-[0.99]"
                     >
                       <span className="font-mono uppercase tracking-wider">
                         Full Original Reporting ({story.paragraphs.length} Paragraphs)
@@ -359,14 +485,14 @@ export function StoryReader({ story }: StoryReaderProps) {
                           id={`paragraph-${para.id}`}
                           tabIndex={-1}
                           className={cn(
-                            "group flex items-start gap-4 transition-all duration-300 rounded-2xl p-4 sm:p-5",
+                            "group flex items-start gap-4 rounded-2xl p-4 sm:p-5 transition-[background-color,box-shadow] duration-250",
                             isHighlighted
                               ? "bg-primary/10 ring-2 ring-primary ring-offset-4 ring-offset-background shadow-sm"
                               : "hover:bg-muted/20"
                           )}
                         >
                           <span
-                            className="mt-0.5 inline-flex h-6 min-w-8 shrink-0 items-center justify-center rounded-md bg-muted/60 border border-border/50 font-mono text-xs font-bold text-muted-foreground select-none group-hover:text-primary group-hover:border-primary/40 group-hover:bg-primary/10 transition-colors"
+                            className="mt-0.5 inline-flex h-6 min-w-8 shrink-0 items-center justify-center rounded-md bg-muted/60 border border-border/50 font-mono text-xs font-bold text-muted-foreground select-none group-hover:text-primary group-hover:border-primary/40 group-hover:bg-primary/10 transition-colors duration-160"
                             aria-hidden="true"
                           >
                             ¶{paragraphNumber}
@@ -384,6 +510,48 @@ export function StoryReader({ story }: StoryReaderProps) {
           </div>
         </article>
       </main>
+
+      {/* Floating Intent Quick Dock (Appears when scrolled down) */}
+      {showFloatingDock && (
+        <div
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-[94vw] overflow-x-auto rounded-full border border-border/80 bg-background/90 backdrop-blur-xl px-2 py-1.5 shadow-2xl flex items-center gap-1.5 transition-all duration-200 animate-in fade-in slide-in-from-bottom-3"
+          role="navigation"
+          aria-label="Floating quick intent switcher"
+        >
+          <button
+            type="button"
+            onClick={() => handleSelectMode(null)}
+            className={cn(
+              "px-3 py-1 rounded-full text-xs font-mono font-medium transition-colors pressable whitespace-nowrap cursor-pointer",
+              currentMode === null
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+            )}
+          >
+            Full Story
+          </button>
+          {(Object.keys(READING_MODES) as ReadingMode[]).map((mKey) => {
+            const Icon = DOCK_ICONS[mKey];
+            const isSelected = currentMode === mKey;
+            return (
+              <button
+                key={mKey}
+                type="button"
+                onClick={() => handleSelectMode(mKey)}
+                className={cn(
+                  "px-3 py-1 rounded-full text-xs font-mono font-medium transition-colors pressable flex items-center gap-1.5 whitespace-nowrap cursor-pointer",
+                  isSelected
+                    ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                )}
+              >
+                <Icon className="h-3 w-3" />
+                <span>{READING_MODES[mKey].badge}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <Footer />
     </div>

@@ -48,8 +48,8 @@ export function GlossaryBlockComponent({
               key={index}
               onClick={() => setActiveTermIndex(isSelected ? null : index)}
               className={cn(
-                "rounded-xl border transition-all duration-200 p-4 cursor-pointer select-none",
-                "active:scale-[0.99]",
+                "rounded-xl border p-4 cursor-pointer select-none",
+                "transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.985]",
                 isSelected
                   ? "border-amber-500/40 bg-amber-500/[0.04] shadow-xs"
                   : "border-border/60 bg-muted/20 hover:border-border hover:bg-muted/40"
@@ -72,8 +72,8 @@ export function GlossaryBlockComponent({
                   />
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 text-muted-foreground transition-transform duration-200",
-                      isSelected && "rotate-180"
+                      "h-4 w-4 text-muted-foreground transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+                      isSelected && "rotate-180 text-foreground"
                     )}
                   />
                 </div>
