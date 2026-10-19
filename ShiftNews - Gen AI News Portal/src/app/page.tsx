@@ -18,11 +18,40 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const CATEGORIES = ["All Dispatches", "Technology", "Local", "World"];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.07,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 12, scale: 0.99 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.26,
+      ease: [0.23, 1, 0.32, 1] as const,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -6,
+    scale: 0.99,
+    transition: { duration: 0.15 },
+  },
+};
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("All Dispatches");
@@ -106,7 +135,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 pt-2">
             <Link
               href={`/story/${heroStory.slug}`}
-              className="group rounded-2xl border border-blue-500/20 bg-card/90 hover:border-blue-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+              className="group rounded-2xl border border-blue-500/20 bg-card/90 hover:border-blue-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div className="flex items-center justify-between">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-400">
@@ -128,7 +157,7 @@ export default function HomePage() {
 
             <Link
               href={`/story/${heroStory.slug}`}
-              className="group rounded-2xl border border-emerald-500/20 bg-card/90 hover:border-emerald-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+              className="group rounded-2xl border border-emerald-500/20 bg-card/90 hover:border-emerald-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div className="flex items-center justify-between">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
@@ -150,7 +179,7 @@ export default function HomePage() {
 
             <Link
               href={`/story/${heroStory.slug}`}
-              className="group rounded-2xl border border-purple-500/20 bg-card/90 hover:border-purple-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+              className="group rounded-2xl border border-purple-500/20 bg-card/90 hover:border-purple-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div className="flex items-center justify-between">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-400">
@@ -172,7 +201,7 @@ export default function HomePage() {
 
             <Link
               href={`/story/${heroStory.slug}`}
-              className="group rounded-2xl border border-amber-500/20 bg-card/90 hover:border-amber-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+              className="group rounded-2xl border border-amber-500/20 bg-card/90 hover:border-amber-500/50 hover:bg-card p-4 flex flex-col justify-between space-y-3 shadow-2xs select-none transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div className="flex items-center justify-between">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/10 text-amber-800 dark:text-amber-400">
@@ -267,10 +296,17 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <StoryCard story={heroStory} variant="hero" />
+              <motion.div
+                key={`hero-${heroStory.slug}`}
+                initial={{ opacity: 0, y: 10, scale: 0.995 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+              >
+                <StoryCard story={heroStory} variant="hero" />
+              </motion.div>
             </section>
 
-            {/* Secondary Stories Grid */}
+            {/* Secondary Stories Grid with Staggered Cascading */}
             {secondaryStories.length > 0 && (
               <section
                 className="mx-auto max-w-5xl px-4 sm:px-6 pt-2 pb-20"
@@ -283,11 +319,22 @@ export default function HomePage() {
                   </h2>
                 </div>
 
-                <div className="grid gap-6 sm:grid-cols-2">
-                  {secondaryStories.map((story) => (
-                    <StoryCard key={story.slug} story={story} />
-                  ))}
-                </div>
+                <AnimatePresence mode="popLayout">
+                  <motion.div
+                    key={`${selectedCategory}-${searchQuery}`}
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    className="grid gap-6 sm:grid-cols-2"
+                  >
+                    {secondaryStories.map((story) => (
+                      <motion.div key={story.slug} variants={itemVariants}>
+                        <StoryCard story={story} />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
               </section>
             )}
           </>

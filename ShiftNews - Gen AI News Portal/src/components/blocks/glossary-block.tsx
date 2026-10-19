@@ -67,10 +67,20 @@ export function GlossaryBlockComponent({
           return (
             <div
               key={index}
+              role="button"
+              tabIndex={0}
+              aria-expanded={isSelected}
               onClick={() => setActiveTermIndex(isSelected ? null : index)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActiveTermIndex(isSelected ? null : index);
+                }
+              }}
               className={cn(
                 "rounded-xl border p-4 cursor-pointer select-none",
                 "transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.985]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-1",
                 isSelected
                   ? "border-amber-500/40 bg-amber-500/[0.04] shadow-xs"
                   : "border-border/60 bg-muted/20 hover:border-border hover:bg-muted/40"

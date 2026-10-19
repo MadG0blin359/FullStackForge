@@ -31,10 +31,10 @@ export function KeyFactsBlockComponent({
         {block.facts.map((fact, index) => (
           <li
             key={index}
-            className="group flex items-start justify-between gap-4 p-3.5 rounded-xl border border-border/40 bg-muted/20 hover:bg-muted/40 transition-colors"
+            className="group flex items-start justify-between gap-4 p-3.5 rounded-xl border border-border/40 bg-muted/20 hover:bg-muted/40 hover:border-blue-500/30 transition-[background-color,border-color,transform] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5"
           >
             <div className="flex items-start gap-3.5 flex-1">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-mono font-bold text-primary">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-mono font-bold text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-160">
                 {index + 1}
               </span>
               <span className="text-sm sm:text-base leading-relaxed text-foreground/90 font-normal">

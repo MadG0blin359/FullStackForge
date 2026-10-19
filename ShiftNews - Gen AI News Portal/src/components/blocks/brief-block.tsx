@@ -47,9 +47,9 @@ export function BriefBlockComponent({ block, onSourceClick }: BriefBlockProps) {
 
       {/* What Changed Strip */}
       {block.whatChanged && (
-        <div className="rounded-xl border border-blue-500/25 bg-blue-500/[0.04] p-4 transition-colors">
+        <div className="group/strip rounded-xl border border-blue-500/25 bg-blue-500/[0.04] hover:bg-blue-500/[0.07] p-4 transition-[background-color,border-color] duration-160">
           <div className="flex items-start gap-3.5">
-            <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xs">
+            <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xs group-hover/strip:translate-x-0.5 transition-transform duration-160 ease-[cubic-bezier(0.23,1,0.32,1)]">
               <ArrowRight className="h-3 w-3" />
             </div>
             <div className="space-y-1">

@@ -15,6 +15,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { toast } from "sonner";
+import { motion } from "motion/react";
 import {
   Sheet,
   SheetContent,
@@ -176,7 +177,7 @@ export function Header() {
                     <div className="flex items-start gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span>
-                        <strong className="text-foreground">Free OpenRouter Cascade:</strong> Automatically falls back across Meta Llama 3.3 70B, Nvidia Nemotron, Cohere, and GPT-4o-mini with 0s catalog safety net.
+                        <strong className="text-foreground">Free OpenRouter Cascade:</strong> Automatically falls back across MiniMax M3.1 Flash, Liquid AI, NVIDIA Nemotron 120B, Cohere North Mini, and Poolside with 0s catalog safety net.
                       </span>
                     </div>
                   </div>
@@ -199,15 +200,23 @@ export function Header() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-card/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-[transform,colors] duration-150 pressable cursor-pointer shadow-2xs"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-card/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-[transform,colors] duration-150 pressable cursor-pointer shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 overflow-hidden"
             aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
             title={isDark ? "Switch to light theme" : "Switch to dark theme"}
           >
-            {isDark ? (
-              <Sun className="h-3.5 w-3.5 text-amber-400" />
-            ) : (
-              <Moon className="h-3.5 w-3.5 text-muted-foreground" />
-            )}
+            <motion.div
+              key={isDark ? "dark" : "light"}
+              initial={{ rotate: -90, scale: 0.7, opacity: 0 }}
+              animate={{ rotate: 0, scale: 1, opacity: 1 }}
+              exit={{ rotate: 90, scale: 0.7, opacity: 0 }}
+              transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+            >
+              {isDark ? (
+                <Sun className="h-3.5 w-3.5 text-amber-400" />
+              ) : (
+                <Moon className="h-3.5 w-3.5 text-muted-foreground" />
+              )}
+            </motion.div>
           </button>
 
           {/* Feed Link */}

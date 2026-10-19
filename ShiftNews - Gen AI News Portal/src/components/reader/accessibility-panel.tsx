@@ -109,7 +109,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ fontFamily: "sans" })}
-                className={`p-2.5 rounded-lg border text-xs text-center transition-all cursor-pointer font-sans ${
+                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-sans active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                   settings.fontFamily === "sans"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -120,7 +120,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ fontFamily: "serif" })}
-                className={`p-2.5 rounded-lg border text-xs text-center transition-all cursor-pointer font-serif ${
+                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-serif active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                   settings.fontFamily === "serif"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -131,7 +131,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ fontFamily: "accessible" })}
-                className={`p-2.5 rounded-lg border text-xs text-center transition-all cursor-pointer font-mono ${
+                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-mono active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                   settings.fontFamily === "accessible"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -157,7 +157,7 @@ export function AccessibilityPanel({
                   key={sz}
                   type="button"
                   onClick={() => update({ textSize: sz })}
-                  className={`py-2 px-3 rounded-lg border text-xs text-center uppercase font-mono transition-all cursor-pointer ${
+                  className={`py-2 px-3 rounded-lg border text-xs text-center uppercase font-mono transition-all duration-150 cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                     settings.textSize === sz
                       ? "border-primary bg-primary/10 font-bold text-foreground"
                       : "border-border/60 hover:bg-muted/40 text-muted-foreground"
@@ -180,7 +180,7 @@ export function AccessibilityPanel({
                   key={lh}
                   type="button"
                   onClick={() => update({ lineHeight: lh })}
-                  className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all cursor-pointer ${
+                  className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all duration-150 cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                     settings.lineHeight === lh
                       ? "border-primary bg-primary/10 font-bold text-foreground"
                       : "border-border/60 hover:bg-muted/40 text-muted-foreground"
@@ -201,7 +201,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ theme: "system" })}
-                className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all cursor-pointer ${
+                className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all duration-150 cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                   settings.theme === "system"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -212,7 +212,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ theme: "light" })}
-                className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
+                className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all duration-150 cursor-pointer inline-flex items-center justify-center gap-1.5 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                   settings.theme === "light"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -224,7 +224,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ theme: "dark" })}
-                className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
+                className={`py-2 px-2.5 rounded-lg border text-xs capitalize transition-all duration-150 cursor-pointer inline-flex items-center justify-center gap-1.5 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
                   settings.theme === "dark"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"

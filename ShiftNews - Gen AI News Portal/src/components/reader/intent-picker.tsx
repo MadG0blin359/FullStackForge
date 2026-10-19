@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "motion/react";
 import { ReadingMode, READING_MODES, AVAILABLE_MODELS } from "@/lib/types";
 import { Sparkles, Clock, BookOpen, Scale, ArrowRight, FileText, Cpu, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -146,21 +147,30 @@ export function IntentPicker({
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5"
       >
         {/* Full Story Default Card */}
-        <button
+        <motion.button
           type="button"
           role="radio"
           aria-checked={currentMode === null}
           disabled={isGenerating}
           onClick={() => onSelectMode(null)}
+          whileHover={{ y: -1 }}
+          whileTap={{ scale: 0.985 }}
           className={cn(
             "group relative flex items-start gap-3.5 p-4 rounded-xl border text-left select-none cursor-pointer",
-            "transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+            "transition-colors duration-150",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
             currentMode === null
-              ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/30 shadow-xs"
+              ? "border-primary bg-primary/5 text-foreground shadow-xs"
               : "border-border/60 bg-muted/20 hover:border-border hover:bg-muted/40 text-muted-foreground hover:text-foreground"
           )}
         >
+          {currentMode === null && (
+            <motion.div
+              layoutId="intent-picker-active-card-pill"
+              className="absolute inset-0 rounded-xl border-2 border-primary bg-primary/[0.04] pointer-events-none"
+              transition={{ type: "spring", stiffness: 450, damping: 35 }}
+            />
+          )}
           <div
             className={cn(
               "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background border transition-colors mt-0.5",
@@ -184,7 +194,7 @@ export function IntentPicker({
               Standard editorial dispatch with complete reporting.
             </p>
           </div>
-        </button>
+        </motion.button>
 
         {/* 4 Generated Reading Modes */}
         {(Object.keys(READING_MODES) as ReadingMode[]).map((modeKey) => {
@@ -193,22 +203,31 @@ export function IntentPicker({
           const isSelected = currentMode === modeKey;
 
           return (
-            <button
+            <motion.button
               key={modeKey}
               type="button"
               role="radio"
               aria-checked={isSelected}
               disabled={isGenerating}
               onClick={() => onSelectMode(modeKey, undefined, selectedModel)}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.985 }}
               className={cn(
                 "group relative flex items-start gap-3.5 p-4 rounded-xl border text-left select-none cursor-pointer",
-                "transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+                "transition-colors duration-150",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
                 isSelected
-                  ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/30 shadow-xs"
+                  ? "border-primary bg-primary/5 text-foreground shadow-xs"
                   : "border-border/60 bg-muted/20 hover:border-border hover:bg-muted/40 text-muted-foreground hover:text-foreground"
               )}
             >
+              {isSelected && (
+                <motion.div
+                  layoutId="intent-picker-active-card-pill"
+                  className="absolute inset-0 rounded-xl border-2 border-primary bg-primary/[0.04] pointer-events-none"
+                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                />
+              )}
               <div
                 className={cn(
                   "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background border transition-colors mt-0.5",
@@ -232,7 +251,7 @@ export function IntentPicker({
                   <span className="font-semibold text-foreground/90">{meta.badge}</span> · {meta.tagline}
                 </p>
               </div>
-            </button>
+            </motion.button>
           );
         })}
       </div>
