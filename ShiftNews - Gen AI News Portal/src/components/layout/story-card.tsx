@@ -110,7 +110,7 @@ export function StoryCard({ story, variant = "default" }: StoryCardProps) {
             {/* Title with full card link */}
             <Link
               href={`/story/${story.slug}`}
-              className="after:absolute after:inset-0 focus-visible:outline-none"
+              className="after:absolute after:inset-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
             >
               <h2
                 className={cn(

@@ -12,6 +12,7 @@ import {
   ThumbsUp,
   ThumbsDown,
   ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -88,7 +89,7 @@ export function HeroMorphWidget() {
               )}
               <span className="relative z-10 flex items-center gap-1.5">
                 <Clock className="h-3 w-3" />
-                <span>⚡ 2-Min Brief</span>
+                <span>2-Min Brief</span>
               </span>
             </button>
 
@@ -98,7 +99,7 @@ export function HeroMorphWidget() {
               aria-selected={activeTab === "debate"}
               onClick={() => setActiveTab("debate")}
               className={cn(
-                "relative px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer",
+                "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
                 activeTab === "debate" ? "text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -111,7 +112,7 @@ export function HeroMorphWidget() {
               )}
               <span className="relative z-10 flex items-center gap-1.5">
                 <Scale className="h-3 w-3" />
-                <span>⚖️ Dual Lens</span>
+                <span>Dual Lens</span>
               </span>
             </button>
           </div>
@@ -158,8 +159,9 @@ export function HeroMorphWidget() {
                 className="space-y-3.5"
               >
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <Badge variant="outline" className="border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5">
-                    ⚡ BriefBlock + KeyFactsBlock
+                  <Badge variant="outline" className="border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 inline-flex items-center gap-1.5">
+                    <Zap className="h-3 w-3" />
+                    <span>BriefBlock + KeyFactsBlock</span>
                   </Badge>
                   <span className="text-blue-600 dark:text-blue-400 font-semibold">
                     Read Time: 45 Seconds
@@ -211,8 +213,9 @@ export function HeroMorphWidget() {
                 className="space-y-3.5"
               >
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <Badge variant="outline" className="border-purple-500/30 text-purple-600 dark:text-purple-400 bg-purple-500/5">
-                    ⚖️ ComparisonBlock (Balanced Perspective)
+                  <Badge variant="outline" className="border-purple-500/30 text-purple-600 dark:text-purple-400 bg-purple-500/5 inline-flex items-center gap-1.5">
+                    <Scale className="h-3 w-3" />
+                    <span>ComparisonBlock (Balanced Perspective)</span>
                   </Badge>
                   <span className="text-purple-600 dark:text-purple-400 font-semibold">
                     Side-by-Side Balance: 50% / 50%

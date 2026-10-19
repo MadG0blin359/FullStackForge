@@ -18,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -202,22 +203,35 @@ export default function HomePage() {
         <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-6">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-y border-border/40 py-3">
             {/* Category Pills */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat)}
-                  className={cn(
-                    "rounded-full px-3 py-1 text-xs font-medium transition-[background-color,color] duration-150 pressable select-none cursor-pointer whitespace-nowrap",
-                    selectedCategory === cat
-                      ? "bg-primary text-primary-foreground font-semibold shadow-2xs"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                  )}
-                >
-                  {cat}
-                </button>
-              ))}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" role="tablist" aria-label="News categories">
+              {CATEGORIES.map((cat) => {
+                const isSelected = selectedCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelected}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={cn(
+                      "relative rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors select-none cursor-pointer whitespace-nowrap",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
+                      isSelected
+                        ? "text-primary-foreground font-semibold"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                    )}
+                  >
+                    {isSelected && (
+                      <motion.div
+                        layoutId="category-active-pill"
+                        className="absolute inset-0 rounded-full bg-primary shadow-xs"
+                        transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                      />
+                    )}
+                    <span className="relative z-10">{cat}</span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Quick Search */}

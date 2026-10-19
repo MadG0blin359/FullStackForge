@@ -233,7 +233,7 @@ export function StoryReader({ story }: StoryReaderProps) {
       const isLiveAI = data.source === "openrouter";
       setGenerationSource(isLiveAI ? "openrouter" : "catalog");
       setFallbackUsed(Boolean(data.fallbackUsed));
-      if (data.model) {
+      if (data.model && data.model !== "offline-catalog" && AVAILABLE_MODELS.some((m) => m.id === data.model)) {
         setActiveModel(data.model);
       }
 
@@ -579,6 +579,7 @@ export function StoryReader({ story }: StoryReaderProps) {
             onClick={() => handleSelectMode(null)}
             className={cn(
               "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable whitespace-nowrap cursor-pointer select-none",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
               currentMode === null
                 ? "text-primary-foreground font-semibold"
                 : "text-muted-foreground hover:text-foreground"
@@ -603,6 +604,7 @@ export function StoryReader({ story }: StoryReaderProps) {
                 onClick={() => handleSelectMode(mKey)}
                 className={cn(
                   "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable flex items-center gap-1.5 whitespace-nowrap cursor-pointer select-none",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
                   isSelected
                     ? "text-primary-foreground font-semibold"
                     : "text-muted-foreground hover:text-foreground"

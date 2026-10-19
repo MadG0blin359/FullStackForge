@@ -31,20 +31,35 @@ function normalizeBlock(raw: any, defaultParagraphId: string): any {
     block.sourceRefs = normalizeSourceRefs(block.sourceRefs);
   }
 
+  // Brief normalization
+  if (block.type === "brief") {
+    if (!block.title) block.title = "Executive Brief";
+    if (!block.summary) block.summary = block.content || block.description || "Executive overview of current reporting.";
+    if (!block.whatChanged) block.whatChanged = block.change || "Key architectural shift described in reporting.";
+  }
+
   // Key facts normalization
-  if (block.type === "key-facts" && Array.isArray(block.facts)) {
-    block.facts = block.facts.map((f: any) => {
+  if (block.type === "key-facts") {
+    if (!block.title) block.title = "Key Takeaways";
+    const rawFacts = Array.isArray(block.facts) ? block.facts : (Array.isArray(block.items) ? block.items : []);
+    block.facts = rawFacts.map((f: any) => {
       if (typeof f === "string") {
         return { text: f, sourceRefs: [{ paragraphId: defaultParagraphId }] };
       }
       if (f && typeof f === "object") {
+        const text = f.value
+          ? `${f.label ? f.label + ": " : ""}${f.value}`
+          : String(f.text || f.fact || f.label || "Key fact");
         return {
-          text: String(f.text || f.fact || "Key fact"),
+          text,
           sourceRefs: normalizeSourceRefs(f.sourceRefs),
         };
       }
       return { text: "Key fact", sourceRefs: [{ paragraphId: defaultParagraphId }] };
     });
+    if (block.facts.length === 0) {
+      block.facts = [{ text: "Key factual point established in story.", sourceRefs: [{ paragraphId: defaultParagraphId }] }];
+    }
   }
 
   // Comparison normalization
@@ -144,20 +159,25 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Build focused multi-model fallback chain
-    const initialModel = requestedModel || DEFAULT_MODEL;
-    const candidateModels: string[] = [initialModel];
+    // Build focused multi-model fallback chain from verified active free models
+    const validInitial = (requestedModel && requestedModel !== "offline-catalog" && requestedModel !== "fallback")
+      ? requestedModel
+      : DEFAULT_MODEL;
 
-    // Priority fallbacks (Strictly 100% Free OpenRouter Models)
-    const priorityFallbacks = [
-      "openrouter/free",
-      "meta-llama/llama-3.3-70b-instruct:free",
-      "nvidia/nemotron-3.5-lightning:free",
+    // Verified live OpenRouter free models, ordered by speed & availability
+    const verifiedFreeModels = [
+      "minimax/minimax-m3.1-flash:free",
+      "liquid/lfm-2.5-2.6b:free",
+      "nvidia/nemotron-3-super-120b-a12b:free",
       "cohere/north-mini-code:free",
-      "deepseek/deepseek-r1:free",
+      "poolside/laguna-s-2.1:free",
     ];
 
-    for (const m of priorityFallbacks) {
+    const candidateModels: string[] = [];
+    if (verifiedFreeModels.includes(validInitial)) {
+      candidateModels.push(validInitial);
+    }
+    for (const m of verifiedFreeModels) {
       if (!candidateModels.includes(m)) {
         candidateModels.push(m);
       }
@@ -179,7 +199,7 @@ OUTPUT SCHEMA SPECIFICATION:
   "mode": "${effectiveMode}",
   "generatedAt": "${new Date().toISOString()}",
   "blocks": [
-    // 3 to 6 block objects chosen from the catalog below
+    // Output 2 to 3 block objects chosen from the catalog below
   ]
 }
 
@@ -198,13 +218,13 @@ Every fact, point, quote, and summary MUST include at least one "sourceRefs" con
 Do NOT invent paragraph IDs. Only cite the real paragraph IDs provided in the article.
 
 CONCISENESS GUIDELINE:
-Keep summaries, descriptions, and points concise (1-2 sentences each) so that the structured layout is punchy, focused, and completes within the token limit.`;
+Generate ONLY 2 to 3 blocks total. Keep each summary, description, and fact to 1 concise sentence so that the JSON completes swiftly.`;
 
     const userInstructions = userPrompt
       ? `The reader has requested this specific custom situation: "${userPrompt}".
-Reshape this article into 3-6 components from the catalog that best serve this reader.`
+Reshape this article into 2-3 components from the catalog that best serve this reader.`
       : `The reader chose mode: "${effectiveMode}".
-Reshape this article into 3-6 appropriate catalog components for this mode.`;
+Reshape this article into 2-3 appropriate catalog components for this mode.`;
 
     const prompt = `ARTICLE METADATA:
 Title: ${story.title}
@@ -229,8 +249,9 @@ OUTPUT: Return only the JSON object.`;
           system: systemPrompt,
           prompt,
           maxOutputTokens: 2500,
-          temperature: 0.2,
-          abortSignal: AbortSignal.timeout(12000),
+          temperature: 0.1,
+          maxRetries: 0,
+          abortSignal: AbortSignal.timeout(30000),
         });
 
         const jsonMatch = res.text.match(/\{[\s\S]*\}/);
@@ -258,19 +279,21 @@ OUTPUT: Return only the JSON object.`;
           layout: validatedLayout,
           source: "openrouter",
           model: currentModel,
-          requestedModel: initialModel,
-          fallbackUsed: currentModel !== initialModel,
+          requestedModel: validInitial,
+          fallbackUsed: currentModel !== validInitial,
         });
       } catch (err) {
         lastError = err as Error;
         console.warn(
-          `[ShiftNews AI] Model '${currentModel}' failed: ${lastError.message}. Cascading to next candidate...`
+          `[ShiftNews AI] Model '${currentModel}' failed (${lastError.message}). Cascading to next candidate...`
         );
       }
     }
 
     // If all models in the cascade failed, gracefully return deterministic fallback
-    console.error("[ShiftNews AI] All OpenRouter cascade models exhausted, using deterministic catalog fallback:", lastError);
+    console.warn(
+      `[ShiftNews AI] All free models queued or busy (${lastError?.message || "timeout"}). Serving deterministic catalog fallback.`
+    );
     return NextResponse.json({
       layout: deterministicFallback,
       source: "fallback",

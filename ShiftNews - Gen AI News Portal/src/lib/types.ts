@@ -160,7 +160,7 @@ export const READING_MODES: Record<ReadingMode, ReadingModeMeta> = {
 export interface AIModelOption {
   id: string;
   label: string;
-  provider: "OpenRouter" | "Meta" | "NVIDIA" | "Cohere" | "DeepSeek";
+  provider: "Liquid AI" | "NVIDIA" | "Cohere" | "Poolside" | "MiniMax" | "OpenRouter";
   isFree: boolean;
   badge?: string;
   description?: string;
@@ -168,43 +168,44 @@ export interface AIModelOption {
 
 export const AVAILABLE_MODELS: AIModelOption[] = [
   {
-    id: "openrouter/free",
-    label: "OpenRouter Free Pool",
-    provider: "OpenRouter",
-    isFree: true,
-    badge: "100% Free",
-    description: "Auto-routes to the best active free models (Llama 3.3 70B, DeepSeek R1) with zero charges.",
-  },
-  {
-    id: "meta-llama/llama-3.3-70b-instruct:free",
-    label: "Meta Llama 3.3 70B",
-    provider: "Meta",
-    isFree: true,
-    badge: "Free Tier",
-    description: "Meta's flagship 70B open weights model via OpenRouter free quota.",
-  },
-  {
-    id: "nvidia/nemotron-3.5-lightning:free",
-    label: "Nemotron 3.5 Lightning",
-    provider: "NVIDIA",
+    id: "minimax/minimax-m3.1-flash:free",
+    label: "MiniMax M3.1 Flash",
+    provider: "MiniMax",
     isFree: true,
     badge: "Fast & Free",
-    description: "High-throughput NVIDIA inference model with full free quota.",
+    description: "High-throughput free model with 1,000,000 token context window and active quota.",
+  },
+  {
+    id: "liquid/lfm-2.5-2.6b:free",
+    label: "Liquid LFM 2.5",
+    provider: "Liquid AI",
+    isFree: true,
+    badge: "Sub-5s (Free)",
+    description: "Ultra-fast lightweight reasoning model optimized for rapid structured generation.",
+  },
+  {
+    id: "nvidia/nemotron-3-super-120b-a12b:free",
+    label: "Nemotron 3 Super 120B",
+    provider: "NVIDIA",
+    isFree: true,
+    badge: "Flagship 120B",
+    description: "Powerful 120B instruction model with deep contextual layout understanding.",
   },
   {
     id: "cohere/north-mini-code:free",
     label: "Cohere North Mini",
     provider: "Cohere",
     isFree: true,
-    badge: "Free Quota",
-    description: "Efficient structured reasoning model with free tier accessibility.",
+    badge: "Code & Schema",
+    description: "Accurate structured JSON layout generation with validated source citations.",
   },
   {
-    id: "deepseek/deepseek-r1:free",
-    label: "DeepSeek R1",
-    provider: "DeepSeek",
+    id: "poolside/laguna-s-2.1:free",
+    label: "Poolside Laguna S",
+    provider: "Poolside",
     isFree: true,
     badge: "Free Tier",
-    description: "DeepSeek reasoning model via OpenRouter free tier.",
+    description: "Balanced reasoning engine with active free quota.",
   },
 ];
+
