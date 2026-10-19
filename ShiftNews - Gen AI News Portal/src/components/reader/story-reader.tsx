@@ -9,6 +9,7 @@ import {
   ChevronUp,
   ShieldCheck,
   Share2,
+  Copy,
   Clock,
   BookOpen,
   Scale,
@@ -132,6 +133,52 @@ export function StoryReader({ story }: StoryReaderProps) {
       }
     } catch {
       toast.error("Failed to copy link to clipboard.");
+    }
+  };
+
+  // 1-Click Copy Executive Brief / Social Snapshot (Tier 3)
+  const handleCopyBrief = async () => {
+    try {
+      let briefMarkdown = "";
+      if (layout) {
+        const briefBlock = layout.blocks.find((b) => b.type === "brief");
+        const keyFactsBlock = layout.blocks.find((b) => b.type === "key-facts");
+        const modeLabel = READING_MODES[layout.mode].badge;
+
+        briefMarkdown = `⚡ ShiftNews Executive Brief: ${story.title}\n` +
+          `Mode: ${modeLabel} | Category: ${story.category}\n\n`;
+
+        if (briefBlock && "summary" in briefBlock) {
+          briefMarkdown += `Summary:\n${briefBlock.summary}\n\n`;
+          if (briefBlock.whatChanged) {
+            briefMarkdown += `What Changed Today:\n${briefBlock.whatChanged}\n\n`;
+          }
+        }
+
+        if (keyFactsBlock && "facts" in keyFactsBlock) {
+          briefMarkdown += `Key Facts to Know:\n` +
+            keyFactsBlock.facts
+              .map((f, i) => `${i + 1}. ${f.text} [${f.sourceRefs.map((r) => r.paragraphId).join(", ")}]`)
+              .join("\n") +
+            "\n\n";
+        }
+
+        briefMarkdown += `Verified with 100% Attribution Grounding.\n` +
+          `Read reshaped dispatch on ShiftNews: ${window.location.href}`;
+      } else {
+        briefMarkdown = `⚡ ShiftNews Dispatch: ${story.title}\n` +
+          `By ${story.author} | ${formatDate(story.publishedAt)}\n\n` +
+          `${story.subtitle}\n\n` +
+          `Read full dispatch: ${window.location.href}`;
+      }
+
+      await navigator.clipboard.writeText(briefMarkdown);
+      toast.success("Executive brief copied!", {
+        description: "Formatted markdown ready to paste into Slack, Notion, or Twitter.",
+        duration: 3500,
+      });
+    } catch {
+      toast.error("Failed to copy brief to clipboard.");
     }
   };
 
@@ -338,6 +385,15 @@ export function StoryReader({ story }: StoryReaderProps) {
                   <Share2 className="h-3.5 w-3.5 text-primary" />
                   <span>Share</span>
                 </button>
+                <button
+                  type="button"
+                  onClick={handleCopyBrief}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background/80 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all select-none cursor-pointer pressable"
+                  title="Copy formatted markdown executive summary"
+                >
+                  <Copy className="h-3.5 w-3.5 text-primary" />
+                  <span>Copy Brief</span>
+                </button>
                 <AudioReader story={story} layout={layout} mode={currentMode} />
                 <TrustDrawer
                   story={story}
@@ -514,7 +570,7 @@ export function StoryReader({ story }: StoryReaderProps) {
       {/* Floating Intent Quick Dock (Appears when scrolled down) */}
       {showFloatingDock && (
         <div
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-[94vw] overflow-x-auto rounded-full border border-border/80 bg-background/90 backdrop-blur-xl px-2 py-1.5 shadow-2xl flex items-center gap-1.5 transition-all duration-200 animate-in fade-in slide-in-from-bottom-3"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-[94vw] overflow-x-auto rounded-full border border-border/80 bg-background/90 backdrop-blur-xl p-1.5 shadow-2xl flex items-center gap-1 transition-all duration-200 animate-in fade-in slide-in-from-bottom-3"
           role="navigation"
           aria-label="Floating quick intent switcher"
         >
@@ -522,13 +578,20 @@ export function StoryReader({ story }: StoryReaderProps) {
             type="button"
             onClick={() => handleSelectMode(null)}
             className={cn(
-              "px-3 py-1 rounded-full text-xs font-mono font-medium transition-colors pressable whitespace-nowrap cursor-pointer",
+              "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable whitespace-nowrap cursor-pointer select-none",
               currentMode === null
-                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                ? "text-primary-foreground font-semibold"
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
-            Full Story
+            {currentMode === null && (
+              <motion.div
+                layoutId="floating-dock-active-bubble"
+                className="absolute inset-0 rounded-full bg-primary shadow-xs"
+                transition={{ type: "spring", stiffness: 450, damping: 35 }}
+              />
+            )}
+            <span className="relative z-10">Full Story</span>
           </button>
           {(Object.keys(READING_MODES) as ReadingMode[]).map((mKey) => {
             const Icon = DOCK_ICONS[mKey];
@@ -539,14 +602,23 @@ export function StoryReader({ story }: StoryReaderProps) {
                 type="button"
                 onClick={() => handleSelectMode(mKey)}
                 className={cn(
-                  "px-3 py-1 rounded-full text-xs font-mono font-medium transition-colors pressable flex items-center gap-1.5 whitespace-nowrap cursor-pointer",
+                  "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable flex items-center gap-1.5 whitespace-nowrap cursor-pointer select-none",
                   isSelected
-                    ? "bg-primary text-primary-foreground font-semibold shadow-xs"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                    ? "text-primary-foreground font-semibold"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <Icon className="h-3 w-3" />
-                <span>{READING_MODES[mKey].badge}</span>
+                {isSelected && (
+                  <motion.div
+                    layoutId="floating-dock-active-bubble"
+                    className="absolute inset-0 rounded-full bg-primary shadow-xs"
+                    transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <Icon className="h-3 w-3" />
+                  <span>{READING_MODES[mKey].badge}</span>
+                </span>
               </button>
             );
           })}

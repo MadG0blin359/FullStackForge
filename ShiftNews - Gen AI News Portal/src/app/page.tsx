@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Header, Footer, StoryCard } from "@/components/layout";
+import { HeroMorphWidget } from "@/components/home/hero-morph-widget";
 import { stories } from "@/data/stories";
 import {
   Clock,
@@ -189,6 +190,11 @@ export default function HomePage() {
                 </p>
               </div>
             </Link>
+          </div>
+
+          {/* Interactive Live Morph Hero Showcase */}
+          <div className="pt-4">
+            <HeroMorphWidget />
           </div>
         </section>
 
