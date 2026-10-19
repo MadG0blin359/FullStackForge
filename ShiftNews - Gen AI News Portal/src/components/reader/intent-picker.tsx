@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ReadingMode, READING_MODES, AVAILABLE_MODELS } from "@/lib/types";
-import { Sparkles, Clock, BookOpen, Scale, ArrowRight, FileText, Cpu, Check, ShieldCheck } from "lucide-react";
+import { Sparkles, Clock, BookOpen, Scale, ArrowRight, FileText, Cpu, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -45,11 +45,33 @@ export function IntentPicker({
     // Detect archetype heuristically for badge styling while sending raw prompt to LLM
     const lower = customText.toLowerCase();
     let mode: ReadingMode = "calm";
-    if (lower.includes("brief") || lower.includes("minute") || lower.includes("rush") || lower.includes("quick") || lower.includes("short") || lower.includes("executive")) {
+    if (
+      lower.includes("brief") ||
+      lower.includes("minute") ||
+      lower.includes("rush") ||
+      lower.includes("quick") ||
+      lower.includes("short") ||
+      lower.includes("executive")
+    ) {
       mode = "brief";
-    } else if (lower.includes("explain") || lower.includes("new") || lower.includes("beginner") || lower.includes("learn") || lower.includes("teach") || lower.includes("dad") || lower.includes("kid")) {
+    } else if (
+      lower.includes("explain") ||
+      lower.includes("new") ||
+      lower.includes("beginner") ||
+      lower.includes("learn") ||
+      lower.includes("teach") ||
+      lower.includes("dad") ||
+      lower.includes("kid")
+    ) {
       mode = "explainer";
-    } else if (lower.includes("both") || lower.includes("side") || lower.includes("compare") || lower.includes("debate") || lower.includes("argument") || lower.includes("trade-off")) {
+    } else if (
+      lower.includes("both") ||
+      lower.includes("side") ||
+      lower.includes("compare") ||
+      lower.includes("debate") ||
+      lower.includes("argument") ||
+      lower.includes("trade-off")
+    ) {
       mode = "comparison";
     }
 
@@ -66,23 +88,22 @@ export function IntentPicker({
     onSelectMode(mode, suggestion, selectedModel);
   };
 
-  const selectedModelMeta = AVAILABLE_MODELS.find((m) => m.id === selectedModel) || AVAILABLE_MODELS[0];
+  const selectedModelMeta =
+    AVAILABLE_MODELS.find((m) => m.id === selectedModel) || AVAILABLE_MODELS[0];
 
   return (
     <section
       aria-label="Reading mode selection"
-      className="my-10 rounded-2xl border border-border/70 bg-card/95 p-5 sm:p-7 shadow-xs space-y-6"
+      className="my-8 rounded-2xl border border-border/70 bg-card/95 p-5 sm:p-7 shadow-xs space-y-6"
     >
       {/* Header with Title and Engine Indicators */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/40 pb-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              How do you want to read this?
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Select an archetype or describe your situation — powered by free & multi-fallback OpenRouter models.
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+            How do you want to read this?
+          </h2>
+          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            Select an archetype or describe your situation — powered by free OpenRouter models.
           </p>
         </div>
 
@@ -94,7 +115,10 @@ export function IntentPicker({
               <span>Reshaping Layout...</span>
             </span>
           ) : currentMode ? (
-            <Badge variant="outline" className="rounded-full px-3 py-1 text-xs font-mono border-primary/30 text-primary bg-primary/5">
+            <Badge
+              variant="outline"
+              className="rounded-full px-3 py-1 text-xs font-mono border-primary/30 text-primary bg-primary/5"
+            >
               Active: {READING_MODES[currentMode].badge}
             </Badge>
           ) : (
@@ -115,11 +139,11 @@ export function IntentPicker({
         </div>
       </div>
 
-      {/* Mode Selector Cards (Emil Kowalski Micro-Interactions) */}
+      {/* Mode Selector Cards (Fully Readable & Responsive, Zero Truncation) */}
       <div
         role="radiogroup"
         aria-label="Preset reading modes"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5"
       >
         {/* Full Story Default Card */}
         <button
@@ -129,7 +153,7 @@ export function IntentPicker({
           disabled={isGenerating}
           onClick={() => onSelectMode(null)}
           className={cn(
-            "group relative flex items-start gap-3 p-3.5 rounded-xl border text-left select-none cursor-pointer",
+            "group relative flex items-start gap-3.5 p-4 rounded-xl border text-left select-none cursor-pointer",
             "transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
             currentMode === null
@@ -139,7 +163,7 @@ export function IntentPicker({
         >
           <div
             className={cn(
-              "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-background border transition-colors mt-0.5",
+              "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background border transition-colors mt-0.5",
               currentMode === null
                 ? "text-primary border-primary/40 bg-primary/10"
                 : "text-muted-foreground border-border/60 group-hover:text-foreground"
@@ -147,17 +171,17 @@ export function IntentPicker({
           >
             <FileText className="h-4 w-4" />
           </div>
-          <div className="space-y-0.5 min-w-0 flex-1">
-            <div className="flex items-center justify-between gap-1">
-              <p className="font-serif font-bold text-sm text-foreground leading-snug truncate">
+          <div className="space-y-1 min-w-0 flex-1">
+            <div className="flex items-center justify-between gap-1.5">
+              <p className="font-serif font-bold text-sm sm:text-base text-foreground leading-snug">
                 Full Story
               </p>
               {currentMode === null && (
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
               )}
             </div>
-            <p className="text-xs text-muted-foreground truncate">
-              Standard editorial dispatch
+            <p className="text-xs text-muted-foreground leading-normal">
+              Standard editorial dispatch with complete reporting.
             </p>
           </div>
         </button>
@@ -177,7 +201,7 @@ export function IntentPicker({
               disabled={isGenerating}
               onClick={() => onSelectMode(modeKey, undefined, selectedModel)}
               className={cn(
-                "group relative flex items-start gap-3 p-3.5 rounded-xl border text-left select-none cursor-pointer",
+                "group relative flex items-start gap-3.5 p-4 rounded-xl border text-left select-none cursor-pointer",
                 "transition-[transform,border-color,background-color] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                 isSelected
@@ -187,7 +211,7 @@ export function IntentPicker({
             >
               <div
                 className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-background border transition-colors mt-0.5",
+                  "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background border transition-colors mt-0.5",
                   isSelected
                     ? "text-primary border-primary/40 bg-primary/10"
                     : "text-muted-foreground border-border/60 group-hover:text-primary"
@@ -195,17 +219,17 @@ export function IntentPicker({
               >
                 <Icon className="h-4 w-4" />
               </div>
-              <div className="space-y-0.5 min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-1">
-                  <p className="font-serif font-bold text-sm text-foreground leading-snug truncate">
+              <div className="space-y-1 min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-1.5">
+                  <p className="font-serif font-bold text-sm sm:text-base text-foreground leading-snug">
                     {meta.label}
                   </p>
                   {isSelected && (
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground truncate">
-                  <span className="font-semibold text-foreground/80">{meta.badge}</span> · {meta.tagline}
+                <p className="text-xs text-muted-foreground leading-normal">
+                  <span className="font-semibold text-foreground/90">{meta.badge}</span> · {meta.tagline}
                 </p>
               </div>
             </button>
@@ -213,54 +237,65 @@ export function IntentPicker({
         })}
       </div>
 
-      {/* Free Text Custom Prompt + Model Switcher */}
-      <div className="space-y-3 pt-2">
-        <form onSubmit={handleCustomSubmit} className="space-y-2">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            {/* Text Input with Submit Button */}
-            <div className="relative flex-1 flex items-center">
-              <input
-                type="text"
-                value={customText}
-                onChange={(e) => setCustomText(e.target.value)}
-                disabled={isGenerating}
-                placeholder="Or describe: 'explain for my dad', 'focus on timeline', 'show promises'..."
-                aria-label="Custom reading situation or prompt"
-                className="w-full rounded-xl border border-border/80 bg-background px-4 py-2.5 pr-24 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors shadow-2xs"
-              />
-              <button
-                type="submit"
-                disabled={!customText.trim() || isGenerating}
-                className="absolute right-1.5 top-1.5 bottom-1.5 inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 text-xs font-semibold text-primary-foreground shadow-xs transition-transform active:scale-[0.97] hover:opacity-95 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
-              >
-                <span>Reshape</span>
-                <ArrowRight className="h-3 w-3" />
-              </button>
+      {/* Free Text Custom Prompt + Clean Free Model Selector Row */}
+      <div className="space-y-3.5 pt-3 border-t border-border/40">
+        <form onSubmit={handleCustomSubmit} className="space-y-3">
+          {/* Text Input with Non-Overlapping Action Button */}
+          <div className="relative flex items-center w-full">
+            <input
+              type="text"
+              value={customText}
+              onChange={(e) => setCustomText(e.target.value)}
+              disabled={isGenerating}
+              placeholder="Or describe your situation: 'explain for my dad', 'focus on timeline', 'show promises'..."
+              aria-label="Custom reading situation or prompt"
+              className="w-full rounded-xl border border-border/80 bg-background px-4 py-3 pr-28 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors shadow-2xs"
+            />
+            <button
+              type="submit"
+              disabled={!customText.trim() || isGenerating}
+              className="absolute right-2 top-2 bottom-2 inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 text-xs font-semibold text-primary-foreground shadow-xs transition-transform active:scale-[0.97] hover:opacity-95 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
+            >
+              <span>Reshape</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+
+          {/* Model Selector Bar (Strictly 100% Free OpenRouter Models) */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs font-mono font-medium text-muted-foreground">
+                Active Free Model:
+              </span>
+              <div className="flex items-center gap-2 rounded-xl border border-border/80 bg-background px-3 py-1.5 shadow-2xs">
+                <Cpu className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <select
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  disabled={isGenerating}
+                  className="bg-transparent text-xs font-mono text-foreground focus-visible:outline-none cursor-pointer font-medium"
+                  title="Select OpenRouter free model"
+                  aria-label="Select Free LLM model"
+                >
+                  {AVAILABLE_MODELS.map((m) => (
+                    <option key={m.id} value={m.id} className="bg-popover text-popover-foreground">
+                      {m.label} ({m.badge})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-mono font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                100% Free Quota
+              </span>
             </div>
 
-            {/* Model Selector Dropdown with Free Badging */}
-            <div className="flex items-center gap-2 rounded-xl border border-border/80 bg-background px-3 py-2 shrink-0 shadow-2xs">
-              <Cpu className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <select
-                value={selectedModel}
-                onChange={(e) => setSelectedModel(e.target.value)}
-                disabled={isGenerating}
-                className="bg-transparent text-xs font-mono text-foreground focus-visible:outline-none cursor-pointer font-medium"
-                title="Select OpenRouter model (free & fallback enabled)"
-                aria-label="Select LLM model"
-              >
-                {AVAILABLE_MODELS.map((m) => (
-                  <option key={m.id} value={m.id} className="bg-popover text-popover-foreground">
-                    {m.isFree ? `[FREE] ${m.label}` : m.label}
-                  </option>
-                ))}
-              </select>
-              {selectedModelMeta.isFree && (
-                <span className="hidden md:inline-flex items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
-                  Zero Cost
-                </span>
-              )}
-            </div>
+            {selectedModelMeta.description && (
+              <span className="text-[11px] font-mono text-muted-foreground/80 sm:text-right">
+                {selectedModelMeta.description}
+              </span>
+            )}
           </div>
         </form>
 
@@ -275,7 +310,7 @@ export function IntentPicker({
               type="button"
               disabled={isGenerating}
               onClick={() => handleQuickChipClick(suggestion)}
-              className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-muted/30 px-2.5 py-0.5 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/70 hover:border-border transition-colors cursor-pointer active:scale-[0.97] select-none"
+              className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-muted/30 px-3 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/70 hover:border-border transition-colors cursor-pointer active:scale-[0.97] select-none text-left"
             >
               <span>{suggestion}</span>
             </button>

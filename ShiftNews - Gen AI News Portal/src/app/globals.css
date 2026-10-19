@@ -283,7 +283,8 @@
 
 /* ── Prose measure for article text ── */
 .prose-measure {
-  max-width: var(--measure);
+  max-width: min(100%, 56rem);
+  width: 100%;
 }
 
 /* ── Skip link (accessibility) ── */

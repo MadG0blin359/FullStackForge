@@ -148,11 +148,13 @@ export async function POST(req: NextRequest) {
     const initialModel = requestedModel || DEFAULT_MODEL;
     const candidateModels: string[] = [initialModel];
 
-    // Priority fallbacks (Free router -> Nemotron Free -> GPT-4o-mini)
+    // Priority fallbacks (Strictly 100% Free OpenRouter Models)
     const priorityFallbacks = [
       "openrouter/free",
+      "meta-llama/llama-3.3-70b-instruct:free",
       "nvidia/nemotron-3.5-lightning:free",
-      "openai/gpt-4o-mini",
+      "cohere/north-mini-code:free",
+      "deepseek/deepseek-r1:free",
     ];
 
     for (const m of priorityFallbacks) {

@@ -282,7 +282,7 @@ export function StoryReader({ story }: StoryReaderProps) {
       <Header />
 
       <main id="main-content" className="flex-1 pb-28">
-        <article className="prose-measure mx-auto px-4 sm:px-6 pt-10">
+        <article className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-8">
           {/* Back button & Category */}
           <div className="flex items-center justify-between gap-3 mb-8">
             <Link

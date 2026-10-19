@@ -160,7 +160,7 @@ export const READING_MODES: Record<ReadingMode, ReadingModeMeta> = {
 export interface AIModelOption {
   id: string;
   label: string;
-  provider: "OpenRouter" | "NVIDIA" | "Cohere" | "OpenAI" | "Anthropic";
+  provider: "OpenRouter" | "Meta" | "NVIDIA" | "Cohere" | "DeepSeek";
   isFree: boolean;
   badge?: string;
   description?: string;
@@ -169,11 +169,19 @@ export interface AIModelOption {
 export const AVAILABLE_MODELS: AIModelOption[] = [
   {
     id: "openrouter/free",
-    label: "OpenRouter Free Router",
+    label: "OpenRouter Free Pool",
     provider: "OpenRouter",
     isFree: true,
     badge: "100% Free",
-    description: "Auto-routes to the best active free model on OpenRouter with zero token charges.",
+    description: "Auto-routes to the best active free models (Llama 3.3 70B, DeepSeek R1) with zero charges.",
+  },
+  {
+    id: "meta-llama/llama-3.3-70b-instruct:free",
+    label: "Meta Llama 3.3 70B",
+    provider: "Meta",
+    isFree: true,
+    badge: "Free Tier",
+    description: "Meta's flagship 70B open weights model via OpenRouter free quota.",
   },
   {
     id: "nvidia/nemotron-3.5-lightning:free",
@@ -192,19 +200,11 @@ export const AVAILABLE_MODELS: AIModelOption[] = [
     description: "Efficient structured reasoning model with free tier accessibility.",
   },
   {
-    id: "openai/gpt-4o-mini",
-    label: "ChatGPT 4o-mini",
-    provider: "OpenAI",
-    isFree: false,
-    badge: "Fast & Precise",
-    description: "Ultra-fast OpenAI model with strict structured schema fidelity.",
-  },
-  {
-    id: "anthropic/claude-haiku-5.5",
-    label: "Claude Haiku 5.5",
-    provider: "Anthropic",
-    isFree: false,
-    badge: "Editorial Quality",
-    description: "Anthropic fast editorial model with nuanced readability and tone.",
+    id: "deepseek/deepseek-r1:free",
+    label: "DeepSeek R1",
+    provider: "DeepSeek",
+    isFree: true,
+    badge: "Free Tier",
+    description: "DeepSeek reasoning model via OpenRouter free tier.",
   },
 ];
