@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
   Newspaper,
@@ -25,25 +25,28 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { haptic } from "@/lib/haptics";
 
 export function Header() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    // Check initial dark mode state
-    setIsDark(document.documentElement.classList.contains("dark"));
-  }, []);
+  const isDark = useSyncExternalStore(
+    (onStoreChange) => {
+      const observer = new MutationObserver(() => onStoreChange());
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      return () => observer.disconnect();
+    },
+    () => typeof document !== "undefined" && document.documentElement.classList.contains("dark"),
+    () => false
+  );
 
   const toggleTheme = () => {
+    haptic.click();
     const root = document.documentElement;
     if (root.classList.contains("dark")) {
       root.classList.remove("dark");
-      setIsDark(false);
       localStorage.setItem("shiftnews-theme", "light");
       toast("Light mode activated", { duration: 1500 });
     } else {
       root.classList.add("dark");
-      setIsDark(true);
       localStorage.setItem("shiftnews-theme", "dark");
       toast("Dark mode activated", { duration: 1500 });
     }

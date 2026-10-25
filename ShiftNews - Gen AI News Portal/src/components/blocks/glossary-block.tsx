@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { BookOpen, HelpCircle, ChevronDown, Search, ArrowRight, Sparkles } from "lucide-react";
+import { BookOpen, HelpCircle, ChevronDown, Search, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { GlossaryBlock as GlossaryBlockType } from "@/lib/types";
 import { SourceChip } from "./source-chip";

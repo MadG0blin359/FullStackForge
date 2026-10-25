@@ -8,24 +8,26 @@ import { ReadingMode } from "@/lib/types";
 
 export const maxDuration = 45;
 
+type RawRecord = Record<string, unknown>;
+
 // Normalize shorthand JSON formats returned by diverse LLMs
-function normalizeBlock(raw: any, defaultParagraphId: string): any {
+function normalizeBlock(raw: unknown, defaultParagraphId: string): unknown {
   if (!raw || typeof raw !== "object") return raw;
 
-  const normalizeSourceRefs = (refs: any): { paragraphId: string }[] => {
+  const normalizeSourceRefs = (refs: unknown): { paragraphId: string }[] => {
     if (!Array.isArray(refs) || refs.length === 0) {
       return [{ paragraphId: defaultParagraphId }];
     }
     return refs.map((ref) => {
       if (typeof ref === "string") return { paragraphId: ref };
-      if (ref && typeof ref === "object" && typeof ref.paragraphId === "string") {
-        return { paragraphId: ref.paragraphId };
+      if (ref && typeof ref === "object" && "paragraphId" in ref && typeof (ref as RawRecord).paragraphId === "string") {
+        return { paragraphId: (ref as RawRecord).paragraphId as string };
       }
       return { paragraphId: defaultParagraphId };
     });
   };
 
-  const block = { ...raw };
+  const block = { ...(raw as RawRecord) };
 
   if ("sourceRefs" in block) {
     block.sourceRefs = normalizeSourceRefs(block.sourceRefs);
@@ -42,22 +44,23 @@ function normalizeBlock(raw: any, defaultParagraphId: string): any {
   if (block.type === "key-facts") {
     if (!block.title) block.title = "Key Takeaways";
     const rawFacts = Array.isArray(block.facts) ? block.facts : (Array.isArray(block.items) ? block.items : []);
-    block.facts = rawFacts.map((f: any) => {
+    block.facts = rawFacts.map((f: unknown) => {
       if (typeof f === "string") {
         return { text: f, sourceRefs: [{ paragraphId: defaultParagraphId }] };
       }
       if (f && typeof f === "object") {
-        const text = f.value
-          ? `${f.label ? f.label + ": " : ""}${f.value}`
-          : String(f.text || f.fact || f.label || "Key fact");
+        const fRec = f as RawRecord;
+        const text = fRec.value
+          ? `${fRec.label ? String(fRec.label) + ": " : ""}${String(fRec.value)}`
+          : String(fRec.text || fRec.fact || fRec.label || "Key fact");
         return {
           text,
-          sourceRefs: normalizeSourceRefs(f.sourceRefs),
+          sourceRefs: normalizeSourceRefs(fRec.sourceRefs),
         };
       }
       return { text: "Key fact", sourceRefs: [{ paragraphId: defaultParagraphId }] };
     });
-    if (block.facts.length === 0) {
+    if (Array.isArray(block.facts) && block.facts.length === 0) {
       block.facts = [{ text: "Key factual point established in story.", sourceRefs: [{ paragraphId: defaultParagraphId }] }];
     }
   }
@@ -70,25 +73,29 @@ function normalizeBlock(raw: any, defaultParagraphId: string): any {
     if (!block.sideB || typeof block.sideB !== "object") {
       block.sideB = { label: "Perspective B", points: [] };
     }
-    if (Array.isArray(block.sideA.points)) {
-      block.sideA.points = block.sideA.points.map((p: any) => {
+    const sideA = block.sideA as RawRecord;
+    const sideB = block.sideB as RawRecord;
+    if (Array.isArray(sideA.points)) {
+      sideA.points = sideA.points.map((p: unknown) => {
         if (typeof p === "string") {
           return { text: p, sourceRefs: [{ paragraphId: defaultParagraphId }] };
         }
+        const pRec = (p && typeof p === "object") ? (p as RawRecord) : {};
         return {
-          text: String(p?.text || p?.point || "Perspective point"),
-          sourceRefs: normalizeSourceRefs(p?.sourceRefs),
+          text: String(pRec.text || pRec.point || "Perspective point"),
+          sourceRefs: normalizeSourceRefs(pRec.sourceRefs),
         };
       });
     }
-    if (Array.isArray(block.sideB.points)) {
-      block.sideB.points = block.sideB.points.map((p: any) => {
+    if (Array.isArray(sideB.points)) {
+      sideB.points = sideB.points.map((p: unknown) => {
         if (typeof p === "string") {
           return { text: p, sourceRefs: [{ paragraphId: defaultParagraphId }] };
         }
+        const pRec = (p && typeof p === "object") ? (p as RawRecord) : {};
         return {
-          text: String(p?.text || p?.point || "Counterpoint"),
-          sourceRefs: normalizeSourceRefs(p?.sourceRefs),
+          text: String(pRec.text || pRec.point || "Counterpoint"),
+          sourceRefs: normalizeSourceRefs(pRec.sourceRefs),
         };
       });
     }
@@ -96,21 +103,27 @@ function normalizeBlock(raw: any, defaultParagraphId: string): any {
 
   // Timeline normalization
   if (block.type === "timeline" && Array.isArray(block.events)) {
-    block.events = block.events.map((e: any) => ({
-      date: String(e.date || "Recent"),
-      label: String(e.label || e.title || "Milestone"),
-      description: String(e.description || e.text || ""),
-      sourceRefs: normalizeSourceRefs(e.sourceRefs),
-    }));
+    block.events = block.events.map((e: unknown) => {
+      const eRec = (e && typeof e === "object") ? (e as RawRecord) : {};
+      return {
+        date: String(eRec.date || "Recent"),
+        label: String(eRec.label || eRec.title || "Milestone"),
+        description: String(eRec.description || eRec.text || ""),
+        sourceRefs: normalizeSourceRefs(eRec.sourceRefs),
+      };
+    });
   }
 
   // Glossary normalization
   if (block.type === "glossary" && Array.isArray(block.terms)) {
-    block.terms = block.terms.map((t: any) => ({
-      term: String(t.term || t.word || "Term"),
-      definition: String(t.definition || t.desc || "Definition"),
-      sourceRefs: normalizeSourceRefs(t.sourceRefs),
-    }));
+    block.terms = block.terms.map((t: unknown) => {
+      const tRec = (t && typeof t === "object") ? (t as RawRecord) : {};
+      return {
+        term: String(tRec.term || tRec.word || "Term"),
+        definition: String(tRec.definition || tRec.desc || "Definition"),
+        sourceRefs: normalizeSourceRefs(tRec.sourceRefs),
+      };
+    });
   }
 
   return block;
@@ -268,7 +281,7 @@ OUTPUT: Return only the JSON object.`;
 
         // Normalize blocks before schema validation
         if (Array.isArray(rawParsed.blocks)) {
-          rawParsed.blocks = rawParsed.blocks.map((b: any) =>
+          rawParsed.blocks = rawParsed.blocks.map((b: unknown) =>
             normalizeBlock(b, defaultParagraphId)
           );
         }

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Scale, ThumbsUp, ThumbsDown, CheckCircle, SplitSquareVertical } from "lucide-react";
+import { Scale, ThumbsUp, ThumbsDown, SplitSquareVertical } from "lucide-react";
 import { ComparisonBlock as ComparisonBlockType } from "@/lib/types";
 import { SourceChip } from "./source-chip";
 import { Badge } from "@/components/ui/badge";

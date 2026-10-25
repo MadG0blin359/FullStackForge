@@ -21,6 +21,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { haptic } from "@/lib/haptics";
 
 const CATEGORIES = ["All Dispatches", "Technology", "Local", "World"];
 
@@ -241,7 +242,10 @@ export default function HomePage() {
                     type="button"
                     role="tab"
                     aria-selected={isSelected}
-                    onClick={() => setSelectedCategory(cat)}
+                    onClick={() => {
+                      haptic.tick();
+                      setSelectedCategory(cat);
+                    }}
                     className={cn(
                       "relative rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors select-none cursor-pointer whitespace-nowrap",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
@@ -349,6 +353,7 @@ export default function HomePage() {
             <button
               type="button"
               onClick={() => {
+                haptic.tick();
                 setSelectedCategory("All Dispatches");
                 setSearchQuery("");
               }}

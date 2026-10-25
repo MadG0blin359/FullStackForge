@@ -13,6 +13,7 @@ import {
   Clock,
   BookOpen,
   Scale,
+  Columns2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
@@ -28,10 +29,15 @@ import { formatDate, readingTime, cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Header, Footer } from "@/components/layout";
 import { BlockRenderer, BlockSkeleton } from "@/components/blocks";
+import { ReadingProgress } from "@/components/ui/reading-progress";
+import { MagneticDock } from "@/components/ui/magnetic-dock";
+import { haptic } from "@/lib/haptics";
 import { IntentPicker } from "./intent-picker";
 import { TrustDrawer } from "./trust-drawer";
 import { AccessibilityPanel, AccessibilitySettings } from "./accessibility-panel";
 import { AudioReader } from "./audio-reader";
+import { AISpotlightLens } from "./ai-spotlight-lens";
+import { DensitySlider } from "./density-slider";
 
 interface StoryReaderProps {
   story: Story;
@@ -54,8 +60,8 @@ export function StoryReader({ story }: StoryReaderProps) {
   const [activeModel, setActiveModel] = useState<string>(AVAILABLE_MODELS[0].id);
   const [generationSource, setGenerationSource] = useState<"openrouter" | "catalog">("catalog");
   const [fallbackUsed, setFallbackUsed] = useState(false);
-  const [readProgress, setReadProgress] = useState(0);
   const [showFloatingDock, setShowFloatingDock] = useState(false);
+  const [isSplitScreen, setIsSplitScreen] = useState(false);
 
   // Accessibility state
   const [settings, setSettings] = useState<AccessibilitySettings>({
@@ -70,13 +76,9 @@ export function StoryReader({ story }: StoryReaderProps) {
   const paragraphRefs = useRef<Map<string, HTMLElement>>(new Map());
   const articleContentRef = useRef<HTMLDivElement>(null);
 
-  // Reading progress and floating dock visibility tracking
+  // Floating dock visibility tracking
   useEffect(() => {
     const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        setReadProgress(Math.min(1, Math.max(0, window.scrollY / totalHeight)));
-      }
       setShowFloatingDock(window.scrollY > 480);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -96,6 +98,7 @@ export function StoryReader({ story }: StoryReaderProps) {
   const handleSourceClick = useCallback((paragraphId: string) => {
     setShowOriginalText(true);
     setHighlightedParagraphId(paragraphId);
+    haptic.tick();
 
     const match = paragraphId.match(/p(\d+)$/i);
     const paraNum = match ? match[1] : paragraphId;
@@ -124,6 +127,7 @@ export function StoryReader({ story }: StoryReaderProps) {
     try {
       if (typeof window !== "undefined") {
         await navigator.clipboard.writeText(window.location.href);
+        haptic.click();
         toast.success("Link copied to clipboard!", {
           description: currentMode
             ? `Shared active ${READING_MODES[currentMode].badge} mode.`
@@ -173,6 +177,7 @@ export function StoryReader({ story }: StoryReaderProps) {
       }
 
       await navigator.clipboard.writeText(briefMarkdown);
+      haptic.success();
       toast.success("Executive brief copied!", {
         description: "Formatted markdown ready to paste into Slack, Notion, or Twitter.",
         duration: 3500,
@@ -189,6 +194,7 @@ export function StoryReader({ story }: StoryReaderProps) {
     modelName?: string
   ) => {
     if (newMode === null) {
+      haptic.click();
       setCurrentMode(null);
       setLayout(null);
       setIsGenerating(false);
@@ -198,6 +204,7 @@ export function StoryReader({ story }: StoryReaderProps) {
       return;
     }
 
+    haptic.click();
     const modelToUse = modelName || activeModel;
     setActiveModel(modelToUse);
     setIsGenerating(true);
@@ -239,6 +246,7 @@ export function StoryReader({ story }: StoryReaderProps) {
 
       setLayout(targetLayout);
       setIsGenerating(false);
+      haptic.success();
 
       if (data.fallbackUsed) {
         toast.warning(`Reshaped into ${READING_MODES[newMode].badge}`, {
@@ -308,6 +316,47 @@ export function StoryReader({ story }: StoryReaderProps) {
 
   const activeModelMeta = AVAILABLE_MODELS.find((m) => m.id === activeModel);
 
+  const renderParagraphList = (isCompact = false) => (
+    <div className={cn(isCompact ? "space-y-3.5 text-sm" : "space-y-6", getTextSizeClass(), getLineHeightClass())}>
+      {story.paragraphs.map((para) => {
+        const isHighlighted = highlightedParagraphId === para.id;
+        const match = para.id.match(/p(\d+)$/i);
+        const paragraphNumber = match ? match[1] : para.id;
+
+        return (
+          <div
+            key={para.id}
+            ref={registerParagraphRef(para.id)}
+            id={`paragraph-${para.id}`}
+            tabIndex={-1}
+            className={cn(
+              "group flex items-start rounded-2xl transition-[background-color,box-shadow,border-color] duration-250 border",
+              isCompact ? "gap-3 p-3.5" : "gap-4 p-4 sm:p-5",
+              isHighlighted
+                ? "bg-primary/10 border-primary/40 ring-2 ring-primary ring-offset-2 ring-offset-background shadow-xs"
+                : "border-transparent hover:bg-muted/20"
+            )}
+          >
+            <span
+              className={cn(
+                "inline-flex shrink-0 items-center justify-center rounded-md font-mono font-bold select-none transition-colors duration-160",
+                isCompact
+                  ? "mt-0.5 h-5 min-w-7 text-[11px] bg-muted/60 border border-border/50 text-muted-foreground group-hover:text-primary group-hover:border-primary/40 group-hover:bg-primary/10"
+                  : "mt-0.5 h-6 min-w-8 text-xs bg-muted/60 border border-border/50 text-muted-foreground group-hover:text-primary group-hover:border-primary/40 group-hover:bg-primary/10"
+              )}
+              aria-hidden="true"
+            >
+              ¶{paragraphNumber}
+            </span>
+            <p className="flex-1 text-foreground/90 font-normal leading-relaxed">
+              {para.text}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+
   return (
     <div
       data-mode={currentMode === "calm" ? "calm" : undefined}
@@ -316,20 +365,16 @@ export function StoryReader({ story }: StoryReaderProps) {
         currentMode === "calm" && "selection:bg-amber-100 dark:selection:bg-amber-950"
       )}
     >
-      {/* Editorial Reading Progress Bar (Hardware Accelerated ScaleX) */}
-      <div
-        className="fixed top-0 left-0 right-0 h-[2.5px] bg-primary z-[60] origin-left pointer-events-none"
-        style={{
-          transform: `scaleX(${readProgress})`,
-          transition: settings.reduceMotion ? "none" : "transform 100ms cubic-bezier(0.23,1,0.32,1)",
-        }}
-        aria-hidden="true"
-      />
+      {/* Editorial Reading Progress Bar (Hardware Accelerated ScaleX with Spring) */}
+      <ReadingProgress />
+
+      {/* Floating Contextual AI Spotlight Lens on Text Selection */}
+      <AISpotlightLens story={story} onVerifyParagraph={handleSourceClick} />
 
       <Header />
 
       <main id="main-content" className="flex-1 pb-28">
-        <article className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-8">
+        <article className={cn("w-full mx-auto px-4 sm:px-6 pt-8 transition-all duration-300", isSplitScreen ? "max-w-7xl" : "max-w-4xl")}>
           {/* Back button & Category */}
           <div className="flex items-center justify-between gap-3 mb-8">
             <Link
@@ -378,6 +423,25 @@ export function StoryReader({ story }: StoryReaderProps) {
               <div className="flex items-center gap-2 flex-wrap">
                 <button
                   type="button"
+                  onClick={() => {
+                    haptic.click();
+                    const next = !isSplitScreen;
+                    setIsSplitScreen(next);
+                    if (next) setShowOriginalText(true);
+                  }}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all select-none cursor-pointer pressable",
+                    isSplitScreen
+                      ? "border-primary bg-primary text-primary-foreground font-semibold shadow-xs"
+                      : "border-border/80 bg-background/80 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  )}
+                  title="Toggle side-by-side synchronized comparison (Raw Wire vs. Generative Reshaped)"
+                >
+                  <Columns2 className="h-3.5 w-3.5" />
+                  <span>{isSplitScreen ? "Single View" : "Split View"}</span>
+                </button>
+                <button
+                  type="button"
                   onClick={handleShare}
                   className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background/80 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all select-none cursor-pointer pressable"
                   title="Share or copy story link"
@@ -394,7 +458,19 @@ export function StoryReader({ story }: StoryReaderProps) {
                   <Copy className="h-3.5 w-3.5 text-primary" />
                   <span>Copy Brief</span>
                 </button>
-                <AudioReader story={story} layout={layout} mode={currentMode} />
+                <AudioReader
+                  story={story}
+                  layout={layout}
+                  mode={currentMode}
+                  onParagraphHighlight={(id) => {
+                    if (id) {
+                      setHighlightedParagraphId(id);
+                      setShowOriginalText(true);
+                    } else {
+                      setHighlightedParagraphId(null);
+                    }
+                  }}
+                />
                 <TrustDrawer
                   story={story}
                   layout={layout}
@@ -409,6 +485,13 @@ export function StoryReader({ story }: StoryReaderProps) {
             </div>
           </header>
 
+          {/* Continuous Information Density Dial (30s Skim -> Full Wire) */}
+          <DensitySlider
+            currentMode={currentMode}
+            onSelectMode={handleSelectMode}
+            className="mb-5"
+          />
+
           {/* Generative UI Intent Picker with Free & Fallback Models */}
           <IntentPicker
             currentMode={currentMode}
@@ -419,162 +502,262 @@ export function StoryReader({ story }: StoryReaderProps) {
           />
 
           {/* Dynamic Content View Area with Seamless Mode Morphing */}
-          <div ref={articleContentRef} className="space-y-7 pt-2">
-            <AnimatePresence mode="wait">
-              {/* Live generation loading skeleton */}
-              {isGenerating && (
-                <motion.div
-                  key="generating-skeleton"
-                  initial={settings.reduceMotion ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.16 }}
-                  className="space-y-4"
-                >
-                  <div className="flex items-center gap-2 text-xs font-mono text-primary font-medium">
-                    <Sparkles className="h-4 w-4 animate-spin text-primary" />
-                    <span>Synthesizing vetted layout blocks via OpenRouter...</span>
+          {isSplitScreen ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4 items-start">
+              {/* Left Pane: Sticky Original Wire Reporting */}
+              <div className="rounded-2xl border border-border/70 bg-card/60 p-5 sm:p-6 backdrop-blur-xs space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+                <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="font-mono text-xs font-semibold uppercase tracking-wider text-foreground">
+                      Original Wire Dispatch ({story.paragraphs.length} Paragraphs)
+                    </span>
                   </div>
-                  <BlockSkeleton />
-                  <BlockSkeleton />
-                </motion.div>
-              )}
+                  <Badge variant="outline" className="text-[10px] font-mono border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5">
+                    Ground Truth
+                  </Badge>
+                </div>
+                {renderParagraphList(true)}
+              </div>
 
-              {/* Generated Layout View (Hardware-accelerated Emil Kowalski entry) */}
-              {!isGenerating && layout && (
-                <motion.div
-                  key={`layout-${layout.mode}-${layout.storySlug}`}
-                  initial={settings.reduceMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={settings.reduceMotion ? undefined : { opacity: 0, y: -8, scale: 0.99 }}
-                  transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
-                  className="space-y-7"
-                >
-                  {/* Mode active banner */}
-                  <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl border border-primary/20 bg-primary/5 text-xs flex-wrap">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <Sparkles className="h-4 w-4 text-primary shrink-0" />
-                      <span className="font-semibold text-foreground">
-                        Active: {READING_MODES[layout.mode].badge}
-                      </span>
-                      <span className="text-muted-foreground" aria-hidden="true">·</span>
-                      <span className="font-mono text-xs text-primary font-medium">
-                        {generationSource === "openrouter"
-                          ? `Live AI: ${activeModelMeta ? activeModelMeta.label : activeModel.split("/").pop()} ${activeModelMeta?.isFree ? "(Free)" : ""}`
-                          : "Deterministic Catalog"}
-                      </span>
-                      {fallbackUsed && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-mono font-medium text-amber-700 dark:text-amber-400 border border-amber-500/20">
-                          <ShieldCheck className="h-2.5 w-2.5" />
-                          <span>Auto-Fallback Active</span>
-                        </span>
-                      )}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleSelectMode(null)}
-                      className="font-mono text-primary hover:underline cursor-pointer active:scale-[0.97] transition-transform duration-150"
+              {/* Right Pane: Reshaped Generative Layout */}
+              <div ref={articleContentRef} className="space-y-6">
+                <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-3.5 w-3.5 text-primary" />
+                    <span className="font-mono text-xs font-semibold uppercase tracking-wider text-foreground">
+                      {layout ? `Reshaped View (${READING_MODES[layout.mode].badge})` : "Reshaped View"}
+                    </span>
+                  </div>
+                  <Badge variant="outline" className="text-[10px] font-mono text-primary border-primary/30">
+                    Live Reshaped
+                  </Badge>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {/* Live generation loading skeleton */}
+                  {isGenerating && (
+                    <motion.div
+                      key="generating-skeleton-split"
+                      initial={settings.reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.16 }}
+                      className="space-y-4"
                     >
-                      Reset to original story
-                    </button>
-                  </div>
+                      <div className="flex items-center gap-2 text-xs font-mono text-primary font-medium">
+                        <Sparkles className="h-4 w-4 animate-spin text-primary" />
+                        <span>Synthesizing vetted layout blocks via OpenRouter...</span>
+                      </div>
+                      <BlockSkeleton />
+                      <BlockSkeleton />
+                    </motion.div>
+                  )}
 
-                  {/* Rendered Blocks with Stagger Motion */}
-                  <div className="space-y-6">
-                    {layout.blocks.map((block, index) => {
-                      const isVisible = index < streamedBlockCount;
-                      if (!isVisible) return null;
-
-                      return (
-                        <motion.div
-                          key={`${layout.mode}-block-${index}`}
-                          initial={settings.reduceMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ duration: 0.22, delay: index * 0.035, ease: [0.23, 1, 0.32, 1] }}
+                  {/* Generated Layout View */}
+                  {!isGenerating && layout && (
+                    <motion.div
+                      key={`split-layout-${layout.mode}-${layout.storySlug}`}
+                      initial={settings.reduceMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={settings.reduceMotion ? undefined : { opacity: 0, y: -8, scale: 0.99 }}
+                      transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                      className="space-y-6"
+                    >
+                      <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl border border-primary/20 bg-primary/5 text-xs flex-wrap">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Sparkles className="h-4 w-4 text-primary shrink-0" />
+                          <span className="font-semibold text-foreground">
+                            Active: {READING_MODES[layout.mode].badge}
+                          </span>
+                          <span className="text-muted-foreground" aria-hidden="true">·</span>
+                          <span className="font-mono text-xs text-primary font-medium">
+                            {generationSource === "openrouter"
+                              ? `Live AI: ${activeModelMeta ? activeModelMeta.label : activeModel.split("/").pop()} ${activeModelMeta?.isFree ? "(Free)" : ""}`
+                              : "Deterministic Catalog"}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleSelectMode(null)}
+                          className="font-mono text-primary hover:underline cursor-pointer active:scale-[0.97]"
                         >
-                          <BlockRenderer
-                            block={block}
-                            onSourceClick={handleSourceClick}
-                          />
-                        </motion.div>
-                      );
-                    })}
-                  </div>
+                          Reset
+                        </button>
+                      </div>
 
-                  {/* Calm mode specific ending note */}
-                  {layout.mode === "calm" && (
-                    <div className="my-10 rounded-2xl border border-amber-500/25 bg-amber-500/[0.03] p-8 text-center space-y-2">
-                      <p className="text-base font-serif italic text-foreground">
-                        That&apos;s all, you&apos;re caught up.
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        No infinite scroll. No urgent alarms. Have a peaceful rest of your day.
+                      <div className="space-y-6">
+                        {layout.blocks.map((block, index) => {
+                          const isVisible = index < streamedBlockCount;
+                          if (!isVisible) return null;
+                          return (
+                            <motion.div
+                              key={`split-${layout.mode}-block-${index}`}
+                              initial={settings.reduceMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              transition={{ duration: 0.22, delay: index * 0.035, ease: [0.23, 1, 0.32, 1] }}
+                            >
+                              <BlockRenderer
+                                block={block}
+                                onSourceClick={handleSourceClick}
+                              />
+                            </motion.div>
+                          );
+                        })}
+                      </div>
+
+                      {layout.mode === "calm" && (
+                        <div className="my-10 rounded-2xl border border-amber-500/25 bg-amber-500/[0.03] p-8 text-center space-y-2">
+                          <p className="text-base font-serif italic text-foreground">
+                            That&apos;s all, you&apos;re caught up.
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            No infinite scroll. No urgent alarms. Have a peaceful rest of your day.
+                          </p>
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+
+                  {!isGenerating && !layout && (
+                    <div className="rounded-2xl border border-dashed border-border/80 p-8 text-center space-y-3 bg-muted/10">
+                      <Sparkles className="h-8 w-8 text-muted-foreground/60 mx-auto" />
+                      <h3 className="font-medium text-sm text-foreground">
+                        Select a Reading Intent Above
+                      </h3>
+                      <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+                        Pick Rapid Brief, Deep Explainer, or Comparison to see the generative transformation side-by-side with the ground-truth wire reporting.
                       </p>
                     </div>
                   )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Original Story View */}
-            {(!layout || showOriginalText) && (
-              <div className="pt-4 space-y-6">
-                {layout && (
-                  <div className="border-t border-border/40 pt-8">
-                    <button
-                      type="button"
-                      onClick={() => setShowOriginalText(!showOriginalText)}
-                      className="w-full flex items-center justify-between p-4 rounded-2xl border border-border/60 bg-muted/20 hover:bg-muted/40 transition-[background-color,border-color] duration-160 text-xs font-semibold text-muted-foreground hover:text-foreground cursor-pointer active:scale-[0.99]"
-                    >
-                      <span className="font-mono uppercase tracking-wider">
-                        Full Original Reporting ({story.paragraphs.length} Paragraphs)
-                      </span>
-                      {showOriginalText ? (
-                        <ChevronUp className="h-4 w-4" />
-                      ) : (
-                        <ChevronDown className="h-4 w-4" />
-                      )}
-                    </button>
-                  </div>
-                )}
-
-                {(!layout || showOriginalText) && (
-                  <div className={cn("space-y-6", getTextSizeClass(), getLineHeightClass())}>
-                    {story.paragraphs.map((para) => {
-                      const isHighlighted = highlightedParagraphId === para.id;
-                      const match = para.id.match(/p(\d+)$/i);
-                      const paragraphNumber = match ? match[1] : para.id;
-
-                      return (
-                        <div
-                          key={para.id}
-                          ref={registerParagraphRef(para.id)}
-                          id={`paragraph-${para.id}`}
-                          tabIndex={-1}
-                          className={cn(
-                            "group flex items-start gap-4 rounded-2xl p-4 sm:p-5 transition-[background-color,box-shadow] duration-250",
-                            isHighlighted
-                              ? "bg-primary/10 ring-2 ring-primary ring-offset-4 ring-offset-background shadow-sm"
-                              : "hover:bg-muted/20"
-                          )}
-                        >
-                          <span
-                            className="mt-0.5 inline-flex h-6 min-w-8 shrink-0 items-center justify-center rounded-md bg-muted/60 border border-border/50 font-mono text-xs font-bold text-muted-foreground select-none group-hover:text-primary group-hover:border-primary/40 group-hover:bg-primary/10 transition-colors duration-160"
-                            aria-hidden="true"
-                          >
-                            ¶{paragraphNumber}
-                          </span>
-                          <p className="flex-1 text-foreground/90 font-normal leading-relaxed">
-                            {para.text}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
+                </AnimatePresence>
               </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div ref={articleContentRef} className="space-y-7 pt-2">
+              <AnimatePresence mode="wait">
+                {/* Live generation loading skeleton */}
+                {isGenerating && (
+                  <motion.div
+                    key="generating-skeleton"
+                    initial={settings.reduceMotion ? false : { opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.16 }}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center gap-2 text-xs font-mono text-primary font-medium">
+                      <Sparkles className="h-4 w-4 animate-spin text-primary" />
+                      <span>Synthesizing vetted layout blocks via OpenRouter...</span>
+                    </div>
+                    <BlockSkeleton />
+                    <BlockSkeleton />
+                  </motion.div>
+                )}
+
+                {/* Generated Layout View (Hardware-accelerated Emil Kowalski entry) */}
+                {!isGenerating && layout && (
+                  <motion.div
+                    key={`layout-${layout.mode}-${layout.storySlug}`}
+                    initial={settings.reduceMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={settings.reduceMotion ? undefined : { opacity: 0, y: -8, scale: 0.99 }}
+                    transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                    className="space-y-7"
+                  >
+                    {/* Mode active banner */}
+                    <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl border border-primary/20 bg-primary/5 text-xs flex-wrap">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Sparkles className="h-4 w-4 text-primary shrink-0" />
+                        <span className="font-semibold text-foreground">
+                          Active: {READING_MODES[layout.mode].badge}
+                        </span>
+                        <span className="text-muted-foreground" aria-hidden="true">·</span>
+                        <span className="font-mono text-xs text-primary font-medium">
+                          {generationSource === "openrouter"
+                            ? `Live AI: ${activeModelMeta ? activeModelMeta.label : activeModel.split("/").pop()} ${activeModelMeta?.isFree ? "(Free)" : ""}`
+                            : "Deterministic Catalog"}
+                        </span>
+                        {fallbackUsed && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-mono font-medium text-amber-700 dark:text-amber-400 border border-amber-500/20">
+                            <ShieldCheck className="h-2.5 w-2.5" />
+                            <span>Auto-Fallback Active</span>
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleSelectMode(null)}
+                        className="font-mono text-primary hover:underline cursor-pointer active:scale-[0.97] transition-transform duration-150"
+                      >
+                        Reset to original story
+                      </button>
+                    </div>
+
+                    {/* Rendered Blocks with Stagger Motion */}
+                    <div className="space-y-6">
+                      {layout.blocks.map((block, index) => {
+                        const isVisible = index < streamedBlockCount;
+                        if (!isVisible) return null;
+
+                        return (
+                          <motion.div
+                            key={`${layout.mode}-block-${index}`}
+                            initial={settings.reduceMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.22, delay: index * 0.035, ease: [0.23, 1, 0.32, 1] }}
+                          >
+                            <BlockRenderer
+                              block={block}
+                              onSourceClick={handleSourceClick}
+                            />
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Calm mode specific ending note */}
+                    {layout.mode === "calm" && (
+                      <div className="my-10 rounded-2xl border border-amber-500/25 bg-amber-500/[0.03] p-8 text-center space-y-2">
+                        <p className="text-base font-serif italic text-foreground">
+                          That&apos;s all, you&apos;re caught up.
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          No infinite scroll. No urgent alarms. Have a peaceful rest of your day.
+                        </p>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Original Story View */}
+              {(!layout || showOriginalText) && (
+                <div className="pt-4 space-y-6">
+                  {layout && (
+                    <div className="border-t border-border/40 pt-8">
+                      <button
+                        type="button"
+                        onClick={() => setShowOriginalText(!showOriginalText)}
+                        className="w-full flex items-center justify-between p-4 rounded-2xl border border-border/60 bg-muted/20 hover:bg-muted/40 transition-[background-color,border-color] duration-160 text-xs font-semibold text-muted-foreground hover:text-foreground cursor-pointer active:scale-[0.99]"
+                      >
+                        <span className="font-mono uppercase tracking-wider">
+                          Full Original Reporting ({story.paragraphs.length} Paragraphs)
+                        </span>
+                        {showOriginalText ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  )}
+
+                  {(!layout || showOriginalText) && renderParagraphList(false)}
+                </div>
+              )}
+            </div>
+          )}
         </article>
       </main>
 
@@ -590,56 +773,58 @@ export function StoryReader({ story }: StoryReaderProps) {
             role="navigation"
             aria-label="Floating quick intent switcher"
           >
-          <button
-            type="button"
-            onClick={() => handleSelectMode(null)}
-            className={cn(
-              "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable whitespace-nowrap cursor-pointer select-none",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
-              currentMode === null
-                ? "text-primary-foreground font-semibold"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            {currentMode === null && (
-              <motion.div
-                layoutId="floating-dock-active-bubble"
-                className="absolute inset-0 rounded-full bg-primary shadow-xs"
-                transition={{ type: "spring", stiffness: 450, damping: 35 }}
-              />
-            )}
-            <span className="relative z-10">Full Story</span>
-          </button>
-          {(Object.keys(READING_MODES) as ReadingMode[]).map((mKey) => {
-            const Icon = DOCK_ICONS[mKey];
-            const isSelected = currentMode === mKey;
-            return (
+            <MagneticDock disabled={settings.reduceMotion} maxScale={1.25} magnetRadius={100} className="flex items-center gap-1">
               <button
-                key={mKey}
                 type="button"
-                onClick={() => handleSelectMode(mKey)}
+                onClick={() => handleSelectMode(null)}
                 className={cn(
-                  "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable flex items-center gap-1.5 whitespace-nowrap cursor-pointer select-none",
+                  "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable whitespace-nowrap cursor-pointer select-none",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
-                  isSelected
+                  currentMode === null
                     ? "text-primary-foreground font-semibold"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {isSelected && (
+                {currentMode === null && (
                   <motion.div
                     layoutId="floating-dock-active-bubble"
                     className="absolute inset-0 rounded-full bg-primary shadow-xs"
                     transition={{ type: "spring", stiffness: 450, damping: 35 }}
                   />
                 )}
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <Icon className="h-3 w-3" />
-                  <span>{READING_MODES[mKey].badge}</span>
-                </span>
+                <span className="relative z-10">Full Story</span>
               </button>
-            );
-          })}
+              {(Object.keys(READING_MODES) as ReadingMode[]).map((mKey) => {
+                const Icon = DOCK_ICONS[mKey];
+                const isSelected = currentMode === mKey;
+                return (
+                  <button
+                    key={mKey}
+                    type="button"
+                    onClick={() => handleSelectMode(mKey)}
+                    className={cn(
+                      "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors pressable flex items-center gap-1.5 whitespace-nowrap cursor-pointer select-none",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
+                      isSelected
+                        ? "text-primary-foreground font-semibold"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {isSelected && (
+                      <motion.div
+                        layoutId="floating-dock-active-bubble"
+                        className="absolute inset-0 rounded-full bg-primary shadow-xs"
+                        transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                      />
+                    )}
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      <Icon className="h-3 w-3" />
+                      <span>{READING_MODES[mKey].badge}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </MagneticDock>
           </motion.div>
         )}
       </AnimatePresence>

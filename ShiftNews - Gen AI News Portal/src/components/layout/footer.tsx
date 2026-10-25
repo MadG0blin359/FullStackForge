@@ -1,4 +1,4 @@
-import { Newspaper, ShieldCheck, Sparkles, Cpu, GitBranch, ArrowUpRight } from "lucide-react";
+import { Newspaper, ShieldCheck, Cpu } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {

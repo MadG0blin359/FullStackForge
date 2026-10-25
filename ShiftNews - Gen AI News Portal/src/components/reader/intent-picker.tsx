@@ -6,6 +6,7 @@ import { ReadingMode, READING_MODES, AVAILABLE_MODELS } from "@/lib/types";
 import { Sparkles, Clock, BookOpen, Scale, ArrowRight, FileText, Cpu, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { haptic } from "@/lib/haptics";
 
 interface IntentPickerProps {
   currentMode: ReadingMode | null;
@@ -37,7 +38,7 @@ export function IntentPicker({
   fallbackUsed = false,
 }: IntentPickerProps) {
   const [customText, setCustomText] = useState("");
-  const [selectedModel, setSelectedModel] = useState<string>(AVAILABLE_MODELS[0].id);
+  const [selectedModel, setSelectedModel] = useState<string>(activeModelName || AVAILABLE_MODELS[0].id);
 
   const handleCustomSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,10 +77,12 @@ export function IntentPicker({
       mode = "comparison";
     }
 
+    haptic.click();
     onSelectMode(mode, customText.trim(), selectedModel);
   };
 
   const handleQuickChipClick = (suggestion: string) => {
+    haptic.tick();
     setCustomText(suggestion);
     let mode: ReadingMode = "explainer";
     const lower = suggestion.toLowerCase();
@@ -152,7 +155,10 @@ export function IntentPicker({
           role="radio"
           aria-checked={currentMode === null}
           disabled={isGenerating}
-          onClick={() => onSelectMode(null)}
+          onClick={() => {
+            haptic.click();
+            onSelectMode(null);
+          }}
           whileHover={{ y: -1 }}
           whileTap={{ scale: 0.985 }}
           className={cn(
@@ -209,7 +215,10 @@ export function IntentPicker({
               role="radio"
               aria-checked={isSelected}
               disabled={isGenerating}
-              onClick={() => onSelectMode(modeKey, undefined, selectedModel)}
+              onClick={() => {
+                haptic.click();
+                onSelectMode(modeKey, undefined, selectedModel);
+              }}
               whileHover={{ y: -1 }}
               whileTap={{ scale: 0.985 }}
               className={cn(

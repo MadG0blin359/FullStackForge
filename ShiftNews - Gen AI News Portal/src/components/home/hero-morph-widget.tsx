@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { haptic } from "@/lib/haptics";
+import { GenerativeCanvasVisualizer } from "./generative-canvas-visualizer";
 
 type MorphMode = "raw" | "brief" | "debate";
 
@@ -51,7 +53,10 @@ export function HeroMorphWidget() {
               type="button"
               role="tab"
               aria-selected={activeTab === "raw"}
-              onClick={() => setActiveTab("raw")}
+              onClick={() => {
+                haptic.tick();
+                setActiveTab("raw");
+              }}
               className={cn(
                 "relative px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer",
                 activeTab === "raw" ? "text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
@@ -74,7 +79,10 @@ export function HeroMorphWidget() {
               type="button"
               role="tab"
               aria-selected={activeTab === "brief"}
-              onClick={() => setActiveTab("brief")}
+              onClick={() => {
+                haptic.tick();
+                setActiveTab("brief");
+              }}
               className={cn(
                 "relative px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer",
                 activeTab === "brief" ? "text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
@@ -97,7 +105,10 @@ export function HeroMorphWidget() {
               type="button"
               role="tab"
               aria-selected={activeTab === "debate"}
-              onClick={() => setActiveTab("debate")}
+              onClick={() => {
+                haptic.tick();
+                setActiveTab("debate");
+              }}
               className={cn(
                 "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
                 activeTab === "debate" ? "text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
@@ -253,6 +264,9 @@ export function HeroMorphWidget() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Generative Synthesis Topology Visualizer (Interactive 3D / 2D Canvas) */}
+        <GenerativeCanvasVisualizer mode={activeTab} />
 
         {/* Bottom Bar: Zero Hallucination Guarantee & Deep Link */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-border/40 text-xs">

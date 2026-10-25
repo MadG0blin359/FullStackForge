@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { SlidersHorizontal, Sun, Moon, Eye } from "lucide-react";
+import { SlidersHorizontal, Sun, Moon, Eye, Volume2 } from "lucide-react";
+import { haptic } from "@/lib/haptics";
 import {
   Sheet,
   SheetContent,
@@ -19,6 +20,7 @@ export interface AccessibilitySettings {
   highContrast: boolean;
   reduceMotion: boolean;
   theme: "system" | "light" | "dark";
+  soundFeedback?: boolean;
 }
 
 interface AccessibilityPanelProps {
@@ -237,7 +239,7 @@ export function AccessibilityPanel({
           </section>
 
           {/* Motion preference */}
-          <section className="space-y-2 pt-2 border-t border-border/40">
+          <section className="space-y-4 pt-2 border-t border-border/40">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-semibold text-foreground text-xs">Reduced Motion</p>
@@ -257,6 +259,39 @@ export function AccessibilityPanel({
                 <span
                   className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition duration-200 ease-in-out ${
                     settings.reduceMotion ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* Audio Micro-Haptics preference */}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-semibold text-foreground text-xs flex items-center gap-1.5">
+                  <Volume2 className="h-3.5 w-3.5 text-primary" />
+                  <span>Audio Micro-Haptics</span>
+                </p>
+                <p className="text-[11px] text-muted-foreground">
+                  Synthesized tactile click tones on interactions.
+                </p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={settings.soundFeedback !== false}
+                onClick={() => {
+                  const nextVal = settings.soundFeedback === false;
+                  haptic.setEnabled(nextVal);
+                  if (nextVal) haptic.click();
+                  update({ soundFeedback: nextVal });
+                }}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
+                  settings.soundFeedback !== false ? "bg-primary" : "bg-muted"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition duration-200 ease-in-out ${
+                    settings.soundFeedback !== false ? "translate-x-5" : "translate-x-0"
                   }`}
                 />
               </button>
