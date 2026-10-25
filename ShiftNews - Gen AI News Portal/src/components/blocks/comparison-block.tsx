@@ -7,6 +7,7 @@ import { ComparisonBlock as ComparisonBlockType } from "@/lib/types";
 import { SourceChip } from "./source-chip";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { haptic } from "@/lib/haptics";
 
 interface ComparisonBlockProps {
   block: ComparisonBlockType;
@@ -20,10 +21,12 @@ export function ComparisonBlockComponent({
   onSourceClick,
 }: ComparisonBlockProps) {
   const [viewFilter, setViewFilter] = useState<ViewFilter>("both");
+  const [readerVote, setReaderVote] = useState<"sideA" | "sideB" | null>(null);
 
   const totalPoints = block.sideA.points.length + block.sideB.points.length;
   const sideAPercent = totalPoints > 0 ? Math.round((block.sideA.points.length / totalPoints) * 100) : 50;
-  const sideBPercent = 100 - sideAPercent;
+  const currentA = readerVote === "sideA" ? sideAPercent + 6 : readerVote === "sideB" ? sideAPercent - 6 : sideAPercent;
+  const currentB = 100 - currentA;
 
   return (
     <div className="rounded-2xl border border-purple-500/25 bg-card/95 p-6 sm:p-7 shadow-xs space-y-6">
@@ -45,29 +48,61 @@ export function ComparisonBlockComponent({
         </Badge>
       </div>
 
-      {/* Dynamic Editorial Balance Meter (Tier 2 Upgrade) */}
-      <div className="space-y-2 p-3.5 rounded-xl border border-purple-500/20 bg-purple-500/[0.03]">
+      {/* Dynamic Editorial Balance Meter with Interactive Stance Alignment */}
+      <div className="space-y-2.5 p-4 rounded-xl border border-purple-500/20 bg-purple-500/[0.03]">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="font-semibold text-blue-700 dark:text-blue-400 flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => {
+              haptic.tick();
+              setReaderVote(readerVote === "sideA" ? null : "sideA");
+            }}
+            className={cn(
+              "font-semibold flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-all cursor-pointer pressable",
+              readerVote === "sideA"
+                ? "bg-blue-500 text-white shadow-xs font-bold"
+                : "text-blue-700 dark:text-blue-400 hover:bg-blue-500/10"
+            )}
+            title="Cast alignment vote for this perspective"
+          >
             <ThumbsUp className="h-3 w-3" />
-            <span>{block.sideA.label} ({sideAPercent}%)</span>
+            <span>{block.sideA.label} ({currentA}%)</span>
+          </button>
+
+          <span className="text-[11px] text-muted-foreground hidden sm:inline">
+            {readerVote ? "Alignment Cast" : "Click to align"}
           </span>
-          <span className="text-muted-foreground">Editorial Balance Ratio</span>
-          <span className="font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1">
-            <span>({sideBPercent}%) {block.sideB.label}</span>
+
+          <button
+            type="button"
+            onClick={() => {
+              haptic.tick();
+              setReaderVote(readerVote === "sideB" ? null : "sideB");
+            }}
+            className={cn(
+              "font-semibold flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-all cursor-pointer pressable",
+              readerVote === "sideB"
+                ? "bg-amber-500 text-white shadow-xs font-bold"
+                : "text-amber-700 dark:text-amber-400 hover:bg-amber-500/10"
+            )}
+            title="Cast alignment vote for this perspective"
+          >
+            <span>({currentB}%) {block.sideB.label}</span>
             <ThumbsDown className="h-3 w-3" />
-          </span>
+          </button>
         </div>
 
-        {/* Proportional Balance Bar */}
-        <div className="h-2 w-full rounded-full bg-muted/60 overflow-hidden flex">
-          <div
-            className="h-full bg-blue-500 transition-all duration-300"
-            style={{ width: `${sideAPercent}%` }}
+        {/* Proportional Balance Bar with Animated Spring Fill */}
+        <div className="h-2.5 w-full rounded-full bg-muted/70 overflow-hidden flex shadow-inner">
+          <motion.div
+            className="h-full bg-blue-500"
+            animate={{ width: `${currentA}%` }}
+            transition={{ type: "spring", stiffness: 350, damping: 28 }}
           />
-          <div
-            className="h-full bg-amber-500 transition-all duration-300"
-            style={{ width: `${sideBPercent}%` }}
+          <motion.div
+            className="h-full bg-amber-500"
+            animate={{ width: `${currentB}%` }}
+            transition={{ type: "spring", stiffness: 350, damping: 28 }}
           />
         </div>
       </div>

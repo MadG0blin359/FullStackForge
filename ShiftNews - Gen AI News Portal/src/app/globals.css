@@ -334,6 +334,21 @@
 }
 
 /* ── High contrast mode ── */
+.high-contrast,
+:root.high-contrast {
+  --foreground: oklch(0 0 0);
+  --border: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.18 0 0);
+}
+
+.dark.high-contrast,
+:root.dark.high-contrast,
+.dark .high-contrast {
+  --foreground: oklch(1 0 0);
+  --border: oklch(0.8 0 0);
+  --muted-foreground: oklch(0.92 0 0);
+}
+
 @media (prefers-contrast: more) {
   :root {
     --foreground: oklch(0 0 0);
@@ -341,6 +356,22 @@
     --border: oklch(0 0 0);
     --muted-foreground: oklch(0.25 0 0);
   }
+}
+
+/* ── Custom Sleek Scrollbar ── */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--border) 70%, transparent);
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
 }
 
 /* ── Calm Mode Sensory Atmosphere (Tier 3) ── */

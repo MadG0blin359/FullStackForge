@@ -13,13 +13,14 @@ import {
   ThumbsDown,
   ShieldCheck,
   Zap,
+  History,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { haptic } from "@/lib/haptics";
 import { GenerativeCanvasVisualizer } from "./generative-canvas-visualizer";
 
-type MorphMode = "raw" | "brief" | "debate";
+type MorphMode = "raw" | "brief" | "debate" | "timeline";
 
 export function HeroMorphWidget() {
   const [activeTab, setActiveTab] = useState<MorphMode>("brief");
@@ -110,7 +111,7 @@ export function HeroMorphWidget() {
                 setActiveTab("debate");
               }}
               className={cn(
-                "relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
+                "relative px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer focus-visible:outline-none",
                 activeTab === "debate" ? "text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -124,6 +125,32 @@ export function HeroMorphWidget() {
               <span className="relative z-10 flex items-center gap-1.5">
                 <Scale className="h-3 w-3" />
                 <span>Dual Lens</span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "timeline"}
+              onClick={() => {
+                haptic.tick();
+                setActiveTab("timeline");
+              }}
+              className={cn(
+                "relative px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-colors select-none pressable cursor-pointer focus-visible:outline-none",
+                activeTab === "timeline" ? "text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {activeTab === "timeline" && (
+                <motion.div
+                  layoutId="hero-morph-active-pill"
+                  className="absolute inset-0 rounded-full bg-primary shadow-xs"
+                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5">
+                <History className="h-3 w-3" />
+                <span>Timeline</span>
               </span>
             </button>
           </div>
@@ -259,6 +286,45 @@ export function HeroMorphWidget() {
                       Cited: [¶1]
                     </span>
                   </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* View 4: Chronological Timeline Scrubber */}
+            {activeTab === "timeline" && (
+              <motion.div
+                key="timeline"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
+                className="space-y-3.5"
+              >
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <Badge variant="outline" className="border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 inline-flex items-center gap-1.5">
+                    <History className="h-3 w-3" />
+                    <span>TimelineBlock (Chrono-Scrubber)</span>
+                  </Badge>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                    Interactive Historical Rail
+                  </span>
+                </div>
+
+                <div className="p-4 sm:p-5 rounded-xl border border-emerald-500/25 bg-emerald-500/[0.03] space-y-3">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-mono font-bold text-emerald-700 dark:text-emerald-300">
+                        1991 &rarr; 2026 Breakthrough
+                      </span>
+                      <span className="text-xs text-muted-foreground">3 Historical Turning Points</span>
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold">
+                      Grounded: [¶1]
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-foreground/90 font-normal leading-relaxed">
+                    Traces the evolution from Sony&apos;s first liquid lithium-ion cells to next-generation solid ceramic electrolytes, with interactive scrub controls.
+                  </p>
                 </div>
               </motion.div>
             )}

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 
 interface GenerativeCanvasVisualizerProps {
-  mode: "raw" | "brief" | "debate";
+  mode: "raw" | "brief" | "debate" | "timeline";
   className?: string;
 }
 
@@ -120,6 +120,12 @@ export function GenerativeCanvasVisualizer({
             p.targetY = height / 2 + Math.sin(angle) * (radius * 0.6);
             p.color = isDarkMode ? "rgba(168, 85, 247, 0.85)" : "rgba(147, 51, 234, 0.85)";
           }
+        } else if (mode === "timeline") {
+          // Chronological sine wave across time axis
+          const progress = i / numParticles;
+          p.targetX = 30 + progress * (width - 60);
+          p.targetY = height / 2 + Math.sin(progress * Math.PI * 3.5) * 22;
+          p.color = isDarkMode ? "rgba(16, 185, 129, 0.85)" : "rgba(5, 150, 105, 0.85)";
         }
 
         // Spring towards target
