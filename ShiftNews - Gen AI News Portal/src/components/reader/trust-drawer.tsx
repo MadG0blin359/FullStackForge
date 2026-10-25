@@ -62,24 +62,24 @@ export function TrustDrawer({
         <span>How this view was made</span>
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-md overflow-y-auto">
-        <SheetHeader className="text-left space-y-2 pb-4 border-b border-border/40">
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+      <SheetContent side="right">
+        <SheetHeader>
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <ShieldCheck className="h-5 w-5" />
             </span>
             <div>
-              <SheetTitle className="font-serif text-lg font-bold">
+              <SheetTitle>
                 Trust & Verification Ledger
               </SheetTitle>
-              <SheetDescription className="text-xs">
+              <SheetDescription>
                 Inspect how generative UI safely reshaped this article.
               </SheetDescription>
             </div>
           </div>
         </SheetHeader>
 
-        <div className="py-5 space-y-6 text-sm">
+        <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-6 text-sm scrollbar-thin pb-8">
           {/* Mode & Prompt explanation */}
           <section className="space-y-2">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">

@@ -98,24 +98,24 @@ export function Header() {
               <span className="hidden xs:inline">Architecture</span>
             </SheetTrigger>
 
-            <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
-              <SheetHeader className="text-left space-y-2 pb-4 border-b border-border/40">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <SheetContent side="right">
+              <SheetHeader>
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Workflow className="h-5 w-5" />
                   </div>
                   <div>
-                    <SheetTitle className="font-serif text-lg font-bold">
+                    <SheetTitle>
                       ShiftNews Architecture
                     </SheetTitle>
-                    <SheetDescription className="text-xs">
+                    <SheetDescription>
                       Built for Hackathon · Generative UI Editorial Engine
                     </SheetDescription>
                   </div>
                 </div>
               </SheetHeader>
 
-              <div className="py-5 space-y-6 text-sm">
+              <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-6 text-sm scrollbar-thin">
                 {/* 1. The Core Insight */}
                 <section className="space-y-2">
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">

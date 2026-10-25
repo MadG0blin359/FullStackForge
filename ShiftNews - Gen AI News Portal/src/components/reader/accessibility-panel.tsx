@@ -79,24 +79,24 @@ export function AccessibilityPanel({
         <span>Accessibility</span>
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-md overflow-y-auto">
-        <SheetHeader className="text-left space-y-2 pb-4 border-b border-border/40">
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+      <SheetContent side="right">
+        <SheetHeader>
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Eye className="h-5 w-5" />
             </span>
             <div>
-              <SheetTitle className="font-serif text-lg font-bold">
+              <SheetTitle>
                 Accessibility Preferences
               </SheetTitle>
-              <SheetDescription className="text-xs">
+              <SheetDescription>
                 Fine-tune typography, spacing, contrast, and sensory load.
               </SheetDescription>
             </div>
           </div>
         </SheetHeader>
 
-        <div className="py-5 space-y-6 text-sm">
+        <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-6 text-sm scrollbar-thin pb-8">
           {/* Typography Choice */}
           <section className="space-y-2">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
@@ -107,11 +107,11 @@ export function AccessibilityPanel({
                 </Badge>
               )}
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
               <button
                 type="button"
                 onClick={() => update({ fontFamily: "sans" })}
-                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-sans active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
+                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-sans active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none truncate ${
                   settings.fontFamily === "sans"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -122,7 +122,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ fontFamily: "serif" })}
-                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-serif active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
+                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-serif active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none truncate ${
                   settings.fontFamily === "serif"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -133,7 +133,7 @@ export function AccessibilityPanel({
               <button
                 type="button"
                 onClick={() => update({ fontFamily: "accessible" })}
-                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-mono active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none ${
+                className={`p-2.5 rounded-lg border text-xs text-center transition-all duration-150 cursor-pointer font-mono active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 select-none truncate ${
                   settings.fontFamily === "accessible"
                     ? "border-primary bg-primary/10 font-bold"
                     : "border-border/60 hover:bg-muted/40"
@@ -153,7 +153,7 @@ export function AccessibilityPanel({
               <span>Text Size</span>
               <span className="font-mono text-[11px] uppercase">{settings.textSize}</span>
             </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {(["sm", "base", "lg", "xl"] as const).map((sz) => (
                 <button
                   key={sz}
@@ -176,7 +176,7 @@ export function AccessibilityPanel({
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Line Spacing (Leading)
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
               {(["normal", "relaxed", "loose"] as const).map((lh) => (
                 <button
                   key={lh}
