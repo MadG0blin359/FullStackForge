@@ -19,7 +19,7 @@ const Projects = () => {
       title: "ShiftNews – Gen AI News Portal",
       description:
         "Generative-UI news platform whose layout and components adapt in real time to reader habits. Powered by Claude via OpenRouter API with strict Zod validation.",
-      image: null,
+      image: getImageUrl("shiftnews.png"),
       icon: Sparkles,
       tag: "Next.js • Claude API • Generative UI",
       gradient: "from-purple-950 via-slate-900 to-violet-950",
@@ -71,7 +71,7 @@ const Projects = () => {
       title: "Project Management Dashboard",
       description:
         "Front-End design of an admin dashboard for team, task, budget, and risk management with reusable multi-theme components and Chart.js metrics.",
-      image: getImageUrl("Project 2.jpg"),
+      image: getImageUrl("panel-flow.jpg"),
       technologies: [
         "React",
         "React Router",
@@ -143,7 +143,7 @@ const Projects = () => {
       title: "Streamer SaaS App",
       description:
         "A modern, responsive SaaS website built with React and Tailwind CSS, featuring smooth animations and cosmic visual aesthetics.",
-      image: getImageUrl("Project 1.jpg"),
+      image: getImageUrl("streamer.jpg"),
       technologies: [
         "React",
         "Tailwind CSS",
