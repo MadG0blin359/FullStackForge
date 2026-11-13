@@ -21,7 +21,8 @@ A modern, interactive personal portfolio website built with **React 19**, **Vite
 Portfolio/
 ├── public/
 │   ├── favicon.svg
-│   └── Front-End CV.pdf
+│   ├── Headshot.png
+│   └── Resume.pdf
 ├── src/
 │   ├── components/
 │   │   ├── MeteorBackground.jsx   # Animated meteor shower effect
@@ -107,7 +108,7 @@ Edit the following files to personalize the portfolio:
 - **`src/pages/Skills.jsx`** — Skill categories and proficiency levels
 - **`src/pages/Projects.jsx`** — Project data (images, descriptions, links)
 - **`src/pages/Contact.jsx`** — Email, location, and social links
-- **`public/Front-End CV.pdf`** — Your resume file
+- **`public/Resume.pdf`** — Your resume file
 
 ### Theming
 

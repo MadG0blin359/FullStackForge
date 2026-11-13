@@ -102,15 +102,34 @@ const Contact = () => {
     },
   ];
 
+  const copyTextToClipboardFallback = (text) => {
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textArea);
+      return successful;
+    } catch {
+      return false;
+    }
+  };
+
   const handleCopy = async (label, content) => {
-    if (label != "Email" || isCopied) return;
+    if (label !== "Email" || isCopied) return;
 
     if (navigator.clipboard) {
       // 1. Attempt to use the modern Clipboard API (works well outside iFrames)
       try {
         await navigator.clipboard.writeText(content);
         setCopied(true);
-      } catch (err) {
+      } catch {
         // If the modern API fails (due to permissions or iFrame context), use the fallback
         if (copyTextToClipboardFallback(content)) {
           setCopied(true);
@@ -303,7 +322,7 @@ const Contact = () => {
                     <div>
                       <p className="font-medium text-left">{info.label}</p>
                       <p className="text-muted-foreground">{info.value}</p>
-                      {isCopied && info.label == "Email" && (
+                      {isCopied && info.label === "Email" && (
                         <p className="text-left text-sm text-green-500">
                           Email copied!
                         </p>

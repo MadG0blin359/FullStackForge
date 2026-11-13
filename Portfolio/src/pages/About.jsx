@@ -45,7 +45,7 @@ const About = () => {
                 </button>
               </Link>
               <a
-                href="/Front-End CV.pdf"
+                href="/Resume.pdf"
                 download
                 className="px-8 py-3 rounded-full border-2 border-primary text-primary font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2 text-lg w-full sm:w-auto"
               >
